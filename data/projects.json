@@ -765,6 +765,173 @@
         "en": ""
       },
       "lastCommitMsg": "Organiza materiales y mejora la guia para asistentes"
+    },
+    {
+      "id": "rfit",
+      "short": "patrickwork",
+      "status": "paused",
+      "progress": 55,
+      "repo": "https://github.com/carlmarx17/patrickwork",
+      "path": null,
+      "lastCommit": "2026-07-27",
+      "commits": 2,
+      "activity30d": 0,
+      "tags": [
+        "SDO/AIA",
+        "DEM",
+        "Python",
+        "astropy",
+        "aiapy",
+        "scikit-learn"
+      ],
+      "name": {
+        "es": "RFit — descomposición caliente/frío de la emisión de AIA",
+        "en": "RFit — hot/cool decomposition of AIA emission"
+      },
+      "area": {
+        "es": "Investigación · Astrofísica solar",
+        "en": "Research · Solar astrophysics"
+      },
+      "role": {
+        "es": "Implementación y estudio metodológico · colaboración con Patrick",
+        "en": "Implementation and methodology study · collaboration with Patrick"
+      },
+      "summary": {
+        "es": "Implementación reproducible del método RFit, que separa cuánta señal de un canal de SDO/AIA viene de plasma caliente (coronal, ~1–2 MK) y cuánta de plasma frío (~0.05–0.5 MK: lluvia coronal, filamentos). Continúa el análisis de Antolin et al. (2024) y lo extiende a fechas recientes con correcciones mensuales por degradación del instrumento.",
+        "en": "Reproducible implementation of the RFit method, which separates how much of an SDO/AIA channel's signal comes from hot plasma (coronal, ~1–2 MK) and how much from cool plasma (~0.05–0.5 MK: coronal rain, filaments). It continues the analysis of Antolin et al. (2024) and extends it to recent dates with monthly instrument-degradation corrections."
+      },
+      "objective": {
+        "es": "Obtener una fracción caliente defendible para el canal AIA 304. El método apodiza la función de respuesta en temperatura del canal objetivo para aislar su parte caliente o fría, ajusta esa respuesta apodizada como combinación lineal de los otros seis canales de AIA, y aplica esos coeficientes píxel a píxel sobre los cubos reales para construir mapas de caliente y frío.",
+        "en": "Obtain a defensible hot fraction for the AIA 304 channel. The method apodizes the target channel's temperature response function to isolate its hot or cool part, fits that apodized response as a linear combination of the other six AIA channels, and applies those coefficients pixel by pixel to the real cubes to build hot and cool maps."
+      },
+      "timeline": {
+        "start": "2026-07-24",
+        "target": null,
+        "note": {
+          "es": "Trabajo concentrado entre el 24 y el 27 de julio de 2026. Pausado desde entonces: lo que falta no es cómputo sino una decisión física que depende de Patrick.",
+          "en": "Concentrated work between 24 and 27 July 2026. Paused since then: what is missing is not computation but a physical decision that depends on Patrick."
+        }
+      },
+      "resources": [
+        {
+          "es": "Cubos de imágenes de SDO/AIA y funciones de respuesta GOFNT v11, deliberadamente fuera del repositorio; los scripts apuntan a copias locales con --aia-dir y --gofnt-dir",
+          "en": "SDO/AIA image cubes and GOFNT v11 response functions, deliberately kept out of the repository; the scripts point at local copies with --aia-dir and --gofnt-dir"
+        },
+        {
+          "es": "Fecha de referencia 2014-04-24, y coeficientes mensuales con degradación desde 2010-05 hasta 2026-07",
+          "en": "Reference date 2014-04-24, plus monthly coefficients with degradation from 2010-05 to 2026-07"
+        },
+        {
+          "es": "Python: numpy, scipy y astropy para el núcleo; aiapy para la corrección de degradación; scikit-learn para la red elástica; pytest para los tests",
+          "en": "Python: numpy, scipy and astropy for the core; aiapy for the degradation correction; scikit-learn for the elastic net; pytest for the tests"
+        },
+        {
+          "es": "Antolin et al. (2024) como referencia que se continúa y contra la que hay que contrastar",
+          "en": "Antolin et al. (2024) as the reference being continued and the benchmark to check against"
+        }
+      ],
+      "steps": [
+        {
+          "done": true,
+          "label": {
+            "es": "Librería RFit y sus tres interfaces de línea de comandos",
+            "en": "The RFit library and its three command-line interfaces"
+          },
+          "detail": {
+            "es": "rfit.py cubre carga de respuestas, apodización, ajuste de coeficientes en espacio lineal o logarítmico, abundancias coronal y fotosférica y escalado por degradación; run_rfit.py genera tablas y resúmenes por frame; plot_rfit.py produce las figuras de diagnóstico. Con tests unitarios.",
+            "en": "rfit.py covers response loading, apodization, coefficient fitting in linear or log space, coronal and photospheric abundances and degradation scaling; run_rfit.py generates tables and per-frame summaries; plot_rfit.py produces the diagnostic figures. With unit tests."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "El problema de fondo, confirmado sobre el cubo completo de 1410 frames",
+            "en": "The underlying problem, confirmed over the full 1410-frame cube"
+          },
+          "detail": {
+            "es": "El ajuste logarítmico solo reproduce ~5% del área apodizada, así que la contribución caliente del 1.7% es casi con seguridad una subestimación grande y no debe citarse tal cual. El ajuste lineal sin factores manuales reproduce la curva pero con un coeficiente cancelante en 94 que amplifica el ruido y da mapas no físicos.",
+            "en": "The log fit reproduces only ~5% of the apodized area, so the 1.7% hot contribution is almost certainly a large underestimate and should not be quoted as-is. The linear fit without manual factors reproduces the curve but with a cancelling coefficient on 94 that amplifies noise and yields unphysical maps."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Estudio metodológico sobre ocho familias de ajuste",
+            "en": "Methodology study across eight fitting families"
+          },
+          "detail": {
+            "es": "Ridge, NNLS, red elástica, TSVD y ajustes anclados por área, juzgados contra DEMs sintéticas de verdad conocida, con y sin ruido de fotones. Cada experimento es un script independiente y FINDINGS.md resume todo.",
+            "en": "Ridge, NNLS, elastic net, TSVD and area-anchored fits, judged against synthetic DEMs with known ground truth, with and without photon noise. Each experiment is a standalone script and FINDINGS.md summarizes everything."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Validación contra DEMs invertidas de los datos reales",
+            "en": "Validation against DEMs inverted from the real data"
+          },
+          "detail": {
+            "es": "El resultado del 27 de julio: la inversión DEM sirve como criterio externo y deja a todos los métodos no logarítmicos dentro de ~±30% de la verdad. El ajuste lineal original con factores manuales resulta el menos sesgado y el más robusto al ruido; las alternativas regularizadas sobreestiman la fracción caliente entre 1.1 y 2.8 veces.",
+            "en": "The 27 July result: the DEM inversion works as an external criterion and puts every non-log method within ~±30% of the truth. The original linear fit with manual factors turns out to be the least biased and the most noise-robust; the regularized alternatives overestimate the hot fraction by 1.1 to 2.8 times."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Fijar la normalización absoluta de la componente caliente",
+            "en": "Pin down the absolute normalization of the hot component"
+          },
+          "detail": {
+            "es": "Ridge elimina la inestabilidad pero no fija la fracción caliente: al subir la regularización bajan a la vez el área recuperada y la fracción. Hace falta saber si los factores manuales del método original eran un ajuste a mano y qué criterio físico debería reemplazarlos. Esa es la pregunta abierta para Patrick.",
+            "en": "Ridge removes the instability but does not fix the hot fraction: raising the regularization lowers the recovered area and the fraction together. It needs to be known whether the original method's manual factors were hand-tuned and what physical criterion should replace them. That is the open question for Patrick."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Resolver la abundancia y el borde frío de la malla DEM",
+            "en": "Settle the abundance and the cool edge of the DEM grid"
+          },
+          "detail": {
+            "es": "Qué abundancia supone el resultado del artículo mueve la verdad de referencia un 35% (0.33 fotosférica contra 0.24 coronal) y es ahora el sistemático dominante; hasta dónde se extiende el borde frío de la malla abre el intervalo 0.33–0.44.",
+            "en": "Which abundance the paper's result assumes moves the ground truth by 35% (0.33 photospheric against 0.24 coronal) and is now the dominant systematic; how far the cool edge of the grid extends opens the 0.33–0.44 bracket."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Arreglar o descartar las cinco configuraciones frías",
+            "en": "Fix or rule out the five cool configurations"
+          },
+          "detail": {
+            "es": "94_cool, 131_cool, 193_cool, 193_superhot y 211_cool fallan aguas arriba, en el ajuste de la respuesta (rel_l1 entre 12 y 9700), así que todavía no hay nada que validar. Solo 304_hot da fracciones con sentido físico.",
+            "en": "94_cool, 131_cool, 193_cool, 193_superhot and 211_cool fail upstream, at the response fit (rel_l1 between 12 and 9700), so there is nothing to validate yet. Only 304_hot gives physically sensible fractions."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Salir de la fecha única y contrastar con el esquema DEM/BSS",
+            "en": "Move beyond the single date and check against the DEM/BSS scheme"
+          },
+          "detail": {
+            "es": "Todo lo validado descansa en una sola fecha, 2014-04-24, y en una sola configuración. La inversión usada es un NNLS regularizado estándar, no el esquema DEM/BSS de Antolin et al. 2024: que coincidan está sin probar.",
+            "en": "Everything validated rests on a single date, 2014-04-24, and a single configuration. The inversion used is a standard regularized NNLS, not the DEM/BSS scheme of Antolin et al. 2024: whether they agree is untested."
+          }
+        }
+      ],
+      "expected": {
+        "es": "Una fracción caliente para AIA 304 que se pueda defender porque su normalización está justificada físicamente, no elegida numéricamente — hoy cualquier porcentaje que salga del pipeline depende del método. Y, con eso resuelto, o las configuraciones frías funcionando o el motivo claro de por qué no pueden.",
+        "en": "A hot fraction for AIA 304 that can be defended because its normalization is physically justified rather than numerically chosen — today any percentage out of the pipeline is method-dependent. And, once that is settled, either the cool configurations working or a clear reason why they cannot."
+      },
+      "next": {
+        "es": "Preguntar a Patrick qué fija la normalización absoluta y qué abundancia supone el artículo; sin eso el resto del trabajo no se puede cerrar.",
+        "en": "Ask Patrick what fixes the absolute normalization and which abundance the paper assumes; the rest of the work cannot be closed without that."
+      },
+      "blockers": {
+        "es": "El proyecto está pausado esperando una decisión que no es numérica. Mientras no se justifique físicamente la normalización, cualquier fracción caliente que publique el pipeline es dependiente del método elegido, y eso invalida el resultado como número citable.",
+        "en": "The project is paused waiting on a decision that is not numerical. Until the normalization is physically justified, any hot fraction the pipeline reports depends on the chosen method, which rules it out as a quotable number."
+      }
     }
   ]
 }
