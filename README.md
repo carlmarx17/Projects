@@ -50,6 +50,7 @@ Si se pone un string suelto, se usa igual en los dos idiomas.
 | `repo` | URL del repositorio (vacío = "sin repositorio") |
 | `path` | ruta relativa al repo local, solo la usa el script de refresco |
 | `tags` | herramientas y métodos |
+| `extraLink` | opcional: `{ href, label }` para enlazar una página propia del proyecto dentro de este sitio |
 
 Para añadir un proyecto, copia un bloque y cámbialo. Los estados nuevos aparecen
 solos como filtro, pero necesitan su etiqueta en `ui.status` y, si quieres color
@@ -60,6 +61,16 @@ propio, una regla `.badge.<estado>` en `styles.css`.
 Agrega la clave (`"fr": "…"`) a los campos que quieras y amplía el botón de idioma
 en `app.js`. La función `t()` cae a `es` y luego a `en` si falta una traducción,
 así que un idioma incompleto no rompe la página.
+
+## Páginas por proyecto
+
+Un proyecto puede tener su propia página en este mismo sitio y enlazarla desde la
+tarjeta con `extraLink`. La que existe hoy:
+
+- [`graz-decisiones.html`](graz-decisiones.html) — árbol de decisiones de GrazTrabajo:
+  cómo el proyecto llegó a su estado actual a lo largo de cinco redefiniciones,
+  las rutas de solver y la revisión R1. Bilingüe, con sus textos en
+  `graz-decisiones.js` y los estilos compartidos de `styles.css`.
 
 ## Refrescar los datos de git
 

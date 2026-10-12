@@ -418,6 +418,7 @@ h1 {
   font-size: .8rem;
   color: var(--faint);
 }
+.foot-links { display: flex; flex-wrap: wrap; gap: 12px; }
 .card-foot a { color: var(--accent); text-decoration: none; }
 .card-foot a:hover { text-decoration: underline; }
 

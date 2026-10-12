@@ -120,6 +120,11 @@ function card(p) {
     ? `<a href="${esc(p.repo)}" target="_blank" rel="noopener">${esc(L('repo'))} ↗</a>`
     : `<span>${esc(L('norepo'))}</span>`;
 
+  /* Página propia del proyecto dentro de este sitio, si la tiene. */
+  const extra = p.extraLink
+    ? `<a href="${esc(p.extraLink.href)}">${esc(t(p.extraLink.label, lang))} →</a>`
+    : '';
+
   const last = p.lastCommit
     ? `${esc(L('lastCommit'))} ${esc(p.lastCommit)}${p.commits ? ` · ${esc(p.commits)} commits` : ''}`
     : esc(L('novcs'));
@@ -156,7 +161,7 @@ function card(p) {
 
     <div class="card-foot">
       <span>${last}</span>
-      ${repo}
+      <span class="foot-links">${extra}${repo}</span>
     </div>
   </article>`;
 }

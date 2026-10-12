@@ -152,7 +152,7 @@
       "id": "graz",
       "short": "GrazTrabajo",
       "status": "active",
-      "progress": 45,
+      "progress": 50,
       "repo": "https://github.com/carlmarx17/GrazTrabajo",
       "path": "../GrazTrabajo",
       "lastCommit": "2026-10-12",
@@ -190,8 +190,8 @@
         "start": "2026-09-18",
         "target": null,
         "note": {
-          "es": "Plan v5.1 cerrado el 5 de octubre de 2026 tras tres redefiniciones del alcance (v3 memoria espectral, v4 trazador de reutilización de bucles, v5 ramas pareadas). Fase muy activa.",
-          "en": "Plan v5.1 closed on 5 October 2026 after three scope redefinitions (v3 spectral memory, v4 loop-re-use tracer, v5 paired branches). Highly active phase."
+          "es": "Plan v5.1 cerrado el 5 de octubre de 2026 tras cuatro redefiniciones del alcance. El 12 de octubre se respondió la revisión R1 y se fijó la ruta. Fase muy activa.",
+          "en": "Plan v5.1 closed on 5 October 2026 after four scope redefinitions. On 12 October the R1 review was answered and the route was fixed. Highly active phase."
         }
       },
       "resources": [
@@ -249,23 +249,34 @@
         {
           "done": true,
           "label": {
-            "es": "Primeros contrastes: τ = 10–30 s y respuesta impulsiva",
-            "en": "First contrasts: τ = 10–30 s and the impulsive response"
+            "es": "Primeros contrastes para τ = 10, 30 y 60 s",
+            "en": "First contrasts for τ = 10, 30 and 60 s"
           },
           "detail": {
-            "es": "Rango acotado por la ventana en que se conserva la masa del bucle. Incluye error de reinicio y mapa de incertidumbre numérica y del haz.",
-            "en": "Range bounded by the window in which loop mass is conserved. Includes the restart error and a numerical and beam uncertainty map."
+            "es": "Con el factor de seguridad de conducción en 0.2 y una cromosfera de 8 Mm en vez de los 5 Mm que trae HYDRAD, las cuatro ramas corren limpias sobre la ventana completa de 89 s, unas 2 h en 6 núcleos. τ = 120 s no sirve: su rama B1 desarrolla la oscilación de escala de malla al arrancar el pulso de prueba.",
+            "en": "With the conduction safety factor at 0.2 and an 8 Mm chromosphere instead of the 5 Mm HYDRAD ships, the four branches run cleanly over the full 89 s window, about 2 h on 6 cores. τ = 120 s is unusable: its B1 branch develops the grid-scale oscillation when the test pulse starts."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Revisión R1 respondida y ruta fijada",
+            "en": "R1 review answered and the route fixed"
+          },
+          "detail": {
+            "es": "El contraste supera σ_num en cuatro proxies — 21 σ_num en la temperatura pesada por EM, 9 σ_num en la medida de emisión caliente, en la temperatura del ápice y en su densidad — y tiene mecanismo. Decisión: continuar el mapa central con HYDRAD y proxies coronales, dejando la compuerta de RADYN como tarea paralela y no como prerrequisito.",
+            "en": "The contrast exceeds σ_num for four proxies — 21 σ_num for the EM-weighted temperature, 9 σ_num for the hot emission measure, the apex temperature and its density — and it has a mechanism. Decision: continue the core map with HYDRAD and coronal proxies, keeping the RADYN gate as a parallel task rather than a prerequisite."
           }
         },
         {
           "done": false,
           "label": {
-            "es": "Escaneo completo de tiempos de espera",
-            "en": "Full waiting-time scan"
+            "es": "Cerrar el presupuesto de error y acotar τ*",
+            "en": "Close the error budget and bound τ*"
           },
           "detail": {
-            "es": "Extender τ más allá de 30 s para localizar τ* y medir cómo depende del flujo del haz. Requiere resolver antes la conservación de masa.",
-            "en": "Extend τ beyond 30 s to locate τ* and measure how it depends on beam flux. Requires solving mass conservation first."
+            "es": "El criterio del 5% falla en todos los τ muestreados, así que τ* > 120 s para este bucle y este haz: el piloto no lo acota por arriba. Hace falta variar también los umbrales de refinamiento espacial, escribir σ_obs antes de las corridas, y o extender la malla más allá de 120 s o pasar a un pulso 1 más débil que relaje dentro de la ventana.",
+            "en": "The 5% criterion fails at every sampled τ, so τ* > 120 s for this loop and beam: the pilot cannot bound it from above. The spatial refinement thresholds must also be varied, σ_obs written before the runs, and either the grid extended past 120 s or the domain moved to a weaker pulse 1 that relaxes within the window."
           }
         },
         {
@@ -296,14 +307,21 @@
         "en": "The waiting time τ* below which the independent-pulse approximation fails, how it depends on beam flux, and the physical mechanism behind it — with the uncertainty fixed in advance so the result is a measurement rather than an impression. Destination: a paper."
       },
       "next": {
-        "es": "Resolver la ventana de conservación de masa para abrir el escaneo de τ más allá de 30 s.",
-        "en": "Solve the mass-conservation window so the τ scan can go beyond 30 s."
+        "es": "Medir la σ_num espacial y pre-registrar σ_obs: hasta entonces los contrastes son exploratorios y no se puede correr el mapa τ × F.",
+        "en": "Measure the spatial σ_num and pre-register σ_obs: until then the contrasts are exploratory and the τ × F map cannot be run."
       },
       "blockers": {
-        "es": "Con la cromosfera delgada que trae HYDRAD, la masa del bucle solo se conserva unos 50 s después de un pulso de 30 s. Eso limita τ a 10–30 s y deja fuera, por ahora, los tiempos de espera largos que son justo donde se espera que la aproximación vuelva a ser válida.",
-        "en": "With the thin chromosphere HYDRAD ships, loop mass is conserved only for about 50 s after a 30 s pulse. That caps τ at 10–30 s and, for now, excludes the long waiting times where the approximation is expected to become valid again."
+        "es": "El presupuesto de error está incompleto. Solo se ha variado el paso de conducción, no la resolución espacial, así que cada margen en σ es una cota superior; y los σ se midieron después de calcular los contrastes, lo que invierte el orden que el propio plan exige. Mientras eso siga así, ningún contraste es un resultado pre-registrado.",
+        "en": "The error budget is incomplete. Only the conduction time step has been varied, not the spatial resolution, so every σ margin is an upper bound; and the σ values were measured after computing the contrasts, which inverts the order the plan itself requires. Until that is fixed, no contrast counts as a pre-registered result."
       },
-      "lastCommitMsg": "Record the R1 decision: continue the core map with HYDRAD"
+      "lastCommitMsg": "Record the R1 decision: continue the core map with HYDRAD",
+      "extraLink": {
+        "href": "graz-decisiones.html",
+        "label": {
+          "es": "árbol de decisiones",
+          "en": "decision tree"
+        }
+      }
     },
     {
       "id": "psc",

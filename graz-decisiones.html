@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Árbol de decisiones — GrazTrabajo</title>
+<meta name="description" content="Cómo el proyecto de memoria atmosférica llegó a su estado actual: cinco redefiniciones, las rutas de solver y la revisión R1. · How the atmospheric-memory project reached its current state.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%98%89%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .back { display:inline-block; margin:0 0 6px; font-size:.82rem; color:var(--accent); text-decoration:none; }
+  .back:hover { text-decoration:underline; }
+
+  .lede { max-width:72ch; margin:18px 0 0; color:var(--muted); font-size:.95rem; }
+
+  .legend { display:flex; flex-wrap:wrap; gap:14px; margin:22px 0 0; padding:12px 14px;
+            background:var(--surface); border:1px solid var(--border); border-radius:var(--radius); }
+  .legend span { display:flex; align-items:center; gap:7px; font-size:.82rem; color:var(--muted); }
+  .dot { width:10px; height:10px; border-radius:50%; flex:none; }
+  .dot.kept    { background:var(--ok); }
+  .dot.dropped { background:var(--idle); }
+  .dot.current { background:var(--accent); }
+
+  /* ---- el árbol ---- */
+  .tree { list-style:none; margin:28px 0 0; padding:0 0 0 30px; position:relative; }
+  .tree::before { content:""; position:absolute; left:7px; top:10px; bottom:10px;
+                  width:2px; background:var(--border); }
+
+  .node { position:relative; margin:0 0 16px; }
+  .node::before { content:""; position:absolute; left:-27px; top:16px;
+                  width:14px; height:14px; border-radius:50%;
+                  background:var(--surface); border:3px solid var(--idle); }
+  .node.kept::before    { border-color:var(--ok); }
+  .node.current::before { border-color:var(--accent); width:18px; height:18px; left:-29px; top:14px; }
+
+  .box { background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
+         box-shadow:var(--shadow); padding:16px 18px; }
+  .node.current .box { border-color:var(--accent); }
+  .node.dropped .box { background:var(--surface-2); }
+
+  .box-head { display:flex; flex-wrap:wrap; align-items:baseline; gap:10px; margin-bottom:6px; }
+  .ver { font:700 .74rem/1 ui-monospace,SFMono-Regular,Menlo,monospace; letter-spacing:.06em;
+         color:var(--text); background:var(--surface-2); border:1px solid var(--border);
+         border-radius:5px; padding:4px 7px; }
+  .node.dropped .ver { background:var(--surface); }
+  .when { font-size:.76rem; color:var(--faint); font-variant-numeric:tabular-nums; }
+  .verdict { margin-left:auto; font-size:.7rem; font-weight:700; text-transform:uppercase;
+             letter-spacing:.06em; padding:3px 9px; border-radius:999px; border:1px solid currentColor; }
+  .verdict.kept    { color:var(--ok); }
+  .verdict.dropped { color:var(--idle); }
+  .verdict.current { color:var(--accent); }
+
+  .q { margin:0; font-size:1rem; line-height:1.4; font-weight:600; }
+  .node.dropped .q { color:var(--muted); font-weight:500; }
+  .why { margin:9px 0 0; font-size:.87rem; color:var(--muted); }
+  .why b { color:var(--text); font-size:.7rem; text-transform:uppercase; letter-spacing:.07em;
+           display:block; margin-bottom:2px; }
+
+  /* ---- rama lateral: rutas de solver ---- */
+  .aside-track { margin:16px 0 0 0; padding:0 0 0 22px; border-left:2px dashed var(--border); }
+  .aside-track h4 { margin:0 0 8px; font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
+                    color:var(--faint); }
+  .aside-step { font-size:.85rem; color:var(--muted); padding:5px 0; }
+  .aside-step b { color:var(--text); font-weight:600; }
+  .aside-step .rev { color:var(--warn); font-weight:600; }
+
+  /* ---- tabla R1 ---- */
+  .r1 { width:100%; border-collapse:collapse; margin:10px 0 0; font-size:.85rem; }
+  .r1 th, .r1 td { text-align:left; vertical-align:top; padding:7px 10px 7px 0;
+                   border-bottom:1px solid var(--border); }
+  .r1 th { font-size:.7rem; text-transform:uppercase; letter-spacing:.06em; color:var(--faint);
+           font-weight:700; }
+  .r1 td:first-child { color:var(--text); width:42%; }
+  .r1 td:last-child { color:var(--muted); }
+  .yes { color:var(--ok); font-weight:600; }
+  .no  { color:var(--warn); font-weight:600; }
+
+  .pending { margin:10px 0 0; padding-left:1.15em; font-size:.87rem; color:var(--muted); }
+  .pending li { padding:3px 0; }
+  .pending b { color:var(--text); }
+
+  .limits { margin:14px 0 0; padding:12px 14px; background:var(--surface-2);
+            border-left:3px solid var(--warn); border-radius:8px; font-size:.85rem; color:var(--muted); }
+  .limits b { display:block; color:var(--text); font-size:.7rem; text-transform:uppercase;
+              letter-spacing:.07em; margin-bottom:4px; }
+  .limits ul { margin:6px 0 0; padding-left:1.15em; }
+  .limits li { padding:2px 0; }
+
+  @media (max-width:560px) {
+    .tree { padding-left:24px; }
+    .verdict { margin-left:0; }
+    .r1 td:first-child { width:auto; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <div class="wrap">
+    <div class="head-row">
+      <div>
+        <a class="back" href="index.html" id="back">← Tablero de proyectos</a>
+        <h1 id="title">—</h1>
+        <p class="sub" id="subtitle"></p>
+      </div>
+      <div class="head-actions">
+        <button id="lang" class="pill-btn" type="button"><span id="lang-label">EN</span></button>
+        <button id="theme" class="pill-btn icon" type="button">◐</button>
+      </div>
+    </div>
+    <p class="lede" id="lede"></p>
+    <div class="legend" id="legend"></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <ol class="tree" id="tree"></ol>
+</main>
+
+<footer class="site-foot wrap">
+  <p id="foot"></p>
+</footer>
+
+<script src="graz-decisiones.js"></script>
+</body>
+</html>
