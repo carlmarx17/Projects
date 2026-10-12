@@ -6,6 +6,8 @@ HTML, CSS y JavaScript sin dependencias: se publica tal cual.
 *Bilingual (ES/EN) static page tracking the progress of my projects. Plain HTML,
 CSS and JavaScript, no dependencies.*
 
+**En vivo · Live: <https://carlmarx17.github.io/Projects/>**
+
 ## Verla en local · Run it locally
 
 El navegador bloquea `fetch` sobre archivos locales, así que no basta el doble clic:
@@ -72,12 +74,33 @@ El avance, los pasos y los textos no se tocan: eso lo juzgas tú.
 
 ## Publicar · Publishing
 
-El repositorio [carlmarx17/Projects](https://github.com/carlmarx17/Projects) es
-privado, y **GitHub Pages no sirve repos privados sin plan de pago**. Las opciones:
+El sitio está publicado en <https://carlmarx17.github.io/Projects/> desde el
+repositorio público [carlmarx17/Projects](https://github.com/carlmarx17/Projects),
+con **Settings → Pages → Deploy from a branch → `main` / root**.
 
-- dejarlo privado y verlo en local con el servidor de arriba;
-- hacerlo público — revisando antes qué notas internas (bloqueos, pasos pendientes)
-  quieres que se vean — y activar **Settings → Pages → Deploy from a branch → `main` / root**.
+Cada push a `main` dispara el workflow `pages-build-deployment` y el sitio se
+actualiza en un minuto o dos. El archivo vacío `.nojekyll` en la raíz le dice a
+Pages que sirva los archivos tal cual, sin pasarlos por Jekyll: no hay plantillas
+que procesar y así ningún nombre de archivo con guion bajo se pierde por el camino.
+
+Como el repositorio es público, **todo lo que escribas en `projects.json` es
+visible**, incluidos los bloqueos y los pasos pendientes. Si algo no debe salir de
+tu máquina, no lo pongas ahí.
+
+### Si el sitio no se actualiza
+
+Que un push no dispare el build es un fallo conocido de Pages. En orden:
+
+1. Mira la pestaña **Actions**: si el run está en `queued` y no arranca, suele
+   resolverse solo.
+2. En **Settings → Pages**, pon la fuente en *None*, guarda, y vuelve a
+   *Deploy from a branch* → `main` / root. Eso vuelve a registrar el disparador.
+3. Si eso reencola un build de un commit viejo en vez de crear uno nuevo, fuerza
+   uno del commit actual:
+
+   ```bash
+   git commit --allow-empty -m "Disparar el despliegue de Pages" && git push
+   ```
 
 ## Nota sobre los porcentajes
 
