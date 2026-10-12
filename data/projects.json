@@ -16,15 +16,41 @@
       "lastCommit": "2026-10-05",
       "lastCommitMsg": "Plan v5.1: when does the independent-pulse approximation fail?",
       "commits": 16,
-      "tags": ["HYDRAD", "RADYN", "Python", "flares"],
+      "tags": [
+        "HYDRAD",
+        "RADYN",
+        "Python",
+        "flares"
+      ],
       "milestones": [
-        { "label": "Plan de investigación v5.1 cerrado", "done": true },
-        { "label": "Inputs y código de análisis implementados y con tests", "done": true },
-        { "label": "Piloto HYDRAD para bucles de 26 y 60 Mm", "done": true },
-        { "label": "Contrastes para τ = 10–30 s y respuesta impulsiva", "done": true },
-        { "label": "Escaneo completo de tiempos de espera", "done": false },
-        { "label": "Ruta cromosférica (RADYN + Fokker–Planck)", "done": false },
-        { "label": "Extensiones y redacción del artículo", "done": false }
+        {
+          "label": "Plan de investigación v5.1 cerrado",
+          "done": true
+        },
+        {
+          "label": "Inputs y código de análisis implementados y con tests",
+          "done": true
+        },
+        {
+          "label": "Piloto HYDRAD para bucles de 26 y 60 Mm",
+          "done": true
+        },
+        {
+          "label": "Contrastes para τ = 10–30 s y respuesta impulsiva",
+          "done": true
+        },
+        {
+          "label": "Escaneo completo de tiempos de espera",
+          "done": false
+        },
+        {
+          "label": "Ruta cromosférica (RADYN + Fokker–Planck)",
+          "done": false
+        },
+        {
+          "label": "Extensiones y redacción del artículo",
+          "done": false
+        }
       ],
       "next": "Escaneo de tiempos de espera; resolver la conservación de masa más allá de ~50 s con la cromosfera delgada actual.",
       "blockers": "Con la cromosfera que trae HYDRAD la masa del bucle solo se conserva ~50 s tras un pulso de 30 s, lo que limita el rango de τ accesible."
@@ -40,17 +66,44 @@
       "repo": "https://github.com/carlmarx17/pcseditado",
       "path": "../pcseditado",
       "lastCommit": "2026-10-01",
-      "lastCommitMsg": "Resonant anisotropy A(v_par) from the particles; numerical limits of the v6b runs",
+      "lastCommitMsg": "Resonant anisotropy A(v_par) from the particles; numerical limits of the v6b runs; c/v_A of the trajectory solver from the ion Alfven speed",
       "commits": 15649,
-      "tags": ["PIC", "C++", "bi-Kappa", "HPC", "ADIOS2"],
+      "tags": [
+        "PIC",
+        "C++",
+        "bi-Kappa",
+        "HPC",
+        "ADIOS2"
+      ],
       "milestones": [
-        { "label": "Caso base parametrizado y 15 casos de inestabilidad", "done": true },
-        { "label": "Muestreo de la distribución bi-Kappa anisotrópica", "done": true },
-        { "label": "Checkpoint/restart con ADIOS2 para corridas largas", "done": true },
-        { "label": "Pipeline de análisis (anisotropía, espectros, dispersión, γ)", "done": true },
-        { "label": "Teoría lineal evaluada contra la tasa de crecimiento instantánea", "done": true },
-        { "label": "Brazil plot final en el plano (β∥, A)", "done": false },
-        { "label": "Escritura y defensa de la tesis", "done": false }
+        {
+          "label": "Caso base parametrizado y 15 casos de inestabilidad",
+          "done": true
+        },
+        {
+          "label": "Muestreo de la distribución bi-Kappa anisotrópica",
+          "done": true
+        },
+        {
+          "label": "Checkpoint/restart con ADIOS2 para corridas largas",
+          "done": true
+        },
+        {
+          "label": "Pipeline de análisis (anisotropía, espectros, dispersión, γ)",
+          "done": true
+        },
+        {
+          "label": "Teoría lineal evaluada contra la tasa de crecimiento instantánea",
+          "done": true
+        },
+        {
+          "label": "Brazil plot final en el plano (β∥, A)",
+          "done": false
+        },
+        {
+          "label": "Escritura y defensa de la tesis",
+          "done": false
+        }
       ],
       "next": "Cerrar los diagnósticos de saturación y producir el Brazil plot definitivo para las tres familias.",
       "blockers": "Límites numéricos identificados en las corridas v6b: hay que acotar hasta dónde son confiables."
@@ -68,14 +121,38 @@
       "lastCommit": "2026-10-08",
       "lastCommitMsg": "Agregar material, grabaciones de la clase 1 y grupo de WhatsApp a la escuela",
       "commits": 74,
-      "tags": ["HTML", "CSS", "JS", "SEO", "i18n"],
+      "tags": [
+        "HTML",
+        "CSS",
+        "JS",
+        "SEO",
+        "i18n"
+      ],
       "milestones": [
-        { "label": "Sitio generado desde templates/ y datos", "done": true },
-        { "label": "Página de producción científica con filtros", "done": true },
-        { "label": "Internacionalización (selector de idioma)", "done": true },
-        { "label": "Auditoría SEO y sitemap", "done": true },
-        { "label": "Página de la Escuela con material de la clase 1", "done": true },
-        { "label": "Material y grabaciones de las clases 2 a 5", "done": false }
+        {
+          "label": "Sitio generado desde templates/ y datos",
+          "done": true
+        },
+        {
+          "label": "Página de producción científica con filtros",
+          "done": true
+        },
+        {
+          "label": "Internacionalización (selector de idioma)",
+          "done": true
+        },
+        {
+          "label": "Auditoría SEO y sitemap",
+          "done": true
+        },
+        {
+          "label": "Página de la Escuela con material de la clase 1",
+          "done": true
+        },
+        {
+          "label": "Material y grabaciones de las clases 2 a 5",
+          "done": false
+        }
       ],
       "next": "Subir el material de cada sesión de la Escuela a medida que ocurren.",
       "blockers": ""
@@ -93,15 +170,41 @@
       "lastCommit": "2026-09-29",
       "lastCommitMsg": "Organiza materiales y mejora la guia para asistentes",
       "commits": 2,
-      "tags": ["SunPy", "Astropy", "Jupyter", "híbrida"],
+      "tags": [
+        "SunPy",
+        "Astropy",
+        "Jupyter",
+        "híbrida"
+      ],
       "milestones": [
-        { "label": "Programa, expositores y guía de instalación", "done": true },
-        { "label": "Sesión 1 — 1 de octubre", "done": true },
-        { "label": "Sesión 2 — 8 de octubre", "done": true },
-        { "label": "Sesión 3 — 15 de octubre", "done": false },
-        { "label": "Sesión 4 — 22 de octubre", "done": false },
-        { "label": "Sesión 5 — 29 de octubre", "done": false },
-        { "label": "Entregables de estudiantes y cierre", "done": false }
+        {
+          "label": "Programa, expositores y guía de instalación",
+          "done": true
+        },
+        {
+          "label": "Sesión 1 — 1 de octubre",
+          "done": true
+        },
+        {
+          "label": "Sesión 2 — 8 de octubre",
+          "done": true
+        },
+        {
+          "label": "Sesión 3 — 15 de octubre",
+          "done": false
+        },
+        {
+          "label": "Sesión 4 — 22 de octubre",
+          "done": false
+        },
+        {
+          "label": "Sesión 5 — 29 de octubre",
+          "done": false
+        },
+        {
+          "label": "Entregables de estudiantes y cierre",
+          "done": false
+        }
       ],
       "next": "Sesión 3 el 15 de octubre; recoger presentaciones y notebooks de cada expositor antes de cada jueves.",
       "blockers": ""
@@ -119,11 +222,22 @@
       "lastCommit": "",
       "lastCommitMsg": "",
       "commits": 0,
-      "tags": ["notas"],
+      "tags": [
+        "notas"
+      ],
       "milestones": [
-        { "label": "Primeras entradas (28–30 sep)", "done": true },
-        { "label": "Inicializar git", "done": false },
-        { "label": "Retomar la bitácora con cadencia fija", "done": false }
+        {
+          "label": "Primeras entradas (28–30 sep)",
+          "done": true
+        },
+        {
+          "label": "Inicializar git",
+          "done": false
+        },
+        {
+          "label": "Retomar la bitácora con cadencia fija",
+          "done": false
+        }
       ],
       "next": "Decidir si se mantiene como bitácora activa o se archiva.",
       "blockers": "Sin actividad desde el 30 de septiembre."
@@ -141,11 +255,23 @@
       "lastCommit": "",
       "lastCommitMsg": "",
       "commits": 0,
-      "tags": ["DaVinci Resolve", "video"],
+      "tags": [
+        "DaVinci Resolve",
+        "video"
+      ],
       "milestones": [
-        { "label": "Material en bruto organizado", "done": true },
-        { "label": "Edición", "done": false },
-        { "label": "Exportar versión final", "done": false }
+        {
+          "label": "Material en bruto organizado",
+          "done": true
+        },
+        {
+          "label": "Edición",
+          "done": false
+        },
+        {
+          "label": "Exportar versión final",
+          "done": false
+        }
       ],
       "next": "Definir el corte y la duración objetivo.",
       "blockers": ""
