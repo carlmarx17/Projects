@@ -51,12 +51,12 @@ def main():
         if count and count.isdigit():
             p["commits"] = int(count)
 
-    data["updated"] = datetime.date.today().isoformat()
+    data.setdefault("meta", {})["updated"] = datetime.date.today().isoformat()
     DATA.write_text(
         json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
     )
 
-    print(f"{DATA.relative_to(ROOT)} actualizado ({data['updated']})")
+    print(f"{DATA.relative_to(ROOT)} actualizado ({data['meta']['updated']})")
     for line in changed:
         print("  " + line)
     if not changed:

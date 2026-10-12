@@ -1,280 +1,978 @@
 {
-  "owner": "Carlos Alberto Martínez Sibaja",
-  "subtitle": "Tablero de avance de proyectos",
-  "updated": "2026-10-09",
+  "meta": {
+    "owner": "Carlos Alberto Martínez Sibaja",
+    "subtitle": {
+      "es": "Tablero de avance de proyectos",
+      "en": "Project progress dashboard"
+    },
+    "updated": "2026-10-12"
+  },
+  "ui": {
+    "stats": {
+      "projects": {
+        "es": "Proyectos",
+        "en": "Projects"
+      },
+      "moving": {
+        "es": "En movimiento",
+        "en": "In motion"
+      },
+      "avg": {
+        "es": "Avance medio",
+        "en": "Average progress"
+      },
+      "steps": {
+        "es": "Pasos cumplidos",
+        "en": "Steps completed"
+      }
+    },
+    "status": {
+      "active": {
+        "es": "activo",
+        "en": "active"
+      },
+      "in-progress": {
+        "es": "en curso",
+        "en": "in progress"
+      },
+      "intermittent": {
+        "es": "intermitente",
+        "en": "intermittent"
+      },
+      "paused": {
+        "es": "pausado",
+        "en": "paused"
+      },
+      "blocked": {
+        "es": "bloqueado",
+        "en": "blocked"
+      }
+    },
+    "labels": {
+      "all": {
+        "es": "todos",
+        "en": "all"
+      },
+      "search": {
+        "es": "Buscar…",
+        "en": "Search…"
+      },
+      "role": {
+        "es": "Rol",
+        "en": "Role"
+      },
+      "progress": {
+        "es": "avance",
+        "en": "progress"
+      },
+      "objective": {
+        "es": "Objetivo",
+        "en": "Objective"
+      },
+      "timeline": {
+        "es": "Tiempo",
+        "en": "Timeline"
+      },
+      "resources": {
+        "es": "Recursos",
+        "en": "Resources"
+      },
+      "steps": {
+        "es": "Pasos",
+        "en": "Steps"
+      },
+      "expected": {
+        "es": "Resultado esperado",
+        "en": "Expected result"
+      },
+      "next": {
+        "es": "Siguiente paso",
+        "en": "Next step"
+      },
+      "blocker": {
+        "es": "Bloqueo",
+        "en": "Blocker"
+      },
+      "start": {
+        "es": "inicio",
+        "en": "start"
+      },
+      "target": {
+        "es": "meta",
+        "en": "target"
+      },
+      "tbd": {
+        "es": "por definir",
+        "en": "to be defined"
+      },
+      "activity": {
+        "es": "commits en 30 días",
+        "en": "commits in 30 days"
+      },
+      "repo": {
+        "es": "repositorio",
+        "en": "repository"
+      },
+      "norepo": {
+        "es": "sin repositorio",
+        "en": "no repository"
+      },
+      "lastCommit": {
+        "es": "último commit",
+        "en": "last commit"
+      },
+      "novcs": {
+        "es": "sin control de versiones",
+        "en": "not under version control"
+      },
+      "updated": {
+        "es": "Actualizado el",
+        "en": "Updated on"
+      },
+      "dataNote": {
+        "es": "los datos viven en",
+        "en": "data lives in"
+      },
+      "empty": {
+        "es": "No hay proyectos que coincidan.",
+        "en": "No projects match."
+      },
+      "theme": {
+        "es": "Cambiar tema",
+        "en": "Toggle theme"
+      },
+      "lang": {
+        "es": "Cambiar idioma",
+        "en": "Switch language"
+      }
+    }
+  },
   "projects": [
     {
       "id": "graz",
-      "name": "Memoria atmosférica bajo pulsos repetidos de electrones",
       "short": "GrazTrabajo",
-      "area": "Investigación · Astrofísica solar",
-      "status": "activo",
+      "status": "active",
       "progress": 45,
-      "summary": "¿Cuándo falla la aproximación de pulsos independientes al modelar un bucle coronal golpeado dos veces por un haz de electrones? Mide el error M_D(τ, t') contra las incertidumbres numéricas, del haz y observacionales.",
       "repo": "https://github.com/carlmarx17/GrazTrabajo",
       "path": "../GrazTrabajo",
-      "lastCommit": "2026-10-05",
-      "lastCommitMsg": "Plan v5.1: when does the independent-pulse approximation fail?",
-      "commits": 16,
+      "lastCommit": "2026-10-12",
+      "commits": 18,
+      "activity30d": 18,
       "tags": [
         "HYDRAD",
         "RADYN",
+        "Fokker–Planck",
+        "STIX",
         "Python",
-        "flares"
+        "solar flares"
       ],
-      "milestones": [
+      "name": {
+        "es": "Memoria atmosférica bajo calentamiento repetido por haces de electrones",
+        "en": "Atmospheric memory under repeated electron-beam heating"
+      },
+      "area": {
+        "es": "Investigación · Astrofísica solar",
+        "en": "Research · Solar astrophysics"
+      },
+      "role": {
+        "es": "Investigador principal",
+        "en": "Lead researcher"
+      },
+      "summary": {
+        "es": "Los modelos de fulguraciones multihebra suelen calentar cada hebra una sola vez, partiendo de una atmósfera relajada. Este proyecto mide, en simulaciones, cuándo esa aproximación de pulsos independientes deja de describir lo que pasa en un bucle coronal golpeado por segunda vez, y por qué.",
+        "en": "Multithread and observation-driven flare models usually heat each strand once, from a relaxed atmosphere. This project measures, in simulations, when that independent-pulse approximation stops describing a coronal loop struck a second time, and why."
+      },
+      "objective": {
+        "es": "Responder cuándo tratar cada pulso de electrones como si golpeara la atmósfera inicial relajada tergiversa la respuesta a un pulso posterior por más de las incertidumbres del haz, numéricas y observacionales de un diagnóstico dado. La medida es el contraste M_D(τ, t') entre cuatro ramas pareadas (A0 sin haz, A1 solo pulso 1, B0 pulso de prueba sobre la atmósfera relajada, B1 pulso 1 + espera τ + pulso de prueba); la aproximación falla donde |M_D| supera k·σ_tot, con σ_tot fijado antes de calcular ningún contraste.",
+        "en": "Answer when treating each electron pulse as if it struck the initial, relaxed atmosphere misrepresents the response to a later pulse by more than the beam, numerical and observational uncertainties of a chosen diagnostic. The measure is the contrast M_D(τ, t') between four paired branches (A0 no beam, A1 pulse 1 only, B0 test pulse on the relaxed atmosphere, B1 pulse 1 + waiting time τ + test pulse); the approximation fails where |M_D| exceeds k·σ_tot, with σ_tot fixed before any contrast is computed."
+      },
+      "timeline": {
+        "start": "2026-09-18",
+        "target": null,
+        "note": {
+          "es": "Plan v5.1 cerrado el 5 de octubre de 2026 tras tres redefiniciones del alcance (v3 memoria espectral, v4 trazador de reutilización de bucles, v5 ramas pareadas). Fase muy activa.",
+          "en": "Plan v5.1 closed on 5 October 2026 after three scope redefinitions (v3 spectral memory, v4 loop-re-use tracer, v5 paired branches). Highly active phase."
+        }
+      },
+      "resources": [
         {
-          "label": "Plan de investigación v5.1 cerrado",
-          "done": true
+          "es": "HYDRAD, incluido en vendor/ bajo licencia MIT, compilado con calentamiento por haz y factor de seguridad de conducción 0.2",
+          "en": "HYDRAD, vendored under its MIT licence, built with beam heating and conduction safety factor 0.2"
         },
         {
-          "label": "Inputs y código de análisis implementados y con tests",
-          "done": true
+          "es": "RADYN con transporte Fokker–Planck: la ruta preferida para líneas cromosféricas, aún sin instalar ni verificar",
+          "en": "RADYN with Fokker–Planck transport: the preferred route for chromospheric lines, not yet installed or verified"
         },
         {
-          "label": "Piloto HYDRAD para bucles de 26 y 60 Mm",
-          "done": true
+          "es": "Dos entornos Python: .venv para modelos y tests, .venv-stix (≥ 3.10) para el análisis de STIX",
+          "en": "Two Python environments: .venv for models and tests, .venv-stix (≥ 3.10) for STIX analysis"
         },
         {
-          "label": "Contrastes para τ = 10–30 s y respuesta impulsiva",
-          "done": true
-        },
-        {
-          "label": "Escaneo completo de tiempos de espera",
-          "done": false
-        },
-        {
-          "label": "Ruta cromosférica (RADYN + Fokker–Planck)",
-          "done": false
-        },
-        {
-          "label": "Extensiones y redacción del artículo",
-          "done": false
+          "es": "Observaciones de Solar Orbiter/STIX para las extensiones observacionales",
+          "en": "Solar Orbiter/STIX observations for the observational extensions"
         }
       ],
-      "next": "Escaneo de tiempos de espera; resolver la conservación de masa más allá de ~50 s con la cromosfera delgada actual.",
-      "blockers": "Con la cromosfera que trae HYDRAD la masa del bucle solo se conserva ~50 s tras un pulso de 30 s, lo que limita el rango de τ accesible."
+      "steps": [
+        {
+          "done": true,
+          "label": {
+            "es": "Plan de investigación v5.1 cerrado",
+            "en": "Research plan v5.1 closed"
+          },
+          "detail": {
+            "es": "docs/00 fija el experimento central, la regla de decisión y el criterio de relajación: si el pulso 1 relajó se juzga comparando A1 contra A0, no exigiendo M_D → 0.",
+            "en": "docs/00 fixes the core experiment, the decision rule and the relaxation criterion: whether pulse 1 has relaxed is judged from A1 against A0, not by requiring M_D → 0."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Inputs y código de análisis implementados y con tests",
+            "en": "Inputs and analysis code implemented and tested"
+          },
+          "detail": {
+            "es": "src/experiments.py escribe las tablas de haz de las ramas pareadas; src/memory_contrast.py calcula M_D, σ_tot, la regla kσ y τ*. Los tests cubren tablas, ramas y código de decisión, no un solver de producción.",
+            "en": "src/experiments.py writes the paired-branch beam tables; src/memory_contrast.py computes M_D, σ_tot, the kσ rule and τ*. Tests cover the tables, the branches and the decision code — not a production solver."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Piloto HYDRAD para bucles de 26 y 60 Mm",
+            "en": "HYDRAD pilot for 26 and 60 Mm loops"
+          },
+          "detail": {
+            "es": "F ≈ 1.3×10¹⁰ erg cm⁻² s⁻¹, pulsos de 30 s, con proxies coronales. A0, B0 y A1 corren y B1 se reinicia desde A1 para cada tiempo de espera, en paralelo.",
+            "en": "F ≈ 1.3×10¹⁰ erg cm⁻² s⁻¹, 30 s pulses, coronal proxies. A0, B0 and A1 run, and B1 restarts from A1 for every waiting time, in parallel."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Primeros contrastes: τ = 10–30 s y respuesta impulsiva",
+            "en": "First contrasts: τ = 10–30 s and the impulsive response"
+          },
+          "detail": {
+            "es": "Rango acotado por la ventana en que se conserva la masa del bucle. Incluye error de reinicio y mapa de incertidumbre numérica y del haz.",
+            "en": "Range bounded by the window in which loop mass is conserved. Includes the restart error and a numerical and beam uncertainty map."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Escaneo completo de tiempos de espera",
+            "en": "Full waiting-time scan"
+          },
+          "detail": {
+            "es": "Extender τ más allá de 30 s para localizar τ* y medir cómo depende del flujo del haz. Requiere resolver antes la conservación de masa.",
+            "en": "Extend τ beyond 30 s to locate τ* and measure how it depends on beam flux. Requires solving mass conservation first."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Ruta cromosférica con RADYN + Fokker–Planck",
+            "en": "Chromospheric route with RADYN + Fokker–Planck"
+          },
+          "detail": {
+            "es": "Necesaria para diagnósticos en líneas cromosféricas en vez de proxies coronales. El solver y el lector/escritor de atmósferas FP existen; falta instalarlos y verificarlos.",
+            "en": "Needed for chromospheric-line diagnostics instead of coronal proxies. The solver and the FP atmosphere reader/writer exist; installing and verifying them is pending."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Extensiones observacionales y redacción",
+            "en": "Observational extensions and write-up"
+          },
+          "detail": {
+            "es": "Diez extensiones listadas fuera del núcleo: STIX resuelto por pulsos, inferencia condicionada por STIX, reproducción de un caso publicado, un tercer pulso, sensibilidad al transporte FP, la tercera fuente en rayos X duros del evento X5.0.",
+            "en": "Ten extensions listed outside the core: pulse-resolved STIX, STIX-conditioned inference, reproducing a published benchmark, a third pulse, FP transport sensitivity, the third hard X-ray source of the X5.0 event."
+          }
+        }
+      ],
+      "expected": {
+        "es": "El tiempo de espera τ* por debajo del cual la aproximación de pulsos independientes falla, cómo depende del flujo del haz, y el mecanismo físico que lo explica — con la incertidumbre fijada de antemano para que el resultado sea una medida y no una impresión. Destino: artículo.",
+        "en": "The waiting time τ* below which the independent-pulse approximation fails, how it depends on beam flux, and the physical mechanism behind it — with the uncertainty fixed in advance so the result is a measurement rather than an impression. Destination: a paper."
+      },
+      "next": {
+        "es": "Resolver la ventana de conservación de masa para abrir el escaneo de τ más allá de 30 s.",
+        "en": "Solve the mass-conservation window so the τ scan can go beyond 30 s."
+      },
+      "blockers": {
+        "es": "Con la cromosfera delgada que trae HYDRAD, la masa del bucle solo se conserva unos 50 s después de un pulso de 30 s. Eso limita τ a 10–30 s y deja fuera, por ahora, los tiempos de espera largos que son justo donde se espera que la aproximación vuelva a ser válida.",
+        "en": "With the thin chromosphere HYDRAD ships, loop mass is conserved only for about 50 s after a 30 s pulse. That caps τ at 10–30 s and, for now, excludes the long waiting times where the approximation is expected to become valid again."
+      },
+      "lastCommitMsg": "Record the R1 decision: continue the core map with HYDRAD"
     },
     {
       "id": "psc",
-      "name": "Inestabilidades de anisotropía de temperatura en plasmas no maxwellianos",
-      "short": "pcseditado · Tesis MSc",
-      "area": "Tesis de Maestría · Física de plasmas",
-      "status": "activo",
+      "short": "pcseditado",
+      "status": "active",
       "progress": 65,
-      "summary": "Fork de PSC (Particle-in-Cell) para determinar cómo cambian las inestabilidades mirror, firehose y whistler cuando la distribución de velocidades es bi-Kappa (κ = 3, 5) en vez de bi-Maxwelliana, con los mismos parámetros macroscópicos.",
       "repo": "https://github.com/carlmarx17/pcseditado",
       "path": "../pcseditado",
       "lastCommit": "2026-10-01",
-      "lastCommitMsg": "Resonant anisotropy A(v_par) from the particles; numerical limits of the v6b runs; c/v_A of the trajectory solver from the ion Alfven speed",
       "commits": 15649,
+      "activity30d": 41,
       "tags": [
         "PIC",
         "C++",
         "bi-Kappa",
         "HPC",
-        "ADIOS2"
+        "SLURM",
+        "ADIOS2",
+        "Python"
       ],
-      "milestones": [
+      "name": {
+        "es": "Inestabilidades de anisotropía de temperatura en plasmas no maxwellianos",
+        "en": "Temperature-anisotropy instabilities in non-Maxwellian plasmas"
+      },
+      "area": {
+        "es": "Tesis de Maestría · Física de plasmas",
+        "en": "MSc thesis · Plasma physics"
+      },
+      "role": {
+        "es": "Autor de la tesis · Universidad Nacional de Colombia",
+        "en": "Thesis author · Universidad Nacional de Colombia"
+      },
+      "summary": {
+        "es": "Fork de PSC (Particle-in-Cell) usado como base numérica de una tesis de Maestría en Física. El núcleo de PSC queda sin modificar: lo propio son los casos de anisotropía, el muestreo bi-Kappa y toda la cadena de análisis.",
+        "en": "Fork of PSC (Particle-in-Cell) used as the numerical basis of a Physics MSc thesis. The PSC core stays upstream and unmodified: what is specific here are the anisotropy cases, the bi-Kappa sampling and the whole analysis chain."
+      },
+      "objective": {
+        "es": "Determinar cómo cambia el desarrollo de las inestabilidades que regulan la anisotropía en plasmas espaciales — mirror, firehose y whistler — cuando la distribución de velocidades no es maxwelliana. Se comparan dos condiciones iniciales con los mismos parámetros macroscópicos (β, A = T⊥/T∥, mi/me): una bi-maxwelliana de referencia y una bi-Kappa con colas suprartérmicas (κ = 3, 5).",
+        "en": "Determine how the development of the instabilities that regulate anisotropy in space plasmas — mirror, firehose and whistler — changes when the velocity distribution is not Maxwellian. Two initial conditions with the same macroscopic parameters (β, A = T⊥/T∥, mi/me) are compared: a bi-Maxwellian reference and a bi-Kappa with suprathermal tails (κ = 3, 5)."
+      },
+      "timeline": {
+        "start": "2026-06-12",
+        "target": null,
+        "note": {
+          "es": "Trabajo propio sobre el fork desde junio de 2026; el historial de 15 649 commits es casi todo upstream, desde 2010. Fase de análisis, la más activa del tablero.",
+          "en": "Own work on the fork since June 2026; the 15,649-commit history is almost all upstream, going back to 2010. Analysis phase, the most active on this board."
+        }
+      },
+      "resources": [
         {
-          "label": "Caso base parametrizado y 15 casos de inestabilidad",
-          "done": true
+          "es": "COSMA (HPC) con trabajos SLURM separados en cosma_jobs/simulacion y cosma_jobs/analisis",
+          "en": "COSMA (HPC) with SLURM jobs split into cosma_jobs/simulacion and cosma_jobs/analisis"
         },
         {
-          "label": "Muestreo de la distribución bi-Kappa anisotrópica",
-          "done": true
+          "es": "Servidor Pauli para corridas menores, más una variante local del pipeline para pruebas pequeñas",
+          "en": "The Pauli server for smaller runs, plus a local variant of the pipeline for small tests"
         },
         {
-          "label": "Checkpoint/restart con ADIOS2 para corridas largas",
-          "done": true
+          "es": "ADIOS2 en formato BP5 para checkpoint/restart: sin esto las corridas no llegan a saturación",
+          "en": "ADIOS2 in BP5 format for checkpoint/restart: without it the runs do not reach saturation"
         },
         {
-          "label": "Pipeline de análisis (anisotropía, espectros, dispersión, γ)",
-          "done": true
-        },
-        {
-          "label": "Teoría lineal evaluada contra la tasa de crecimiento instantánea",
-          "done": true
-        },
-        {
-          "label": "Brazil plot final en el plano (β∥, A)",
-          "done": false
-        },
-        {
-          "label": "Escritura y defensa de la tesis",
-          "done": false
+          "es": "Configuración común: dominio 20 d_i × 20 d_i, malla 576×576 (≈28.8 celdas/d_i), mi/me = 200, vA/c = 0.08, fronteras periódicas",
+          "en": "Common configuration: 20 d_i × 20 d_i domain, 576×576 grid (≈28.8 cells/d_i), mi/me = 200, vA/c = 0.08, periodic boundaries"
         }
       ],
-      "next": "Cerrar los diagnósticos de saturación y producir el Brazil plot definitivo para las tres familias.",
-      "blockers": "Límites numéricos identificados en las corridas v6b: hay que acotar hasta dónde son confiables."
+      "steps": [
+        {
+          "done": true,
+          "label": {
+            "es": "Caso base parametrizado compartido por todas las corridas",
+            "en": "Parameterized base case shared by every run"
+          },
+          "detail": {
+            "es": "psc_anisotropy_case.hxx concentra geometría, salidas, intervalos y overrides por entorno, de modo que cada caso físico es un archivo que solo fija etiqueta, distribución y parámetros.",
+            "en": "psc_anisotropy_case.hxx holds geometry, outputs, intervals and environment overrides, so each physical case is a file that only sets label, distribution and parameters."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "15 casos de inestabilidad cubriendo las tres familias",
+            "en": "15 instability cases covering the three families"
+          },
+          "detail": {
+            "es": "Mirror, firehose y whistler en regímenes fuerte, moderado y débil, cada uno con su criterio de umbral; más dos casos de caja grande (40 d_i) para los modos firehose de longitud de onda larga, que son compile-time.",
+            "en": "Mirror, firehose and whistler in strong, moderate and weak regimes, each with its threshold criterion; plus two big-box cases (40 d_i) for the long-wavelength firehose modes, which are a compile-time setting."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Muestreo de la distribución bi-Kappa anisotrópica",
+            "en": "Sampling of the anisotropic bi-Kappa distribution"
+          },
+          "detail": {
+            "es": "Alternativa a la bi-maxwelliana de PSC, activada por PSC_USE_KAPPA y PSC_KAPPA; cinco casos κ = 3 y κ = 5 emparejados uno a uno con su referencia maxwelliana.",
+            "en": "An alternative to PSC's bi-Maxwellian, switched on by PSC_USE_KAPPA and PSC_KAPPA; five κ = 3 and κ = 5 cases paired one-to-one with their Maxwellian reference."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Pipeline de análisis completo, orquestado por Makefile",
+            "en": "Full analysis pipeline, driven by a Makefile"
+          },
+          "detail": {
+            "es": "Ocho etapas sobre los snapshots HDF5 o ADIOS2: trayectoria en el Brazil plot, mapas de δB y GIFs, espectros E(k,t) con γ(k) por cáscara, helicidad y compresibilidad, relación de dispersión y mapa γ(k∥,k⊥) que separa modos paralelos de oblicuos.",
+            "en": "Eight stages over the HDF5 or ADIOS2 snapshots: Brazil-plot trajectory, δB maps and GIFs, E(k,t) spectra with per-shell γ(k), helicity and compressibility, dispersion relation, and a γ(k∥,k⊥) map separating parallel from oblique modes."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Teoría lineal contrastada contra las corridas",
+            "en": "Linear theory checked against the runs"
+          },
+          "detail": {
+            "es": "Medida contra la tasa de crecimiento instantánea y contra la anisotropía que queda por encima del nivel marginal en saturación; se añadió la anisotropía resonante A(v∥) calculada desde las partículas.",
+            "en": "Measured against the instantaneous growth rate and against the anisotropy left above marginal at saturation; resonant anisotropy A(v∥) computed from the particles was added."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Brazil plot definitivo en el plano (β∥, A)",
+            "en": "Final Brazil plot in the (β∥, A) plane"
+          },
+          "detail": {
+            "es": "El diagnóstico central de la tesis: dónde queda el plasma relajado en cada familia, bi-maxwelliana contra bi-Kappa. Falta cerrar los diagnósticos de saturación de las tres familias.",
+            "en": "The thesis's central diagnostic: where the relaxed plasma ends up in each family, bi-Maxwellian against bi-Kappa. Closing the saturation diagnostics for all three families is pending."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Escritura y defensa de la tesis",
+            "en": "Thesis write-up and defence"
+          },
+          "detail": {
+            "es": "Hay material de presentación en el repositorio, pero el documento está por escribir.",
+            "en": "Presentation material exists in the repository, but the document is still to be written."
+          }
+        }
+      ],
+      "expected": {
+        "es": "Una respuesta cuantitativa a qué cambia al sustituir la bi-maxwelliana por una bi-Kappa: la tasa de crecimiento lineal γ, el espectro de modos excitados k(γ_max), el nivel de saturación de δB y el estado final al que relaja el plasma en el plano (β∥, A). Destino: documento de tesis y defensa.",
+        "en": "A quantitative answer to what changes when the bi-Maxwellian is replaced by a bi-Kappa: the linear growth rate γ, the spectrum of excited modes k(γ_max), the saturation level of δB, and the final state the plasma relaxes to in the (β∥, A) plane. Destination: thesis document and defence."
+      },
+      "next": {
+        "es": "Cerrar los diagnósticos de saturación y producir el Brazil plot definitivo para las tres familias.",
+        "en": "Close the saturation diagnostics and produce the final Brazil plot for the three families."
+      },
+      "blockers": {
+        "es": "Se identificaron límites numéricos en las corridas v6b: hay que acotar hasta dónde son confiables antes de usarlas como resultado, y esa frontera condiciona qué corridas hay que repetir.",
+        "en": "Numerical limits were identified in the v6b runs: how far they can be trusted has to be bounded before using them as a result, and that boundary determines which runs must be repeated."
+      },
+      "lastCommitMsg": "Resonant anisotropy A(v_par) from the particles; numerical limits of the v6b runs; c/v_A of the trajectory solver from the ion Alfven speed"
     },
     {
       "id": "gosa",
-      "name": "Sitio web del Grupo de Observación Solar y Astrofísica",
       "short": "gosa",
-      "area": "Desarrollo web · Divulgación",
-      "status": "activo",
+      "status": "active",
       "progress": 80,
-      "summary": "Página del GOSA (Observatorio Astronómico Nacional, UNAL), en HTML/CSS/JS sin dependencias pesadas. Desde octubre el sitio se genera a partir de plantillas y datos, con validación antes de publicar.",
       "repo": "https://github.com/AstronomiaOAN/gosa",
       "path": "../gosa",
       "lastCommit": "2026-10-08",
-      "lastCommitMsg": "Agregar material, grabaciones de la clase 1 y grupo de WhatsApp a la escuela",
       "commits": 74,
+      "activity30d": 26,
       "tags": [
         "HTML",
         "CSS",
-        "JS",
+        "JavaScript",
+        "Python",
         "SEO",
         "i18n"
       ],
-      "milestones": [
+      "name": {
+        "es": "Sitio web del Grupo de Observación Solar y Astrofísica",
+        "en": "Website of the Solar Observation and Astrophysics Group"
+      },
+      "area": {
+        "es": "Desarrollo web · Divulgación",
+        "en": "Web development · Outreach"
+      },
+      "role": {
+        "es": "Desarrollador y mantenedor",
+        "en": "Developer and maintainer"
+      },
+      "summary": {
+        "es": "Página del GOSA, del Observatorio Astronómico Nacional de la Universidad Nacional de Colombia. HTML, CSS y JavaScript sin dependencias pesadas, por rendimiento y por mantenimiento a largo plazo.",
+        "en": "Website of GOSA, at the Observatorio Astronómico Nacional of the Universidad Nacional de Colombia. HTML, CSS and JavaScript with no heavy dependencies, for performance and long-term maintenance."
+      },
+      "objective": {
+        "es": "Que el grupo pueda mantener su propio sitio sin tocar HTML. Desde octubre de 2026 las páginas se generan desde templates/ y archivos de datos (miembros, noticias, publicaciones), con una validación que corre antes de publicar; los HTML sueltos de la raíz se eliminaron para que no haya dos fuentes de verdad.",
+        "en": "Let the group maintain its own site without touching HTML. Since October 2026 the pages are generated from templates/ and data files (members, news, publications), with validation that runs before publishing; the loose HTML files at the root were removed so there are not two sources of truth."
+      },
+      "timeline": {
+        "start": "2026-03-06",
+        "target": null,
+        "note": {
+          "es": "Mantenimiento continuo desde marzo de 2026. El ritmo actual lo marca la Escuela: cada jueves entra el material de una sesión.",
+          "en": "Continuous maintenance since March 2026. The current pace is set by the School: each Thursday brings one session's material."
+        }
+      },
+      "resources": [
         {
-          "label": "Sitio generado desde templates/ y datos",
-          "done": true
+          "es": "Datos fuente en data/: members.json, news.json, publications.json y los CSV de producción científica, incluido un volcado de OpenAlex",
+          "en": "Source data in data/: members.json, news.json, publications.json and the research-output CSVs, including an OpenAlex dump"
         },
         {
-          "label": "Página de producción científica con filtros",
-          "done": true
+          "es": "Plantillas en templates/pages y templates/partials, más scripts Python de construcción y mantenimiento",
+          "en": "Templates in templates/pages and templates/partials, plus Python build and maintenance scripts"
         },
         {
-          "label": "Internacionalización (selector de idioma)",
-          "done": true
+          "es": "tests/test_site.py como validación previa a publicar",
+          "en": "tests/test_site.py as the pre-publish validation"
         },
         {
-          "label": "Auditoría SEO y sitemap",
-          "done": true
-        },
-        {
-          "label": "Página de la Escuela con material de la clase 1",
-          "done": true
-        },
-        {
-          "label": "Material y grabaciones de las clases 2 a 5",
-          "done": false
+          "es": "Publicado en astronomiaoan.co, con una URL por idioma",
+          "en": "Published at astronomiaoan.co, with one URL per language"
         }
       ],
-      "next": "Subir el material de cada sesión de la Escuela a medida que ocurren.",
-      "blockers": ""
+      "steps": [
+        {
+          "done": true,
+          "label": {
+            "es": "Sitio generado desde plantillas y datos",
+            "en": "Site generated from templates and data"
+          },
+          "detail": {
+            "es": "El cambio estructural de octubre: se pasó de editar HTML a mano a construir el sitio desde templates/ + data/, con validación antes de publicar.",
+            "en": "October's structural change: from hand-editing HTML to building the site from templates/ + data/, with validation before publishing."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Página de producción científica con filtros",
+            "en": "Research-output page with filters"
+          },
+          "detail": {
+            "es": "Publicaciones y tesis de pregrado, maestría y doctorado, filtrables; alimentada desde los CSV organizados y el volcado de OpenAlex.",
+            "en": "Publications and undergraduate, master's and doctoral theses, filterable; fed from the organized CSVs and the OpenAlex dump."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Internacionalización con una URL por idioma",
+            "en": "Internationalization with one URL per language"
+          },
+          "detail": {
+            "es": "Selector de idioma inyectado en el HTML mediante un script auxiliar, en vez de mantener dos árboles de páginas a mano.",
+            "en": "A language selector injected into the HTML by a helper script, instead of maintaining two page trees by hand."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Auditoría SEO y sitemap",
+            "en": "SEO audit and sitemap"
+          },
+          "detail": {
+            "es": "SEO-AUDIT.md documenta los hallazgos; sitemap.xml y la verificación de Google Search Console están en el repositorio.",
+            "en": "SEO-AUDIT.md documents the findings; sitemap.xml and the Google Search Console verification live in the repository."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Página de la Escuela con el material de la clase 1",
+            "en": "School page with the class 1 material"
+          },
+          "detail": {
+            "es": "Incluye grabaciones y el enlace al grupo de WhatsApp de los asistentes.",
+            "en": "Includes recordings and the link to the attendees' WhatsApp group."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Material y grabaciones de las clases 2 a 5",
+            "en": "Material and recordings for classes 2 to 5"
+          },
+          "detail": {
+            "es": "Entra por tandas, después de cada jueves de octubre. Es lo único que separa al sitio de estar al día.",
+            "en": "Arrives in batches after each Thursday in October. It is the only thing keeping the site from being current."
+          }
+        }
+      ],
+      "expected": {
+        "es": "Un sitio que el grupo actualiza editando archivos de datos, no HTML, y que sobrevive al relevo de quien lo mantiene. Con la Escuela 2026 documentada completa al cerrar octubre.",
+        "en": "A site the group updates by editing data files rather than HTML, and that survives a change of maintainer. With the 2026 School fully documented once October closes."
+      },
+      "next": {
+        "es": "Subir el material de cada sesión de la Escuela a medida que ocurren.",
+        "en": "Upload each School session's material as the sessions happen."
+      },
+      "blockers": {
+        "es": "",
+        "en": ""
+      },
+      "lastCommitMsg": "Agregar material, grabaciones de la clase 1 y grupo de WhatsApp a la escuela"
     },
     {
       "id": "escuela",
-      "name": "Escuela de Herramientas Computacionales en Astrofísica Solar 2026",
       "short": "Escuela 2026",
-      "area": "Docencia · Organización",
-      "status": "en curso",
+      "status": "in-progress",
       "progress": 40,
-      "summary": "Escuela gratuita e híbrida del GoSA en el Observatorio Astronómico Nacional: cinco sesiones los jueves de octubre sobre FITS, Astropy, SunPy, MHD, simulaciones, HPC y aprendizaje automático.",
       "repo": "https://github.com/Group-of-Solar-Astrophysics/Escuela-Astrofisica-Solar-2026",
       "path": "../Escuela_Astrofisica_Solar_2026",
       "lastCommit": "2026-09-29",
-      "lastCommitMsg": "Organiza materiales y mejora la guia para asistentes",
       "commits": 2,
+      "activity30d": 2,
       "tags": [
         "SunPy",
         "Astropy",
         "Jupyter",
-        "híbrida"
+        "SAOImageDS9",
+        "FITS",
+        "hybrid"
       ],
-      "milestones": [
+      "name": {
+        "es": "Escuela de Herramientas Computacionales en Astrofísica Solar 2026",
+        "en": "2026 School of Computational Tools in Solar Astrophysics"
+      },
+      "area": {
+        "es": "Docencia · Organización",
+        "en": "Teaching · Organization"
+      },
+      "role": {
+        "es": "Organizador y expositor",
+        "en": "Organizer and lecturer"
+      },
+      "summary": {
+        "es": "Escuela gratuita e híbrida del Grupo de Astrofísica Solar (GoSA) en el Observatorio Astronómico Nacional, dirigida a estudiantes de pregrado y posgrado, jóvenes investigadores y cualquiera con Python básico que quiera trabajar con datos solares.",
+        "en": "A free, hybrid school run by the Solar Astrophysics Group (GoSA) at the Observatorio Astronómico Nacional, aimed at undergraduate and graduate students, early-career researchers and anyone with basic Python who wants to work with solar data."
+      },
+      "objective": {
+        "es": "Cinco sesiones, un jueves tras otro, que lleven a los asistentes desde buscar y descargar observaciones solares hasta ejecutar simulaciones y aplicar aprendizaje automático: archivos FITS, Astropy, SunPy y DS9; imágenes de continuo, magnetogramas y Dopplergramas; manchas, flujos y movimientos superficiales; magnetohidrodinámica, ondas y oscilaciones; simulaciones, partículas y HPC; y modelos multimodales en astronomía.",
+        "en": "Five sessions, one Thursday after another, taking attendees from finding and downloading solar observations to running simulations and applying machine learning: FITS files, Astropy, SunPy and DS9; continuum images, magnetograms and Dopplergrams; sunspots, flows and surface motions; magnetohydrodynamics, waves and oscillations; simulations, particles and HPC; and multimodal models in astronomy."
+      },
+      "timeline": {
+        "start": "2026-10-01",
+        "target": "2026-10-29",
+        "note": {
+          "es": "Sesiones el 1, 8, 15, 22 y 29 de octubre de 2026. Las dos primeras ya ocurrieron; quedan tres jueves.",
+          "en": "Sessions on 1, 8, 15, 22 and 29 October 2026. The first two have happened; three Thursdays remain."
+        }
+      },
+      "resources": [
         {
-          "label": "Programa, expositores y guía de instalación",
-          "done": true
+          "es": "Siete expositores, cada uno con su carpeta de presentación, notebooks, datos, lecturas y recursos adicionales",
+          "en": "Seven lecturers, each with a folder for slides, notebooks, data, readings and extra resources"
         },
         {
-          "label": "Sesión 1 — 1 de octubre",
-          "done": true
+          "es": "Dirección: Santiago Vargas Domínguez, Grupo de Astrofísica Solar, Observatorio Astronómico Nacional",
+          "en": "Direction: Santiago Vargas Domínguez, Solar Astrophysics Group, Observatorio Astronómico Nacional"
         },
         {
-          "label": "Sesión 2 — 8 de octubre",
-          "done": true
+          "es": "Modalidad híbrida: sede presencial en el Observatorio más conexión virtual y grabaciones",
+          "en": "Hybrid format: in person at the Observatory plus a virtual connection and recordings"
         },
         {
-          "label": "Sesión 3 — 15 de octubre",
-          "done": false
-        },
-        {
-          "label": "Sesión 4 — 22 de octubre",
-          "done": false
-        },
-        {
-          "label": "Sesión 5 — 29 de octubre",
-          "done": false
-        },
-        {
-          "label": "Entregables de estudiantes y cierre",
-          "done": false
+          "es": "Guía de instalación para Windows y Linux: Miniforge, Python, JupyterLab, Astropy, SunPy y SAOImageDS9",
+          "en": "Installation guide for Windows and Linux: Miniforge, Python, JupyterLab, Astropy, SunPy and SAOImageDS9"
         }
       ],
-      "next": "Sesión 3 el 15 de octubre; recoger presentaciones y notebooks de cada expositor antes de cada jueves.",
-      "blockers": ""
+      "steps": [
+        {
+          "done": true,
+          "label": {
+            "es": "Programa, expositores y guía de instalación",
+            "en": "Programme, lecturers and installation guide"
+          },
+          "detail": {
+            "es": "Repositorio organizado en material por expositor, material común, entregables y grabaciones, con instrucciones escritas para que cada expositor aporte lo suyo.",
+            "en": "Repository organized into per-lecturer material, shared material, deliverables and recordings, with written instructions so each lecturer contributes their own."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Sesión 1 — 1 de octubre",
+            "en": "Session 1 — 1 October"
+          },
+          "detail": {
+            "es": "Material y grabaciones ya publicados en el sitio del GOSA.",
+            "en": "Material and recordings already published on the GOSA site."
+          }
+        },
+        {
+          "done": true,
+          "label": {
+            "es": "Sesión 2 — 8 de octubre",
+            "en": "Session 2 — 8 October"
+          },
+          "detail": {
+            "es": "Realizada; queda archivar el material en el repositorio.",
+            "en": "Delivered; archiving the material in the repository is pending."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Sesión 3 — 15 de octubre",
+            "en": "Session 3 — 15 October"
+          },
+          "detail": {
+            "es": "Recoger presentación, notebooks y datos del expositor antes del jueves.",
+            "en": "Collect the lecturer's slides, notebooks and data before Thursday."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Sesión 4 — 22 de octubre",
+            "en": "Session 4 — 22 October"
+          },
+          "detail": {
+            "es": "",
+            "en": ""
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Sesión 5 — 29 de octubre",
+            "en": "Session 5 — 29 October"
+          },
+          "detail": {
+            "es": "Cierre de la escuela.",
+            "en": "Closing session."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Entregables de estudiantes y archivo final",
+            "en": "Student deliverables and final archive"
+          },
+          "detail": {
+            "es": "Ejercicios y resultados organizados por jueves, más las grabaciones completas, de modo que el repositorio sirva como curso autocontenido después de octubre.",
+            "en": "Exercises and results organized by Thursday, plus the full recordings, so the repository works as a self-contained course after October."
+          }
+        }
+      ],
+      "expected": {
+        "es": "Cinco sesiones dictadas y un repositorio que quede como material de referencia reutilizable: notebooks que corren, datos incluidos y grabaciones, para quien no pudo asistir o para una edición futura.",
+        "en": "Five sessions delivered and a repository left behind as reusable reference material: notebooks that run, data included and recordings, for those who could not attend or for a future edition."
+      },
+      "next": {
+        "es": "Sesión 3 el 15 de octubre; recoger el material de cada expositor antes de cada jueves.",
+        "en": "Session 3 on 15 October; collect each lecturer's material before every Thursday."
+      },
+      "blockers": {
+        "es": "",
+        "en": ""
+      },
+      "lastCommitMsg": "Organiza materiales y mejora la guia para asistentes"
     },
     {
       "id": "codex",
-      "name": "Bitácora Codex",
       "short": "Codex",
-      "area": "Notas · Bitácora",
-      "status": "pausado",
+      "status": "intermittent",
       "progress": 15,
-      "summary": "Carpeta de notas diarias fechadas. Sin control de versiones todavía.",
       "repo": "",
       "path": "../Codex",
       "lastCommit": "",
-      "lastCommitMsg": "",
       "commits": 0,
+      "activity30d": 0,
       "tags": [
-        "notas"
+        "notes",
+        "logbook"
       ],
-      "milestones": [
+      "name": {
+        "es": "Bitácora Codex",
+        "en": "Codex logbook"
+      },
+      "area": {
+        "es": "Notas · Bitácora",
+        "en": "Notes · Logbook"
+      },
+      "role": {
+        "es": "Uso personal",
+        "en": "Personal use"
+      },
+      "summary": {
+        "es": "Carpeta de notas diarias fechadas, sin control de versiones. Cuatro entradas hasta ahora: 28, 29 y 30 de septiembre, y 9 de octubre.",
+        "en": "A folder of dated daily notes, not under version control. Four entries so far: 28, 29 and 30 September, and 9 October."
+      },
+      "objective": {
+        "es": "Dejar registro de decisiones del día a día que de otro modo se pierden entre los commits de los proyectos grandes.",
+        "en": "Keep a record of day-to-day decisions that would otherwise be lost between the commits of the larger projects."
+      },
+      "timeline": {
+        "start": "2026-09-28",
+        "target": null,
+        "note": {
+          "es": "Tres entradas seguidas a finales de septiembre, un hueco de nueve días y una entrada el 9 de octubre. La cadencia no está asentada.",
+          "en": "Three consecutive entries in late September, a nine-day gap, and one entry on 9 October. The cadence has not settled."
+        }
+      },
+      "resources": [
         {
-          "label": "Primeras entradas (28–30 sep)",
-          "done": true
-        },
-        {
-          "label": "Inicializar git",
-          "done": false
-        },
-        {
-          "label": "Retomar la bitácora con cadencia fija",
-          "done": false
+          "es": "Archivos de texto en carpetas con nombre de fecha; nada más",
+          "en": "Text files in date-named folders; nothing else"
         }
       ],
-      "next": "Decidir si se mantiene como bitácora activa o se archiva.",
-      "blockers": "Sin actividad desde el 30 de septiembre."
+      "steps": [
+        {
+          "done": true,
+          "label": {
+            "es": "Primeras entradas",
+            "en": "First entries"
+          },
+          "detail": {
+            "es": "28–30 de septiembre y 9 de octubre de 2026.",
+            "en": "28–30 September and 9 October 2026."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Inicializar git",
+            "en": "Initialize git"
+          },
+          "detail": {
+            "es": "Es la única carpeta de trabajo sin historial; cualquier borrado es irrecuperable.",
+            "en": "It is the only working folder with no history; any deletion is unrecoverable."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Fijar una cadencia y sostenerla",
+            "en": "Settle on a cadence and keep it"
+          },
+          "detail": {
+            "es": "O decidir que la bitácora se archiva, en vez de dejarla a medias.",
+            "en": "Or decide to archive the logbook, instead of leaving it half-used."
+          }
+        }
+      ],
+      "expected": {
+        "es": "Una bitácora consultable, o una decisión explícita de archivarla. Lo que no sirve es el estado intermedio actual.",
+        "en": "A logbook worth consulting, or an explicit decision to archive it. What does not work is the current in-between state."
+      },
+      "next": {
+        "es": "Decidir si se mantiene como bitácora activa o se archiva.",
+        "en": "Decide whether to keep it as an active logbook or archive it."
+      },
+      "blockers": {
+        "es": "",
+        "en": ""
+      }
     },
     {
       "id": "maribor",
-      "name": "Video Maribor",
       "short": "Video maribor",
-      "area": "Producción audiovisual",
-      "status": "pausado",
+      "status": "paused",
       "progress": 20,
-      "summary": "Material de video de Maribor, con proyecto de Blackmagic Design asociado.",
       "repo": "",
       "path": "../Video maribor",
       "lastCommit": "",
-      "lastCommitMsg": "",
       "commits": 0,
+      "activity30d": 0,
       "tags": [
         "DaVinci Resolve",
+        "Blackmagic",
         "video"
       ],
-      "milestones": [
+      "name": {
+        "es": "Video Maribor",
+        "en": "Maribor video"
+      },
+      "area": {
+        "es": "Producción audiovisual",
+        "en": "Video production"
+      },
+      "role": {
+        "es": "Edición",
+        "en": "Editing"
+      },
+      "summary": {
+        "es": "Material de video grabado en Maribor, con un proyecto de Blackmagic Design asociado. Está en bruto: clips y un proyecto abierto, sin corte.",
+        "en": "Video material shot in Maribor, with an associated Blackmagic Design project. It is raw: clips and an open project, no cut."
+      },
+      "objective": {
+        "es": "Montar una pieza a partir del material grabado, en vez de dejar los clips sueltos en disco.",
+        "en": "Cut a finished piece out of the footage, rather than leaving the clips loose on disk."
+      },
+      "timeline": {
+        "start": "2026-10-02",
+        "target": null,
+        "note": {
+          "es": "Sin actividad desde el 2 de octubre de 2026.",
+          "en": "No activity since 2 October 2026."
+        }
+      },
+      "resources": [
         {
-          "label": "Material en bruto organizado",
-          "done": true
+          "es": "DaVinci Resolve / Blackmagic Design",
+          "en": "DaVinci Resolve / Blackmagic Design"
         },
         {
-          "label": "Edición",
-          "done": false
-        },
-        {
-          "label": "Exportar versión final",
-          "done": false
+          "es": "Clips en bruto y el archivo de proyecto, sin respaldo externo",
+          "en": "Raw clips and the project file, with no external backup"
         }
       ],
-      "next": "Definir el corte y la duración objetivo.",
-      "blockers": ""
+      "steps": [
+        {
+          "done": true,
+          "label": {
+            "es": "Material en bruto organizado",
+            "en": "Raw material organized"
+          },
+          "detail": {
+            "es": "Clips y proyecto reunidos en una sola carpeta.",
+            "en": "Clips and project gathered into a single folder."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Definir corte y duración objetivo",
+            "en": "Define the cut and target length"
+          },
+          "detail": {
+            "es": "Sin esto la edición no arranca: es la decisión que está pendiente, no el trabajo.",
+            "en": "Editing cannot start without this: the decision is what is pending, not the work."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Edición",
+            "en": "Editing"
+          },
+          "detail": {
+            "es": "",
+            "en": ""
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Exportar versión final",
+            "en": "Export the final version"
+          },
+          "detail": {
+            "es": "",
+            "en": ""
+          }
+        }
+      ],
+      "expected": {
+        "es": "Un video terminado y exportado, de duración decidida de antemano.",
+        "en": "A finished, exported video of a length decided in advance."
+      },
+      "next": {
+        "es": "Definir el corte y la duración objetivo.",
+        "en": "Define the cut and the target length."
+      },
+      "blockers": {
+        "es": "",
+        "en": ""
+      }
     }
   ]
 }

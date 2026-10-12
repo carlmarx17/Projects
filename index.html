@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tablero de proyectos</title>
-<meta name="description" content="Estado de avance de los proyectos de investigación, desarrollo y docencia.">
+<meta name="description" content="Estado de avance de los proyectos de investigación, desarrollo y docencia. · Progress of research, development and teaching projects.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%98%89%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -17,7 +17,10 @@
         <h1 id="owner">—</h1>
         <p class="sub" id="subtitle"></p>
       </div>
-      <button id="theme" class="theme-btn" type="button" aria-label="Cambiar tema">◐</button>
+      <div class="head-actions">
+        <button id="lang" class="pill-btn" type="button"><span id="lang-label">EN</span></button>
+        <button id="theme" class="pill-btn icon" type="button">◐</button>
+      </div>
     </div>
 
     <dl class="stats" id="stats"></dl>
@@ -27,22 +30,22 @@
 <main class="wrap">
 
   <div class="toolbar">
-    <div class="filters" id="filters" role="group" aria-label="Filtrar por estado"></div>
+    <div class="filters" id="filters" role="group"></div>
     <label class="search">
-      <span class="sr-only">Buscar proyecto</span>
-      <input type="search" id="search" placeholder="Buscar…" autocomplete="off">
+      <span class="sr-only">Buscar / Search</span>
+      <input type="search" id="search" autocomplete="off">
     </label>
   </div>
 
   <div id="grid" class="grid"></div>
 
-  <p id="empty" class="empty" hidden>No hay proyectos que coincidan.</p>
+  <p id="empty" class="empty" hidden></p>
 
 </main>
 
 <footer class="site-foot wrap">
-  <p>Actualizado el <span id="updated">—</span> · los datos viven en
-    <code>data/projects.json</code></p>
+  <p><span id="updated-label">—</span> <span id="updated">—</span> ·
+     <span id="data-note"></span> <code>data/projects.json</code></p>
 </footer>
 
 <script src="app.js"></script>
