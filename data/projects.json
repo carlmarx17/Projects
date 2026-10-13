@@ -5,7 +5,7 @@
       "es": "Tablero de avance de proyectos",
       "en": "Project progress dashboard"
     },
-    "updated": "2026-10-12"
+    "updated": "2026-10-13"
   },
   "ui": {
     "stats": {
@@ -144,6 +144,10 @@
       "lang": {
         "es": "Cambiar idioma",
         "en": "Switch language"
+      },
+      "detail": {
+        "es": "desglose completo",
+        "en": "full breakdown"
       }
     }
   },
@@ -634,8 +638,8 @@
       "progress": 40,
       "repo": "https://github.com/Group-of-Solar-Astrophysics/Escuela-Astrofisica-Solar-2026",
       "path": "../Escuela_Astrofisica_Solar_2026",
-      "lastCommit": "2026-09-29",
-      "commits": 2,
+      "lastCommit": "2026-10-08",
+      "commits": 9,
       "activity30d": 2,
       "tags": [
         "SunPy",
@@ -782,7 +786,7 @@
         "es": "",
         "en": ""
       },
-      "lastCommitMsg": "Organiza materiales y mejora la guia para asistentes"
+      "lastCommitMsg": "Actulización de notebooks, código LCT y fits procesados"
     },
     {
       "id": "rfit",
@@ -790,7 +794,7 @@
       "status": "paused",
       "progress": 55,
       "repo": "https://github.com/carlmarx17/patrickwork",
-      "path": null,
+      "path": "../patrickwork",
       "lastCommit": "2026-07-27",
       "commits": 2,
       "activity30d": 0,
@@ -949,7 +953,8 @@
       "blockers": {
         "es": "El proyecto está pausado esperando una decisión que no es numérica. Mientras no se justifique físicamente la normalización, cualquier fracción caliente que publique el pipeline es dependiente del método elegido, y eso invalida el resultado como número citable.",
         "en": "The project is paused waiting on a decision that is not numerical. Until the normalization is physically justified, any hot fraction the pipeline reports depends on the chosen method, which rules it out as a quotable number."
-      }
+      },
+      "lastCommitMsg": "Validate RFit hot/cool methods against DEMs inverted from the real data"
     }
   ]
 }

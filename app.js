@@ -125,6 +125,9 @@ function card(p) {
     ? `<a href="${esc(p.extraLink.href)}">${esc(t(p.extraLink.label, lang))} →</a>`
     : '';
 
+  /* Desglose detallado: una página por proyecto, leída de data/details/<id>.json. */
+  const detail = `<a class="go-detail" href="proyecto.html?id=${encodeURIComponent(p.id)}">${esc(L('detail'))} →</a>`;
+
   const last = p.lastCommit
     ? `${esc(L('lastCommit'))} ${esc(p.lastCommit)}${p.commits ? ` · ${esc(p.commits)} commits` : ''}`
     : esc(L('novcs'));
@@ -138,7 +141,7 @@ function card(p) {
       <span class="badge ${esc(p.status)}">${esc(statusLabel(p.status))}</span>
     </div>
 
-    <h2>${esc(t(p.name, lang))}</h2>
+    <h2><a href="proyecto.html?id=${encodeURIComponent(p.id)}">${esc(t(p.name, lang))}</a></h2>
     <p class="short">${esc(p.short)}${role ? ` · ${esc(role)}` : ''}</p>
     <p class="summary">${esc(t(p.summary, lang))}</p>
 
@@ -161,7 +164,7 @@ function card(p) {
 
     <div class="card-foot">
       <span>${last}</span>
-      <span class="foot-links">${extra}${repo}</span>
+      <span class="foot-links">${detail}${extra}${repo}</span>
     </div>
   </article>`;
 }

@@ -1,0 +1,471 @@
+{
+  "id": "psc",
+  "lede": {
+    "es": "En el viento solar las partículas no siguen una maxwelliana: tienen colas suprartérmicas que se describen mejor con una distribución Kappa. Las inestabilidades que impiden que el plasma se vuelva arbitrariamente anisótropo — mirror, firehose y whistler — se estudian casi siempre suponiendo maxwellianas. Esta tesis simula las tres familias con un código cinético Particle-in-Cell partiendo de **dos distribuciones con los mismos parámetros macroscópicos**, y mide qué cambia: la tasa de crecimiento, el espectro de modos excitados, el nivel de saturación y el estado final al que relaja el plasma.",
+    "en": "In the solar wind, particles do not follow a Maxwellian: they have suprathermal tails better described by a Kappa distribution. The instabilities that stop a plasma from becoming arbitrarily anisotropic — mirror, firehose and whistler — are almost always studied assuming Maxwellians. This thesis simulates all three families with a kinetic Particle-in-Cell code starting from **two distributions with the same macroscopic parameters**, and measures what changes: the growth rate, the spectrum of excited modes, the saturation level and the final state the plasma relaxes to."
+  },
+  "sections": [
+    {
+      "id": "pregunta",
+      "title": { "es": "1 · La pregunta y por qué no se contesta sola", "en": "1 · The question and why it does not answer itself" },
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "note",
+          "title": { "es": "Pregunta de la tesis", "en": "Thesis question" },
+          "text": [
+            {
+              "es": "**¿Cómo cambia el desarrollo de las inestabilidades de anisotropía de temperatura en un plasma sin colisiones cuando la distribución de velocidades no es maxwelliana?**",
+              "en": "**How does the development of temperature-anisotropy instabilities in a collisionless plasma change when the velocity distribution is not Maxwellian?**"
+            }
+          ]
+        },
+        {
+          "type": "prose",
+          "text": [
+            {
+              "es": "El diseño es un control pareado: cada caso bi-Kappa tiene su gemelo bi-maxwelliano con **el mismo** β∥, la misma anisotropía A = T⊥/T∥ y la misma razón de masas m_i/m_e. Así, cualquier diferencia que aparezca no viene de calentar más o menos el plasma, sino de la forma de la distribución — de las colas.",
+              "en": "The design is a paired control: each bi-Kappa case has its bi-Maxwellian twin with **the same** β∥, the same anisotropy A = T⊥/T∥ and the same mass ratio m_i/m_e. Any difference that appears therefore does not come from heating the plasma more or less, but from the shape of the distribution — from the tails."
+            },
+            {
+              "es": "La trampa es creer que basta con eso. Ya existe una comparación de simulaciones híbridas 2D con teoría cuasilineal para mirror/EMIC con protones bi-Kappa (López et al. 2023), así que **mostrar que la anisotropía relaja distinto al variar κ no establece novedad por sí solo**. La auditoría interna del repositorio deja escrita esa advertencia y propone la pregunta más fina: a presión y anisotropía iniciales iguales, cómo cambia la distribución *local* de partículas dentro de las estructuras que la inestabilidad genera.",
+              "en": "The trap is believing that is enough. A comparison of 2D hybrid simulations with quasilinear theory for mirror/EMIC with bi-Kappa protons already exists (López et al. 2023), so **showing that anisotropy relaxes differently as κ varies does not by itself establish novelty**. The repository's internal audit records that warning and proposes the sharper question: at equal initial pressure and anisotropy, how does the *local* particle distribution change inside the structures the instability generates."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "familias",
+      "title": { "es": "2 · Las tres familias de inestabilidad", "en": "2 · The three instability families" },
+      "blurb": {
+        "es": "Cada familia aparece cuando el plasma excede un umbral distinto, y cada una está dominada por una especie distinta.",
+        "en": "Each family appears when the plasma crosses a different threshold, and each is dominated by a different species."
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            { "es": "Familia", "en": "Family" },
+            { "es": "Quién la dirige", "en": "What drives it" },
+            { "es": "Criterio usado en los casos", "en": "Criterion used in the cases" }
+          ],
+          "rows": [
+            [
+              { "es": "Mirror", "en": "Mirror" },
+              { "es": "Iones con exceso perpendicular (T⊥ > T∥)", "en": "Ions with a perpendicular excess (T⊥ > T∥)" },
+              "`β_i∥ (A_i − 1) > 1`"
+            ],
+            [
+              { "es": "Firehose", "en": "Firehose" },
+              { "es": "Iones con exceso paralelo (T∥ > T⊥)", "en": "Ions with a parallel excess (T∥ > T⊥)" },
+              "`β_i∥ (1 − A_i) > 2`"
+            ],
+            [
+              { "es": "Whistler", "en": "Whistler" },
+              { "es": "Electrones con exceso perpendicular", "en": "Electrons with a perpendicular excess" },
+              "`A_e > 1 + 0.21 / β_e∥^0.6`"
+            ]
+          ],
+          "note": {
+            "es": "La referencia mirror que dibujan las figuras sale de β⊥(A−1) = 1 con β⊥ = A·β∥. **No es** el umbral mirror CGL ni incluye electrones calientes o distribuciones Kappa: la condición multiespecie tiene términos adicionales (Hellinger 2007, ecs. 1 y 16). Esto está anotado como límite explícito, no como aproximación silenciosa.",
+            "en": "The mirror reference the figures draw follows from β⊥(A−1) = 1 with β⊥ = A·β∥. It is **not** the CGL mirror threshold and does not include hot electrons or Kappa distributions: the multispecies condition has extra terms (Hellinger 2007, Eqs. 1 and 16). This is recorded as an explicit limit, not a silent approximation."
+          }
+        }
+      ]
+    },
+    {
+      "id": "casos",
+      "title": { "es": "3 · La matriz de casos: 15 ejecutables", "en": "3 · The case matrix: 15 executables" },
+      "blurb": {
+        "es": "Cada caso físico es un archivo que solo fija etiqueta, distribución y parámetros; toda la maquinaria compartida vive en una plantilla única.",
+        "en": "Each physical case is a file that only sets label, distribution and parameters; all the shared machinery lives in a single template."
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            { "es": "Grupo", "en": "Group" },
+            { "es": "Casos", "en": "Cases" },
+            { "es": "Parámetros", "en": "Parameters" }
+          ],
+          "rows": [
+            [
+              { "es": "Mirror bi-maxwelliano", "en": "Mirror bi-Maxwellian" },
+              { "es": "fuerte, moderado, débil", "en": "strong, moderate, weak" },
+              "β_i∥ = 5.0 / 5.0 / 6.0 · A_i = 3.0 / 2.0 / 1.5 · β_e∥ = 1.0, A_e = 1.0"
+            ],
+            [
+              { "es": "Firehose bi-maxwelliano", "en": "Firehose bi-Maxwellian" },
+              { "es": "fuerte, moderado, débil", "en": "strong, moderate, weak" },
+              "β_i∥ = 10.0 / 6.0 / 3.0 · A_i = 0.1 / 0.3 / 0.6"
+            ],
+            [
+              { "es": "Whistler bi-maxwelliano", "en": "Whistler bi-Maxwellian" },
+              { "es": "fuerte, moderado, débil", "en": "strong, moderate, weak" },
+              "β_e∥ = 0.5 · A_e = 3.0 / 2.0 / 1.5 · iones isótropos"
+            ],
+            [
+              { "es": "Contrapartes bi-Kappa", "en": "Bi-Kappa counterparts" },
+              "`mirror_bikappa3`, `mirror_bikappa5`, `mirror_bikappa3_moderate`, `firehose_bikappa3`, `firehose_bikappa5`",
+              { "es": "κ = 3 y κ = 5, emparejados uno a uno con su referencia maxwelliana", "en": "κ = 3 and κ = 5, paired one-to-one with their Maxwellian reference" }
+            ],
+            [
+              { "es": "Caja grande (40 d_i)", "en": "Big box (40 d_i)" },
+              "`firehose_bimaxwellian_moderate_bigbox40`, `firehose_bikappa3_bigbox40`",
+              { "es": "Doblan el dominio para los modos firehose de longitud de onda larga. El tamaño de caja es **compile-time**, por eso son ejecutables aparte.", "en": "They double the domain for the long-wavelength firehose modes. Box size is a **compile-time** setting, hence separate executables." }
+            ]
+          ]
+        },
+        {
+          "type": "prose",
+          "text": [
+            {
+              "es": "Además de la línea de anisotropía, el repositorio conserva los casos de **reconexión magnética** (`psc_reconnection*.cxx`), documentados aparte.",
+              "en": "Besides the anisotropy line, the repository keeps the **magnetic reconnection** cases (`psc_reconnection*.cxx`), documented separately."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "configuracion",
+      "title": { "es": "4 · Configuración numérica común", "en": "4 · Common numerical configuration" },
+      "blocks": [
+        {
+          "type": "kv",
+          "items": [
+            { "k": { "es": "Configuración de PSC", "en": "PSC configuration" }, "v": "`PscConfig1vbecSingle<dim_yz>`" },
+            { "k": { "es": "Dominio", "en": "Domain" }, "v": { "es": "20 d_i × 20 d_i (40 d_i en los casos de caja grande)", "en": "20 d_i × 20 d_i (40 d_i in the big-box cases)" } },
+            { "k": { "es": "Malla", "en": "Grid" }, "v": { "es": "576 × 576, ≈28.8 celdas por d_i", "en": "576 × 576, ≈28.8 cells per d_i" } },
+            { "k": { "es": "Razón de masas", "en": "Mass ratio" }, "v": "m_i/m_e = 200" },
+            { "k": { "es": "Campo y velocidad", "en": "Field and speed" }, "v": { "es": "B₀ = 0.08 = Ω_ce/ω_pe (la clave de perfil se llama `vA_over_c` por motivos históricos); v_A/c = 0.0057", "en": "B₀ = 0.08 = Ω_ce/ω_pe (the profile key is named `vA_over_c` for historical reasons); v_A/c = 0.0057" } },
+            { "k": { "es": "Fronteras", "en": "Boundaries" }, "v": { "es": "periódicas; campo de fondo en **z**, de modo que T∥ = T_z y T⊥ = (T_x + T_y)/2", "en": "periodic; background field along **z**, so T∥ = T_z and T⊥ = (T_x + T_y)/2" } },
+            { "k": { "es": "Salida y reinicio", "en": "Output and restart" }, "v": { "es": "ADIOS2 en formato BP5: sin checkpoint/restart las corridas no llegan a saturación", "en": "ADIOS2 in BP5 format: without checkpoint/restart the runs do not reach saturation" } },
+            { "k": { "es": "Dónde corre", "en": "Where it runs" }, "v": { "es": "COSMA (HPC) con trabajos SLURM en `cosma_jobs/`, más el servidor Pauli para corridas menores", "en": "COSMA (HPC) with SLURM jobs in `cosma_jobs/`, plus the Pauli server for smaller runs" } }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "note",
+          "title": { "es": "Qué es propio de este fork", "en": "What is specific to this fork" },
+          "text": [
+            {
+              "es": "El núcleo de PSC — solver de campos, empuje de partículas, E/S, balanceo de carga — es **upstream y sin modificar**. Lo propio son: la plantilla parametrizada `src/psc_anisotropy_case.hxx`, el muestreo de la bi-Kappa anisótropa (`PSC_USE_KAPPA`, `PSC_KAPPA`), los 15 casos, el checkpoint/restart con ADIOS2, el pipeline de análisis en `CodeforAnalisys/` y los trabajos de clúster.",
+              "en": "The PSC core — field solver, particle pusher, I/O, load balancing — is **upstream and unmodified**. What is specific: the parameterized template `src/psc_anisotropy_case.hxx`, the anisotropic bi-Kappa sampling (`PSC_USE_KAPPA`, `PSC_KAPPA`), the 15 cases, ADIOS2 checkpoint/restart, the analysis pipeline in `CodeforAnalisys/` and the cluster jobs."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pipeline",
+      "title": { "es": "5 · El pipeline de análisis, etapa por etapa", "en": "5 · The analysis pipeline, stage by stage" },
+      "blurb": {
+        "es": "Toma los snapshots de una corrida (HDF5 o ADIOS2) y produce los diagnósticos de la tesis. Lo orquesta un Makefile; `PSC_PROFILE` fija los parámetros físicos y la normalización de cada caso.",
+        "en": "It takes a run's snapshots (HDF5 or ADIOS2) and produces the thesis diagnostics. A Makefile orchestrates it; `PSC_PROFILE` fixes each case's physical parameters and normalization."
+      },
+      "blocks": [
+        {
+          "type": "code",
+          "text": "cd CodeforAnalisys\nmake show-inputs DATA_DIR=/ruta/a/la/corrida CASE=mirror_bikappa3_moderate\nmake analysis    DATA_DIR=/ruta/a/la/corrida CASE=mirror_bikappa3_moderate"
+        },
+        {
+          "type": "table",
+          "head": [
+            { "es": "Etapa", "en": "Stage" },
+            { "es": "Script", "en": "Script" },
+            { "es": "Qué produce", "en": "What it produces" }
+          ],
+          "rows": [
+            ["`brazil`", "`anisotropy_analysis.py`", { "es": "Evolución de A(t) y β∥(t), y la trayectoria en el Brazil plot — el diagnóstico central de la tesis.", "en": "Evolution of A(t) and β∥(t), and the trajectory in the Brazil plot — the thesis's central diagnostic." }],
+            ["`fields`", "`fluctuationofmagneticfiel.py`", { "es": "Mapas de δB por snapshot y GIFs de la evolución.", "en": "δB maps per snapshot and GIFs of the evolution." }],
+            ["`spectral`", "`spectral_analysis.py`", { "es": "E(k, Ω_ci t), γ(k) log-lineal por cáscara, helicidad σ_m(k) y compresibilidad.", "en": "E(k, Ω_ci t), log-linear γ(k) per shell, helicity σ_m(k) and compressibility." }],
+            ["`dispersion`", "`dispersion_analysis.py`", { "es": "Relación de dispersión ω(k) y mapa de densidad modal ω/Ω_ci frente a |v_ph|/v_A.", "en": "Dispersion relation ω(k) and modal density map ω/Ω_ci versus |v_ph|/v_A." }],
+            ["`growth-map`", "`growth_rate_map.py`", { "es": "γ(k∥, k⊥) sin binning radial: separa modos paralelos de oblicuos, que es como se distinguen mirror y EMIC.", "en": "γ(k∥, k⊥) without radial binning: separates parallel from oblique modes, which is how mirror and EMIC are told apart." }],
+            ["`polarization`", "`polarization_dispersion.py`", { "es": "Ramas de polarización ± y tasas filtradas por R².", "en": "Polarization branches ± and rates gated by R²." }],
+            ["`diamagnetic`", "`diamagnetic_current.py`", { "es": "Corriente diamagnética: la firma del modo mirror.", "en": "Diamagnetic current: the mirror mode's signature." }],
+            ["`heatflux`", "`heat_flux_analysis.py`", { "es": "Flujo de calor paralelo y perpendicular.", "en": "Parallel and perpendicular heat flux." }],
+            ["`particles`", "`plot_prt.py`", { "es": "Distribuciones de velocidad desde la salida de partículas, incluida la forma de f(v∥) contra una gaussiana de la misma varianza.", "en": "Velocity distributions from the particle output, including the shape of f(v∥) against a Gaussian of the same variance." }],
+            ["`validate`", "`validate_moments.py`", { "es": "Consistencia entre los momentos de la malla y los de las partículas.", "en": "Consistency between grid moments and particle moments." }],
+            ["`physics`", "`physical_diagnostics.py`", { "es": "Tablas resumen: energía, anisotropía, ajustes y correlaciones.", "en": "Summary tables: energy, anisotropy, fits and correlations." }]
+          ],
+          "note": {
+            "es": "Extras: `compare_physical_cases.py` para la comparación bi-maxwelliana contra bi-Kappa, `kappa_dynamics.py` para el índice κ en el tiempo, `resonant_anisotropy.py` para A(v∥) desde las partículas, y `check_resolution.py` para comprobar que la resolución del perfil coincide con los datos.",
+            "en": "Extras: `compare_physical_cases.py` for the bi-Maxwellian versus bi-Kappa comparison, `kappa_dynamics.py` for the κ index in time, `resonant_anisotropy.py` for A(v∥) from the particles, and `check_resolution.py` to check that the profile resolution matches the data."
+          }
+        }
+      ]
+    },
+    {
+      "id": "limites",
+      "title": { "es": "6 · Qué limita las corridas v6b, con números", "en": "6 · What limits the v6b runs, with numbers" },
+      "blurb": {
+        "es": "Medido sobre los productos de análisis de las tres corridas mirror-moderado (bi-maxwelliana, κ = 5, κ = 3). Esto es lo que hay que acotar antes de usar las corridas como resultado, y es el bloqueo actual del proyecto.",
+        "en": "Measured on the analysis products of the three mirror-moderate runs (bi-Maxwellian, κ = 5, κ = 3). This is what must be bounded before using the runs as a result, and it is the project's current blocker."
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            { "es": "Límite", "en": "Limit" },
+            { "es": "Lo que se midió", "en": "What was measured" },
+            { "es": "A qué afecta, y qué lo quitaría", "en": "What it affects, and what would remove it" }
+          ],
+          "rows": [
+            [
+              { "es": "**1. La longitud de Debye no está resuelta**: calentamiento numérico de los electrones", "en": "**1. The Debye length is not resolved**: grid heating of the electrons" },
+              { "es": "ω_pe/Ω_ce = 12.5; celda = 0.49 d_e; λ_De(t=0) = 0.057 d_e, así que dx/λ_De pasa de 8.7 a 3.0. La energía térmica de los electrones crece 8.3–8.6 veces y la energía total cambia +66%: la ganancia de los electrones es seis veces la pérdida de los iones.", "en": "ω_pe/Ω_ce = 12.5; cell = 0.49 d_e; λ_De(t=0) = 0.057 d_e, so dx/λ_De goes from 8.7 to 3.0. The electron thermal energy grows 8.3–8.6× and total energy changes by +66%: the electron gain is six times the ion loss." },
+              { "es": "Afecta el β de los electrones (de 1 a 8), y con él el umbral mirror y, débilmente, la tasa iónica-ciclotrón; afecta todo balance de energía. Lo quitaría dx ≲ 3 λ_De: con la misma malla, un B₀ mayor (ω_pe/Ω_ce ≈ 4), o una malla tres veces más fina.", "en": "Affects the electron β (from 1 to 8), and with it the mirror threshold and, weakly, the ion-cyclotron rate; affects every energy budget. Removing it needs dx ≲ 3 λ_De: with the same grid, a larger B₀ (ω_pe/Ω_ce ≈ 4), or a three times finer grid." }
+            ],
+            [
+              { "es": "**2. Los iones pierden energía desde t = 0**", "en": "**2. The ions lose energy from t = 0**" },
+              { "es": "Antes de que crezca cualquier onda (t Ω_ci < 30) la energía térmica iónica cae a 1.7–1.8×10⁻³ Ω_ci (T∥ −6%, T⊥ −4%) y un 15% a lo largo de la corrida. La energía magnética de la onda en saturación es 2×10⁻⁴ por partícula contra una pérdida iónica de 6×10⁻³: **el sumidero numérico es treinta veces la energía de la onda**.", "en": "Before any wave grows (t Ω_ci < 30) the ion thermal energy falls at 1.7–1.8×10⁻³ Ω_ci (T∥ −6%, T⊥ −4%), and by 15% over the run. The wave magnetic energy at saturation is 2×10⁻⁴ per particle against an ion loss of 6×10⁻³: **the numerical sink is thirty times the wave's energy**." },
+              { "es": "La tasa de relajación del índice κ medida por separado, ν₀ = (1.5–2.2)×10⁻³ Ω_ci, es el mismo número, lo que apunta a un único proceso numérico detrás de ambos. Afecta el β_i∥ al inicio (4.7, no 5) y cualquier afirmación sobre cómo se reparte la energía de la anisotropía liberada. Lo deciden las corridas de control isótropo.", "en": "The independently measured relaxation rate of the κ index, ν₀ = (1.5–2.2)×10⁻³ Ω_ci, is the same number, pointing to a single numerical process behind both. Affects β_i∥ at onset (4.7, not 5) and any statement about how the released anisotropy energy is shared. The isotropic control runs decide it." }
+            ],
+            [
+              { "es": "**3. Solo hay un modo inestable en la caja**", "en": "**3. There is only one unstable mode in the box**" },
+              { "es": "La caja admite k∥ d_i = 0.314 n. La teoría lineal da 0.124 Ω_ci para n = 1 y 0.05 para n = 2, que se estabiliza en cuanto baja la anisotropía. La onda es un modo y su imagen espejo: una onda estacionaria. Con δB/B₀ = 0.2 la frecuencia de atrapamiento es 0.38 Ω_ci, tres veces la tasa de crecimiento, y el semiancho de atrapamiento en velocidad paralela es 2.4 v_A = 1.5 σ∥₀.", "en": "The box allows k∥ d_i = 0.314 n. Linear theory gives 0.124 Ω_ci for n = 1 and 0.05 for n = 2, which stabilizes as soon as the anisotropy drops. The wave is one mode and its mirror image: a standing wave. With δB/B₀ = 0.2 the trapping frequency is 0.38 Ω_ci, three times the growth rate, and the trapping half-width in parallel velocity is 2.4 v_A = 1.5 σ∥₀." },
+              { "es": "La saturación ocurre por **atrapamiento en una onda coherente**, no por difusión cuasilineal en un espectro — y las simulaciones publicadas usan cajas de cientos de d_i. La anisotropía que queda por encima del nivel marginal en las corridas Kappa puede ser específica de esto. Lo quitarían los perfiles de caja de 40 d_i (el doble de modos) o alargar solo la dirección paralela.", "en": "Saturation happens by **trapping in a coherent wave**, not by quasilinear diffusion in a spectrum — and published simulations use boxes of hundreds of d_i. The anisotropy left above marginal in the Kappa runs may be specific to this. The 40 d_i box profiles (twice the modes), or lengthening only the parallel direction, would remove it." }
+            ]
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warn",
+          "title": { "es": "Por qué esto es el bloqueo y no una nota al pie", "en": "Why this is the blocker and not a footnote" },
+          "text": [
+            {
+              "es": "Los tres límites tocan precisamente las cantidades que la tesis quiere comparar entre bi-maxwelliana y bi-Kappa: el umbral, la energía liberada y el estado final. Mientras no esté acotado hasta dónde son confiables las corridas v6b, esa frontera decide qué corridas hay que repetir — y cambiar un parámetro de corrida es una decisión sobre la matriz de casos, no un ajuste de análisis.",
+              "en": "All three limits touch exactly the quantities the thesis wants to compare between bi-Maxwellian and bi-Kappa: the threshold, the released energy and the final state. Until it is bounded how far the v6b runs can be trusted, that boundary decides which runs must be repeated — and changing a run parameter is a decision about the case matrix, not an analysis tweak."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "estado",
+      "title": { "es": "7 · Dónde está el trabajo hoy", "en": "7 · Where the work stands today" },
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            {
+              "done": true,
+              "label": { "es": "Plantilla de caso y 15 ejecutables de las tres familias", "en": "Case template and 15 executables across the three families" },
+              "detail": { "es": "Geometría, salidas, intervalos y overrides por entorno concentrados en un solo archivo; cada caso físico queda reducido a etiqueta, distribución y parámetros.", "en": "Geometry, outputs, intervals and environment overrides concentrated in a single file; each physical case reduces to label, distribution and parameters." }
+            },
+            {
+              "done": true,
+              "label": { "es": "Muestreo de la bi-Kappa anisótropa y los pares κ = 3 / κ = 5", "en": "Anisotropic bi-Kappa sampling and the κ = 3 / κ = 5 pairs" },
+              "detail": { "es": "Cinco casos Kappa emparejados uno a uno con su referencia maxwelliana, con el factor √((κ−1.5)/κ) aplicado a θ∥. La distinción entre bi-Kappa y product-bi-Kappa (Lazar et al. 2011) sigue sin verificarse contra una referencia independiente.", "en": "Five Kappa cases paired one-to-one with their Maxwellian reference, with the √((κ−1.5)/κ) factor applied to θ∥. The distinction between bi-Kappa and product-bi-Kappa (Lazar et al. 2011) remains unverified against an independent reference." }
+            },
+            {
+              "done": true,
+              "label": { "es": "Pipeline de once etapas y figuras de publicación", "en": "Eleven-stage pipeline and publication figures" },
+              "detail": { "es": "Incluye la identificación de modos con crecimiento resuelto por rama, la handedness de ψ verificada, el umbral mirror con electrones calientes, y el ajuste de modos de Fourier solo después de que se asienta el ruido del quiet start.", "en": "Includes mode identification with branch-resolved growth, verified ψ handedness, the hot-electron mirror threshold, and Fourier-mode fitting only after the quiet-start noise settles." }
+            },
+            {
+              "done": true,
+              "label": { "es": "Teoría lineal contrastada contra las corridas", "en": "Linear theory measured against the runs" },
+              "detail": { "es": "Medida contra la tasa de crecimiento instantánea y contra la anisotropía que queda por encima del nivel marginal en saturación; se añadió A(v∥) resonante calculada desde las partículas y el índice κ frente a la energía de onda acumulada.", "en": "Measured against the instantaneous growth rate and the anisotropy left above marginal at saturation; resonant A(v∥) computed from the particles was added, plus the κ index against accumulated wave energy." }
+            },
+            {
+              "done": true,
+              "label": { "es": "Controles isótropos y pruebas de resolución", "en": "Isotropic controls and resolution tests" },
+              "detail": { "es": "Corridas de control en caja de 10 d_i y una prueba de resolución mirror: es lo que permitirá separar los efectos numéricos del punto 2 de la física.", "en": "Control runs in a 10 d_i box and a mirror resolution test: this is what will separate the numerical effects of point 2 from the physics." }
+            },
+            {
+              "done": false,
+              "label": { "es": "Brazil plot definitivo en el plano (β∥, A)", "en": "Definitive Brazil plot in the (β∥, A) plane" },
+              "detail": { "es": "El diagnóstico central: dónde queda el plasma relajado en cada familia, bi-maxwelliana contra bi-Kappa. Falta cerrar los diagnósticos de saturación de las tres familias, y eso depende de acotar los límites numéricos.", "en": "The central diagnostic: where the relaxed plasma lands for each family, bi-Maxwellian versus bi-Kappa. The saturation diagnostics of the three families must be closed first, and that depends on bounding the numerical limits." }
+            },
+            {
+              "done": false,
+              "label": { "es": "Escritura y defensa de la tesis", "en": "Writing and defending the thesis" },
+              "detail": { "es": "Hay material de presentación en `presentation/`, pero el documento está por escribir.", "en": "There is presentation material in `presentation/`, but the document is still to be written." }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "datos",
+      "title": { "es": "8 · Política de datos", "en": "8 · Data policy" },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            { "es": "Los datos crudos de corrida (`*.bp`, `*.h5`, checkpoints) viven en COSMA, **nunca** en el repositorio: el historial ya es grande (15 649 commits, casi todos upstream desde 2010).", "en": "Raw run data (`*.bp`, `*.h5`, checkpoints) lives on COSMA, **never** in the repository: the history is already large (15,649 commits, almost all upstream since 2010)." },
+            { "es": "`analysis_results/` — figuras, GIFs y mapas por paso — no se versiona: se regenera con los objetivos del Makefile.", "en": "`analysis_results/` — figures, GIFs and per-step maps — is not versioned: it is regenerated with the Makefile targets." },
+            { "es": "Cada corrida escribe `analysis_results/<CASE>/` con un manifiesto JSON que registra los parámetros y los pasos detectados, de modo que una figura siempre se puede rastrear a la configuración que la produjo.", "en": "Each run writes `analysis_results/<CASE>/` with a JSON manifest recording the parameters and the detected steps, so a figure can always be traced to the configuration that produced it." },
+            { "es": "Las operaciones de clúster (acceso, envío de trabajos, monitoreo, checkpoints) se mantienen fuera del repositorio.", "en": "Cluster operations (access, job submission, monitoring, checkpoints) are kept outside the repository." },
+            { "es": "El estilo de figuras pasa siempre por `plot_style.py`, con el tema `paper` (fondo blanco, 300 dpi, PDF) por defecto.", "en": "Figure styling always goes through `plot_style.py`, with the `paper` theme (white background, 300 dpi, PDF) as the default." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "glosario",
+      "title": { "es": "9 · Glosario", "en": "9 · Glossary" },
+      "blocks": [
+        {
+          "type": "defs",
+          "items": [
+            { "term": { "es": "PIC (Particle-in-Cell)", "en": "PIC (Particle-in-Cell)" }, "def": { "es": "Método cinético: se siguen millones de partículas y se resuelven los campos en una malla, sin suponer una distribución de velocidades. Es lo que permite que la forma de la distribución importe.", "en": "A kinetic method: millions of particles are followed and the fields solved on a grid, with no assumed velocity distribution. It is what lets the distribution's shape matter." } },
+            { "term": { "es": "Anisotropía A = T⊥/T∥", "en": "Anisotropy A = T⊥/T∥" }, "def": { "es": "Cuánto más caliente está el plasma a través del campo magnético que a lo largo de él. A > 1 alimenta mirror y whistler; A < 1 alimenta firehose.", "en": "How much hotter the plasma is across the magnetic field than along it. A > 1 drives mirror and whistler; A < 1 drives firehose." } },
+            { "term": "β∥", "def": { "es": "Razón entre la presión térmica paralela y la presión magnética. Junto con A define el punto del plasma en el plano donde se dibujan los umbrales.", "en": "Ratio of parallel thermal pressure to magnetic pressure. With A it fixes the plasma's point in the plane where the thresholds are drawn." } },
+            { "term": { "es": "Brazil plot", "en": "Brazil plot" }, "def": { "es": "El plano (β∥, A) con las curvas de umbral de las inestabilidades dibujadas encima. Las observaciones del viento solar se apilan dentro de esas curvas — de ahí el nombre — y la pregunta es a dónde llega la trayectoria de cada corrida.", "en": "The (β∥, A) plane with the instability threshold curves drawn on it. Solar-wind observations pile up inside those curves — hence the name — and the question is where each run's trajectory lands." } },
+            { "term": { "es": "Distribución bi-Kappa", "en": "Bi-Kappa distribution" }, "def": { "es": "Una distribución con colas de ley de potencia, controladas por el índice κ: κ pequeño significa más partículas suprartérmicas. Al crecer κ tiende a la maxwelliana. Aquí se usan κ = 3 y κ = 5.", "en": "A distribution with power-law tails controlled by the index κ: small κ means more suprathermal particles. As κ grows it tends to the Maxwellian. Here κ = 3 and κ = 5 are used." } },
+            { "term": "d_i, d_e", "def": { "es": "Longitudes inerciales de iones y electrones: las reglas naturales del problema. El dominio se mide en d_i y la resolución de la malla en d_e.", "en": "Ion and electron inertial lengths: the problem's natural rulers. The domain is measured in d_i and the grid resolution in d_e." } },
+            { "term": "λ_De", "def": { "es": "Longitud de Debye electrónica. Si la celda es mucho mayor que λ_De, el ruido de la malla calienta los electrones artificialmente: es el límite 1.", "en": "Electron Debye length. If the cell is much larger than λ_De, grid noise heats the electrons artificially: that is limit 1." } },
+            { "term": { "es": "Modo mirror / EMIC", "en": "Mirror / EMIC mode" }, "def": { "es": "Dos respuestas distintas al mismo exceso perpendicular de los iones: el mirror es casi no propagante y comprime |B| en estructuras oblicuas; el iónico-ciclotrón (EMIC) propaga a lo largo del campo. Separarlos exige γ(k∥, k⊥) y la polarización, no solo γ(k).", "en": "Two different responses to the same perpendicular ion excess: the mirror mode is nearly non-propagating and compresses |B| into oblique structures; the ion-cyclotron (EMIC) mode propagates along the field. Separating them needs γ(k∥, k⊥) and the polarization, not just γ(k)." } },
+            { "term": { "es": "Tasa de crecimiento γ", "en": "Growth rate γ" }, "def": { "es": "La rapidez con que la inestabilidad amplifica una perturbación en su fase lineal, en unidades de Ω_ci. Se mide ajustando la energía del modo en escala logarítmica, y solo en la ventana donde el ajuste es válido.", "en": "How fast the instability amplifies a perturbation in its linear phase, in units of Ω_ci. It is measured by fitting the mode energy on a log scale, and only in the window where the fit is valid." } },
+            { "term": { "es": "Saturación", "en": "Saturation" }, "def": { "es": "El punto en que la onda deja de crecer porque ha relajado la anisotropía que la alimentaba. El nivel al que satura δB es uno de los cuatro resultados comparados.", "en": "The point where the wave stops growing because it has relaxed the anisotropy that fed it. The level at which δB saturates is one of the four results compared." } },
+            { "term": { "es": "Quiet start", "en": "Quiet start" }, "def": { "es": "El arranque de una corrida PIC, donde el ruido de muestreo todavía no se ha asentado. Los ajustes de modos se hacen después de esa ventana a propósito.", "en": "The beginning of a PIC run, where sampling noise has not yet settled. Mode fits are deliberately made after that window." } },
+            { "term": "ADIOS2 / BP5, COSMA, SLURM", "def": { "es": "La infraestructura: el formato de E/S que permite checkpoint y reinicio de corridas largas, el clúster donde corren, y el planificador que les asigna nodos.", "en": "The infrastructure: the I/O format that allows checkpointing and restarting long runs, the cluster they run on, and the scheduler that allocates nodes." } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "referencias",
+      "title": { "es": "10 · Referencias consultadas", "en": "10 · References consulted" },
+      "blurb": {
+        "es": "Las mismas que usan los documentos de dimensionamiento y la auditoría física del repositorio.",
+        "en": "The same ones used by the repository's sizing documents and physics audit."
+      },
+      "blocks": [
+        {
+          "type": "refs",
+          "items": [
+            {
+              "cite": "Germaschewski, Fox, Abbott, Ahmadi, Maynard, Wang, Ruhl & Bhattacharjee (2016)",
+              "venue": "JCP 318, 305 — PSC",
+              "what": { "es": "El código Particle-in-Cell que es la base numérica de esta tesis: solver de campos, empuje de partículas, E/S y balanceo de carga por parches.", "en": "The Particle-in-Cell code that is this thesis's numerical basis: field solver, particle pusher, I/O and patch-based load balancing." },
+              "use": { "es": "Se usa sin modificar el núcleo. Es la cita obligada del método, y su documentación fija las convenciones de normalización que `psc_units.py` reproduce en el análisis.", "en": "Used without modifying the core. It is the mandatory method citation, and its documentation fixes the normalization conventions that `psc_units.py` reproduces in the analysis." },
+              "links": [
+                { "href": "https://arxiv.org/abs/1310.7866", "label": "arXiv:1310.7866" },
+                { "href": "https://github.com/psc-code/psc", "label": "repositorio · repository" },
+                { "href": "https://psc.readthedocs.io/en/latest/", "label": "docs" }
+              ]
+            },
+            {
+              "cite": "Hellinger, Trávníček, Kasper & Lazarus (2006)",
+              "venue": { "es": "Umbrales marginales en el viento solar", "en": "Marginal thresholds in the solar wind" },
+              "what": { "es": "El contexto observacional del plano β∥–T⊥/T∥: dónde se apila el viento solar y qué umbrales lo acotan. La distinción entre ramas (mirror frente a iónica-ciclotrón, firehose paralela frente a oblicua) es central allí.", "en": "The observational context of the β∥–T⊥/T∥ plane: where the solar wind piles up and which thresholds bound it. The distinction between branches (mirror versus ion-cyclotron, parallel versus oblique firehose) is central there." },
+              "use": { "es": "Es el marco del Brazil plot de la tesis y la razón de que el análisis separe modos paralelos de oblicuos en vez de dar un solo γ(k).", "en": "It is the frame of the thesis's Brazil plot and the reason the analysis separates parallel from oblique modes instead of giving a single γ(k)." },
+              "links": [{ "href": "https://space.asu.cas.cz/~helinger/hellal06.pdf", "label": "PDF" }]
+            },
+            {
+              "cite": "Hellinger (2007)",
+              "venue": { "es": "Umbral mirror multiespecie", "en": "Multispecies mirror threshold" },
+              "what": { "es": "Las ecuaciones 1 y 16 dan la condición mirror con sus términos multiespecie.", "en": "Equations 1 and 16 give the mirror condition with its multispecies terms." },
+              "use": { "es": "Es la referencia que delimita qué **no** es la curva simple que dibujan las figuras: sin ella, el umbral del repositorio se confundiría con el criterio CGL o con una condición válida para Kappa.", "en": "It is the reference that bounds what the simple curve in the figures is **not**: without it, the repository's threshold could be mistaken for the CGL criterion or for a Kappa-valid condition." },
+              "links": [{ "href": "https://space.asu.cas.cz/~helinger/hell07.pdf", "label": "PDF" }]
+            },
+            {
+              "cite": "López, Shaaban, Lazar et al. (2023)",
+              "venue": "ApJ 954, 191",
+              "what": { "es": "Simulaciones híbridas 2D y teoría cuasilineal de inestabilidades mirror/EMIC con protones bi-Kappa.", "en": "2D hybrid simulations and quasilinear theory of mirror/EMIC instabilities with bi-Kappa protons." },
+              "use": { "es": "El precedente que **acota la reclamación de novedad**: mostrar relajación de la anisotropía al variar κ ya está hecho. Es la razón de que la auditoría interna pida una pregunta más fina, sobre la distribución local dentro de las estructuras.", "en": "The precedent that **bounds the novelty claim**: showing anisotropy relaxation as κ varies has been done. It is why the internal audit asks for a sharper question, about the local distribution inside the structures." },
+              "links": [{ "href": "https://doi.org/10.3847/1538-4357/aceb5b", "label": "DOI 10.3847/1538-4357/aceb5b" }]
+            },
+            {
+              "cite": "Lazar, Poedts & Schlickeiser (2011)",
+              "venue": "MNRAS 410, 663",
+              "what": { "es": "Tratamiento de las distribuciones Kappa anisótropas y de la diferencia entre la bi-Kappa y la product-bi-Kappa.", "en": "Treatment of anisotropic Kappa distributions and of the difference between the bi-Kappa and the product-bi-Kappa." },
+              "use": { "es": "Sostiene el factor √((κ−1.5)/κ) aplicado a θ∥ en la teoría lineal. Anotado como **pendiente**: esa distinción sigue sin verificarse contra una referencia independiente.", "en": "Supports the √((κ−1.5)/κ) factor applied to θ∥ in the linear theory. Flagged as **outstanding**: that distinction remains unverified against an independent reference." },
+              "links": [{ "href": "https://academic.oup.com/mnras/article/410/1/663/1038700", "label": "MNRAS" }]
+            },
+            {
+              "cite": "Micera, Zhukov, López, Innocenti, Lazar, Boella & Lapenta (2020)",
+              "venue": "ApJ 893, 130",
+              "what": { "es": "Simulaciones PIC de inestabilidades dirigidas por anisotropía en el viento solar.", "en": "PIC simulations of anisotropy-driven instabilities in the solar wind." },
+              "use": { "es": "Una de las tres fuentes de las que se extrajeron los setups de referencia para dimensionar las corridas: caja, resolución y razón de masas.", "en": "One of the three sources the reference setups were taken from to size the runs: box, resolution and mass ratio." },
+              "links": [
+                { "href": "https://iopscience.iop.org/article/10.3847/1538-4357/ab7faa", "label": "IOPscience" },
+                { "href": "https://arxiv.org/abs/1907.08502", "label": "arXiv:1907.08502" }
+              ]
+            },
+            {
+              "cite": "Hellinger, Matteini, Landi, Verdini, Franci & Trávníček (2019)",
+              "venue": "ApJ 883, 178",
+              "what": { "es": "Simulaciones de plasma expandido con anisotropía y su relajación.", "en": "Simulations of expanding plasma with anisotropy and its relaxation." },
+              "use": { "es": "Segunda fuente de setups de referencia, y el contraste contra el que se juzga que una caja de 20 d_i es pequeña: las simulaciones publicadas usan cientos de d_i.", "en": "A second source of reference setups, and the contrast against which a 20 d_i box is judged small: published simulations use hundreds of d_i." },
+              "links": [
+                { "href": "https://iopscience.iop.org/article/10.3847/1538-4357/ab3e01", "label": "IOPscience" },
+                { "href": "https://arxiv.org/abs/1908.07760", "label": "arXiv:1908.07760" }
+              ]
+            },
+            {
+              "cite": "Riquelme, Quataert & Verscharen (2015)",
+              "venue": "ApJ 800, 27",
+              "what": { "es": "Simulaciones PIC de inestabilidades de anisotropía en plasmas de alto β.", "en": "PIC simulations of anisotropy instabilities in high-β plasmas." },
+              "use": { "es": "Tercera fuente de setups de referencia para el dimensionamiento.", "en": "A third source of reference setups for sizing." },
+              "links": [
+                { "href": "https://iopscience.iop.org/article/10.1088/0004-637X/800/1/27", "label": "IOPscience" },
+                { "href": "https://arxiv.org/abs/1402.0014", "label": "arXiv:1402.0014" }
+              ]
+            },
+            {
+              "cite": { "es": "Muestreo de distribuciones Kappa en PIC", "en": "Kappa-distribution sampling in PIC" },
+              "venue": "arXiv:2512.04272",
+              "what": { "es": "Cómo generar partículas de una distribución Kappa dentro de un código PIC.", "en": "How to generate particles from a Kappa distribution inside a PIC code." },
+              "use": { "es": "Referencia del muestreo bi-Kappa que este fork añade a PSC (`PSC_USE_KAPPA`).", "en": "Reference for the bi-Kappa sampling this fork adds to PSC (`PSC_USE_KAPPA`)." },
+              "links": [{ "href": "https://arxiv.org/abs/2512.04272", "label": "arXiv:2512.04272" }]
+            },
+            {
+              "cite": { "es": "Calentamiento de malla y termalización numérica en PIC", "en": "Grid heating and numerical thermalization in PIC" },
+              "venue": { "es": "arXiv:2606.25528 · suavizado: arXiv:2503.05123 · efectos de malla finita (CPC)", "en": "arXiv:2606.25528 · smoothing: arXiv:2503.05123 · finite-grid effects (CPC)" },
+              "what": { "es": "Por qué una malla que no resuelve la longitud de Debye calienta los electrones, hasta dónde llega ese calentamiento, y cuánto lo bajan el suavizado de corriente y formas de partícula de orden superior.", "en": "Why a grid that does not resolve the Debye length heats the electrons, how far that heating goes, and how much current smoothing and higher-order particle shapes reduce it." },
+              "use": { "es": "Es el marco del límite 1: la predicción de que los electrones se calientan hasta que λ_De ≈ dx/3 es exactamente lo que se observa en las tres corridas.", "en": "The frame for limit 1: the prediction that electrons heat until λ_De ≈ dx/3 is exactly what the three runs show." },
+              "links": [
+                { "href": "https://arxiv.org/abs/2606.25528", "label": "arXiv:2606.25528" },
+                { "href": "https://arxiv.org/abs/2503.05123", "label": "arXiv:2503.05123" },
+                { "href": "https://www.sciencedirect.com/science/article/abs/pii/S001046552030268X", "label": "CPC" }
+              ]
+            },
+            {
+              "cite": "Agudelo Rueda et al. (2024)",
+              "venue": "ApJ 971, 109",
+              "what": { "es": "Reconexión magnética en plasmas sin colisiones.", "en": "Magnetic reconnection in collisionless plasmas." },
+              "use": { "es": "Referencia base de la línea de reconexión que el repositorio conserva junto a la de anisotropía.", "en": "Base reference for the reconnection line the repository keeps alongside the anisotropy work." }
+            },
+            {
+              "cite": "Kennel & Petschek (1966)",
+              "venue": { "es": "Límite de anisotropía por ondas", "en": "Wave-limited anisotropy" },
+              "what": { "es": "La relación A(v) = −(dW/dv)/(v F), que define la anisotropía resonante a cada velocidad.", "en": "The relation A(v) = −(dW/dv)/(v F), which defines the resonant anisotropy at each speed." },
+              "use": { "es": "Es la base de `resonant_anisotropy.py`: en vez de una sola A global, se mide T⊥/T∥ a cada velocidad paralela y se ve qué parte de la distribución está resonando.", "en": "The basis of `resonant_anisotropy.py`: instead of one global A, T⊥/T∥ is measured at each parallel speed to see which part of the distribution is resonating." }
+            },
+            {
+              "cite": "ALPS — Arbitrary Linear Plasma Solver",
+              "venue": { "es": "herramienta de teoría lineal cinética", "en": "kinetic linear-theory tool" },
+              "what": { "es": "Resuelve la relación de dispersión cinética para distribuciones arbitrarias, no solo maxwellianas.", "en": "Solves the kinetic dispersion relation for arbitrary distributions, not only Maxwellians." },
+              "use": { "es": "La vía de contraste independiente para la teoría lineal propia con distribuciones Kappa.", "en": "The independent cross-check route for the project's own linear theory with Kappa distributions." },
+              "links": [{ "href": "https://danielver02.github.io/ALPS/", "label": "ALPS" }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repositorio",
+      "title": { "es": "11 · Dónde leer el original", "en": "11 · Where to read the original" },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            { "es": "[`src/SIMULACIONES_ANISOTROPIA.md`](https://github.com/carlmarx17/pcseditado/blob/main/src/SIMULACIONES_ANISOTROPIA.md) — catálogo completo de casos y sus parámetros físicos.", "en": "[`src/SIMULACIONES_ANISOTROPIA.md`](https://github.com/carlmarx17/pcseditado/blob/main/src/SIMULACIONES_ANISOTROPIA.md) — full catalogue of cases and their physical parameters." },
+            { "es": "[`src/ESCALADO_INESTABILIDADES.md`](https://github.com/carlmarx17/pcseditado/blob/main/src/ESCALADO_INESTABILIDADES.md) — dimensionamiento de las corridas y las referencias de las que salieron los setups.", "en": "[`src/ESCALADO_INESTABILIDADES.md`](https://github.com/carlmarx17/pcseditado/blob/main/src/ESCALADO_INESTABILIDADES.md) — run sizing and the references the setups came from." },
+            { "es": "[`CodeforAnalisys/NUMERICAL_LIMITS_V6B.md`](https://github.com/carlmarx17/pcseditado/blob/main/CodeforAnalisys/NUMERICAL_LIMITS_V6B.md) — la fuente de la sección 6, con los números completos.", "en": "[`CodeforAnalisys/NUMERICAL_LIMITS_V6B.md`](https://github.com/carlmarx17/pcseditado/blob/main/CodeforAnalisys/NUMERICAL_LIMITS_V6B.md) — the source of section 6, with the full numbers." },
+            { "es": "[`CodeforAnalisys/AUDITORIA_FISICA_PAPER.md`](https://github.com/carlmarx17/pcseditado/blob/main/CodeforAnalisys/AUDITORIA_FISICA_PAPER.md) — la auditoría física: qué afirmación está sostenida y qué sigue abierto.", "en": "[`CodeforAnalisys/AUDITORIA_FISICA_PAPER.md`](https://github.com/carlmarx17/pcseditado/blob/main/CodeforAnalisys/AUDITORIA_FISICA_PAPER.md) — the physics audit: which claim is supported and what remains open." },
+            { "es": "[`CodeforAnalisys/FIGURE_GUIDE.md`](https://github.com/carlmarx17/pcseditado/blob/main/CodeforAnalisys/FIGURE_GUIDE.md) — qué muestra cada figura, cómo leerla y para qué sirve.", "en": "[`CodeforAnalisys/FIGURE_GUIDE.md`](https://github.com/carlmarx17/pcseditado/blob/main/CodeforAnalisys/FIGURE_GUIDE.md) — what each figure shows, how to read it and what it is for." },
+            { "es": "[`CodeforAnalisys/README.md`](https://github.com/carlmarx17/pcseditado/blob/main/CodeforAnalisys/README.md) y [`ANALISIS_ESTRUCTURA.md`](https://github.com/carlmarx17/pcseditado/blob/main/CodeforAnalisys/ANALISIS_ESTRUCTURA.md) — uso diario del pipeline y el contrato de archivos, lectores y salidas.", "en": "[`CodeforAnalisys/README.md`](https://github.com/carlmarx17/pcseditado/blob/main/CodeforAnalisys/README.md) and [`ANALISIS_ESTRUCTURA.md`](https://github.com/carlmarx17/pcseditado/blob/main/CodeforAnalisys/ANALISIS_ESTRUCTURA.md) — day-to-day pipeline use and the file/reader/output contract." },
+            { "es": "[`src/ADIOS2_COSMA_RUNBOOK.md`](https://github.com/carlmarx17/pcseditado/blob/main/src/ADIOS2_COSMA_RUNBOOK.md) — el procedimiento ADIOS2/COSMA, como referencia técnica.", "en": "[`src/ADIOS2_COSMA_RUNBOOK.md`](https://github.com/carlmarx17/pcseditado/blob/main/src/ADIOS2_COSMA_RUNBOOK.md) — the ADIOS2/COSMA procedure, as a technical reference." }
+          ]
+        }
+      ]
+    }
+  ]
+}

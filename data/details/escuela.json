@@ -1,0 +1,262 @@
+{
+  "id": "escuela",
+  "lede": {
+    "es": "Cinco jueves de octubre de 2026, gratis, híbrida, en el Observatorio Astronómico Nacional. La idea es llevar a los asistentes desde «no sé dónde se descargan datos solares» hasta correr simulaciones y aplicar aprendizaje automático, con siete expositores y un repositorio que quede como curso autocontenido cuando la escuela termine. El requisito es Python básico; el resto se enseña.",
+    "en": "Five Thursdays in October 2026, free, hybrid, at the National Astronomical Observatory. The idea is to take attendees from “I don't know where solar data is downloaded” to running simulations and applying machine learning, with seven speakers and a repository meant to stand as a self-contained course once the school is over. The requirement is basic Python; the rest is taught."
+  },
+  "sections": [
+    {
+      "id": "general",
+      "title": { "es": "1 · La escuela de un vistazo", "en": "1 · The school at a glance" },
+      "blocks": [
+        {
+          "type": "kv",
+          "items": [
+            { "k": { "es": "Fechas", "en": "Dates" }, "v": { "es": "1, 8, 15, 22 y 29 de octubre de 2026 — una sesión cada jueves", "en": "1, 8, 15, 22 and 29 October 2026 — one session each Thursday" } },
+            { "k": { "es": "Modalidad", "en": "Format" }, "v": { "es": "híbrida: presencial en el Observatorio Astronómico Nacional y conexión virtual, con grabaciones", "en": "hybrid: in person at the National Astronomical Observatory and online, with recordings" } },
+            { "k": { "es": "Costo", "en": "Cost" }, "v": { "es": "gratuito", "en": "free" } },
+            { "k": { "es": "A quién va dirigida", "en": "Who it is for" }, "v": { "es": "estudiantes de pregrado y posgrado, jóvenes investigadores y cualquier persona interesada en trabajar con observaciones, modelos y herramientas computacionales del Sol", "en": "undergraduate and graduate students, early-career researchers and anyone interested in working with solar observations, models and computational tools" } },
+            { "k": { "es": "Requisito recomendado", "en": "Recommended requirement" }, "v": { "es": "conocimientos básicos de Python", "en": "basic Python knowledge" } },
+            { "k": { "es": "Dirección", "en": "Direction" }, "v": { "es": "Santiago Vargas Domínguez · Grupo de Astrofísica Solar (GoSA), Observatorio Astronómico Nacional, Universidad Nacional de Colombia", "en": "Santiago Vargas Domínguez · Solar Astrophysics Group (GoSA), National Astronomical Observatory, Universidad Nacional de Colombia" } },
+            { "k": { "es": "Mi papel", "en": "My role" }, "v": { "es": "organizador y expositor", "en": "organizer and speaker" } },
+            { "k": { "es": "Página oficial", "en": "Official page" }, "v": "[astronomiaoan.co/gosa/escuela.html](https://astronomiaoan.co/gosa/escuela.html)" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "programa",
+      "title": { "es": "2 · El programa: de un archivo FITS a un modelo multimodal", "en": "2 · The programme: from a FITS file to a multimodal model" },
+      "blurb": {
+        "es": "El temario combina física, demostraciones y práctica. Está pensado como una progresión: cada tema necesita el anterior.",
+        "en": "The syllabus combines physics, demonstrations and hands-on work. It is designed as a progression: each topic needs the previous one."
+      },
+      "blocks": [
+        {
+          "type": "list",
+          "ordered": true,
+          "items": [
+            { "es": "**Búsqueda, descarga y visualización** de observaciones solares: de dónde salen los datos y cómo se traen.", "en": "**Searching, downloading and visualizing** solar observations: where the data comes from and how to fetch it." },
+            { "es": "**Archivos FITS, Astropy, SunPy y SAOImageDS9**: el formato en que llega todo y las herramientas con que se abre.", "en": "**FITS files, Astropy, SunPy and SAOImageDS9**: the format everything arrives in and the tools that open it." },
+            { "es": "**Imágenes de continuo, magnetogramas y Dopplergramas**: qué mide cada tipo de imagen y qué no.", "en": "**Continuum images, magnetograms and Dopplergrams**: what each kind of image measures and what it does not." },
+            { "es": "**Manchas solares, flujos y movimientos superficiales**: cómo se extrae velocidad de una secuencia de imágenes.", "en": "**Sunspots, flows and surface motions**: how velocity is extracted from an image sequence." },
+            { "es": "**Magnetohidrodinámica, ondas y oscilaciones solares**: el marco teórico de lo que se está mirando.", "en": "**Magnetohydrodynamics, solar waves and oscillations**: the theoretical frame of what is being looked at." },
+            { "es": "**Simulaciones, partículas y computación de alto rendimiento**: cuando el dato no alcanza y hay que modelar.", "en": "**Simulations, particles and high-performance computing**: when data is not enough and modelling is needed." },
+            { "es": "**Aprendizaje automático y modelos multimodales en astronomía**: qué se puede automatizar y con qué cuidado.", "en": "**Machine learning and multimodal models in astronomy**: what can be automated, and with what care." }
+          ]
+        },
+        {
+          "type": "table",
+          "head": [
+            { "es": "Sesión", "en": "Session" },
+            { "es": "Fecha", "en": "Date" },
+            { "es": "Estado", "en": "Status" },
+            { "es": "Qué consta en el repositorio", "en": "What the repository records" }
+          ],
+          "rows": [
+            ["1", "2026-10-01", { "es": "dictada", "en": "delivered" }, { "es": "Introducción a Astropy y SunPy, FITS y coordenadas, y búsqueda y descarga de datos solares: dos notebooks y datos HMI de continuo, magnetograma y Dopplergrama (Daniel Alberto Rodríguez Torres). Material y grabación ya publicados en el sitio del GOSA.", "en": "Introduction to Astropy and SunPy, FITS and coordinates, and searching and downloading solar data: two notebooks plus HMI continuum, magnetogram and Dopplergram data (Daniel Alberto Rodríguez Torres). Material and recording already published on the GOSA site." }],
+            ["2", "2026-10-08", { "es": "dictada", "en": "delivered" }, { "es": "Flujos y movimientos en la superficie solar: presentación en PDF, dos notebooks, el paquete `pyflowmaps` y una serie de continuo y magnetogramas HMI del 17 de julio de 2011 (Juan Pablo Herrera Moreno). Pendiente terminar de archivar.", "en": "Flows and motions on the solar surface: PDF presentation, two notebooks, the `pyflowmaps` package and a series of HMI continuum and magnetogram frames from 17 July 2011 (Juan Pablo Herrera Moreno). Archiving still to be finished." }],
+            ["3", "2026-10-15", { "es": "próxima", "en": "next" }, { "es": "Recoger presentación, notebooks y datos del expositor antes del jueves. La asignación de expositor no está registrada todavía en el repositorio.", "en": "Collect the speaker's presentation, notebooks and data before Thursday. The speaker assignment is not yet recorded in the repository." }],
+            ["4", "2026-10-22", { "es": "pendiente", "en": "pending" }, "—"],
+            ["5", "2026-10-29", { "es": "pendiente", "en": "pending" }, { "es": "Cierre de la escuela.", "en": "Closing session." }]
+          ],
+          "note": {
+            "es": "El estado de cada sesión se deduce de lo que hay commiteado en el repositorio, no de un calendario interno: por eso las sesiones 3 a 5 figuran sin expositor asignado aquí.",
+            "en": "Each session's status is inferred from what is committed in the repository, not from an internal calendar: hence sessions 3 to 5 appear here with no assigned speaker."
+          }
+        }
+      ]
+    },
+    {
+      "id": "expositores",
+      "title": { "es": "3 · Los siete expositores", "en": "3 · The seven speakers" },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            "Daniel Alberto Rodríguez Torres",
+            "Juan Pablo Herrera Moreno",
+            "Luis Felipe Losada",
+            "Óscar Andrés Calvo Rebellón",
+            "Carlos Alberto Martínez Sibaja",
+            "Milena Andrea Barrios Gallego",
+            "Juan Esteban Agudelo Ortiz"
+          ]
+        },
+        {
+          "type": "prose",
+          "text": [
+            {
+              "es": "Cada expositor tiene su carpeta con la misma estructura de cinco subcarpetas, y unas instrucciones escritas de qué va en cada una: presentación en PDF siempre que se pueda, notebooks que corran **en el entorno de la escuela**, datos con instrucciones si requieren descarga, lecturas y recursos adicionales. Si un recurso lo usan varios, va a material común en vez de copiarse.",
+              "en": "Each speaker has a folder with the same five-subfolder structure, and written instructions on what goes where: a PDF presentation whenever possible, notebooks that run **in the school's environment**, data with instructions if it needs downloading, readings and additional resources. If several speakers use one resource, it goes to common material instead of being copied."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "estructura",
+      "title": { "es": "4 · Cómo está organizado el repositorio", "en": "4 · How the repository is organized" },
+      "blurb": {
+        "es": "La estructura es el producto: si queda ordenada, el repositorio sirve de curso para quien no asistió o para una edición futura.",
+        "en": "The structure is the product: if it stays tidy, the repository works as a course for whoever could not attend, or for a future edition."
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            { "es": "Carpeta", "en": "Folder" },
+            { "es": "Qué contiene", "en": "What it contains" }
+          ],
+          "rows": [
+            ["`00_Organizacion`", { "es": "Instrucciones para expositores, plantillas y comunicaciones.", "en": "Speaker instructions, templates and communications." }],
+            ["`01_Material_por_expositor`", { "es": "Una carpeta por persona, cada una con `01_Presentacion`, `02_Notebooks`, `03_Datos`, `04_Lecturas` y `05_Recursos_adicionales`.", "en": "One folder per person, each with `01_Presentacion`, `02_Notebooks`, `03_Datos`, `04_Lecturas` and `05_Recursos_adicionales`." }],
+            ["`02_Material_comun`", { "es": "Software e instalación, datos compartidos y lecturas generales: lo que usan varias sesiones.", "en": "Software and installation, shared data and general readings: what several sessions use." }],
+            ["`03_Entregables_estudiantes`", { "es": "Ejercicios y resultados, organizados por jueves (`Jueves_01` a `Jueves_05`).", "en": "Exercises and results, organized by Thursday (`Jueves_01` to `Jueves_05`)." }],
+            ["`04_Grabaciones`", { "es": "Grabaciones disponibles y recursos relacionados.", "en": "Available recordings and related resources." }]
+          ]
+        },
+        {
+          "type": "code",
+          "text": "git clone git@github.com:Group-of-Solar-Astrophysics/Escuela-Astrofisica-Solar-2026.git\ncd Escuela-Astrofisica-Solar-2026",
+          "note": {
+            "es": "También se puede descargar como ZIP desde GitHub, que es la vía recomendada para quien no usa git.",
+            "en": "It can also be downloaded as a ZIP from GitHub, which is the recommended route for anyone not using git."
+          }
+        }
+      ]
+    },
+    {
+      "id": "preparacion",
+      "title": { "es": "5 · Preparar el computador antes de la práctica", "en": "5 · Preparing your computer before the hands-on part" },
+      "blocks": [
+        {
+          "type": "prose",
+          "text": [
+            {
+              "es": "La guía de instalación vive en `02_Material_comun/Software_e_instalacion`, en PDF, con instrucciones para Windows y para Linux. Es lo primero que hay que hacer: una sesión práctica se arruina si la mitad de la sala está instalando paquetes.",
+              "en": "The installation guide lives in `02_Material_comun/Software_e_instalacion`, as a PDF, with instructions for Windows and for Linux. It is the first thing to do: a hands-on session is ruined if half the room is installing packages."
+            }
+          ]
+        },
+        {
+          "type": "defs",
+          "items": [
+            { "term": "Miniforge", "def": { "es": "Un instalador mínimo de conda apuntado a conda-forge. Da un Python aislado sin arrastrar una distribución entera.", "en": "A minimal conda installer pointed at conda-forge. It gives an isolated Python without dragging in a whole distribution." } },
+            { "term": "JupyterLab", "def": { "es": "El entorno donde corren los notebooks: código, figuras y texto en el mismo documento.", "en": "The environment the notebooks run in: code, figures and text in one document." } },
+            { "term": "Astropy", "def": { "es": "La librería base de astronomía en Python: FITS, unidades, tiempos y coordenadas.", "en": "The base astronomy library in Python: FITS, units, times and coordinates." } },
+            { "term": "SunPy", "def": { "es": "La capa solar sobre Astropy: busca y descarga datos de los archivos solares, y los maneja como mapas con coordenadas heliográficas.", "en": "The solar layer on top of Astropy: it searches and downloads data from the solar archives and handles it as maps with heliographic coordinates." } },
+            { "term": "SAOImageDS9", "def": { "es": "El visor clásico de imágenes astronómicas FITS. Sirve para mirar un dato antes de escribir una línea de código.", "en": "The classic viewer for astronomical FITS images. Useful for looking at data before writing a line of code." } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pendiente",
+      "title": { "es": "6 · Lo que falta para que el repositorio quede como curso", "en": "6 · What is left for the repository to stand as a course" },
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            { "done": true, "label": { "es": "Programa, expositores, estructura e instrucciones", "en": "Programme, speakers, structure and instructions" }, "detail": { "es": "Repositorio organizado por expositor, material común, entregables y grabaciones, con instrucciones escritas para que cada expositor aporte lo suyo sin preguntar.", "en": "Repository organized by speaker, common material, deliverables and recordings, with written instructions so each speaker can contribute without asking." } },
+            { "done": true, "label": { "es": "Guía de instalación para Windows y Linux", "en": "Installation guide for Windows and Linux" }, "detail": { "es": "En PDF, en material común, cubriendo Miniforge, Python, JupyterLab, Astropy, SunPy y DS9.", "en": "As a PDF, in common material, covering Miniforge, Python, JupyterLab, Astropy, SunPy and DS9." } },
+            { "done": true, "label": { "es": "Sesión 1 archivada y publicada", "en": "Session 1 archived and published" }, "detail": { "es": "Notebooks, datos HMI y grabación, también en el sitio del GOSA.", "en": "Notebooks, HMI data and recording, also on the GOSA site." } },
+            { "done": false, "label": { "es": "Terminar de archivar la sesión 2", "en": "Finish archiving session 2" }, "detail": { "es": "La presentación, los notebooks y los datos ya están; falta cerrar el material y la grabación.", "en": "The presentation, notebooks and data are in; the material and the recording still need closing." } },
+            { "done": false, "label": { "es": "Sesiones 3, 4 y 5", "en": "Sessions 3, 4 and 5" }, "detail": { "es": "Recoger presentación, notebooks y datos de cada expositor **antes** del jueves correspondiente: después es mucho más difícil.", "en": "Collect each speaker's presentation, notebooks and data **before** the corresponding Thursday: afterwards it is much harder." } },
+            { "done": false, "label": { "es": "Entregables de estudiantes y archivo final", "en": "Student deliverables and final archive" }, "detail": { "es": "Ejercicios y resultados por jueves, más las grabaciones completas, de modo que el repositorio funcione sin la escuela en vivo.", "en": "Exercises and results per Thursday, plus the complete recordings, so the repository works without the live school." } }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "note",
+          "title": { "es": "El criterio de éxito", "en": "The success criterion" },
+          "text": [
+            {
+              "es": "Que alguien que no asistió pueda clonar el repositorio en diciembre, instalar el entorno con la guía, y correr los notebooks de las cinco sesiones con los datos incluidos. Si eso funciona, la escuela deja algo; si no, deja cinco tardes.",
+              "en": "That someone who did not attend can clone the repository in December, install the environment with the guide, and run the notebooks of all five sessions with the included data. If that works, the school leaves something behind; if not, it leaves five afternoons."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "glosario",
+      "title": { "es": "7 · Glosario", "en": "7 · Glossary" },
+      "blocks": [
+        {
+          "type": "defs",
+          "items": [
+            { "term": "FITS", "def": { "es": "El formato estándar en astronomía: una cabecera de texto con los metadatos — instrumento, fecha, coordenadas, escala — pegada a los datos. Leer la cabecera es la mitad del trabajo.", "en": "Astronomy's standard format: a text header with the metadata — instrument, date, coordinates, scale — attached to the data. Reading the header is half the work." } },
+            { "term": "SDO/HMI", "def": { "es": "El Helioseismic and Magnetic Imager del Solar Dynamics Observatory: produce continuo, magnetogramas y Dopplergramas del Sol completo cada 45 s. Es la fuente de los datos de práctica.", "en": "The Solar Dynamics Observatory's Helioseismic and Magnetic Imager: it produces full-Sun continuum, magnetograms and Dopplergrams every 45 s. It is the source of the practice data." } },
+            { "term": { "es": "Imagen de continuo", "en": "Continuum image" }, "def": { "es": "El brillo de la fotosfera fuera de las líneas espectrales: es donde se ven las manchas y la granulación.", "en": "The photosphere's brightness outside the spectral lines: where sunspots and granulation are seen." } },
+            { "term": { "es": "Magnetograma", "en": "Magnetogram" }, "def": { "es": "Mapa del campo magnético a lo largo de la línea de visión, deducido de la polarización de una línea espectral.", "en": "A map of the magnetic field along the line of sight, inferred from the polarization of a spectral line." } },
+            { "term": { "es": "Dopplergrama", "en": "Dopplergram" }, "def": { "es": "Mapa de la velocidad del plasma hacia o desde el observador, medida por el corrimiento Doppler de una línea.", "en": "A map of the plasma's velocity toward or away from the observer, measured by a line's Doppler shift." } },
+            { "term": { "es": "LCT (seguimiento de correlación local)", "en": "LCT (local correlation tracking)" }, "def": { "es": "Técnica para deducir velocidades horizontales comparando dos imágenes consecutivas: se busca, para cada ventana pequeña, el desplazamiento que mejor correlaciona. Es lo que implementa `pyflowmaps`.", "en": "A technique to infer horizontal velocities by comparing two consecutive images: for each small window, the shift with the best correlation is found. It is what `pyflowmaps` implements." } },
+            { "term": "MHD", "def": { "es": "Magnetohidrodinámica: la descripción del plasma como un fluido acoplado al campo magnético. Es el marco de las ondas y oscilaciones solares.", "en": "Magnetohydrodynamics: the description of plasma as a fluid coupled to the magnetic field. It is the frame for solar waves and oscillations." } },
+            { "term": "HPC", "def": { "es": "Computación de alto rendimiento: correr simulaciones en clústeres con cientos o miles de núcleos, con un planificador que reparte el trabajo.", "en": "High-performance computing: running simulations on clusters with hundreds or thousands of cores, with a scheduler distributing the work." } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "referencias",
+      "title": { "es": "8 · Herramientas y referencias de la escuela", "en": "8 · The school's tools and references" },
+      "blocks": [
+        {
+          "type": "refs",
+          "items": [
+            {
+              "cite": "SunPy",
+              "venue": { "es": "paquete de física solar en Python", "en": "solar physics Python package" },
+              "what": { "es": "Búsqueda y descarga desde los archivos solares, y manejo de observaciones como mapas con coordenadas físicas.", "en": "Searching and downloading from the solar archives, and handling observations as maps with physical coordinates." },
+              "use": { "es": "Es el eje de las sesiones de datos: con SunPy se baja una observación y se la ubica en el Sol en pocas líneas.", "en": "The backbone of the data sessions: with SunPy an observation is downloaded and placed on the Sun in a few lines." },
+              "links": [{ "href": "https://sunpy.org/", "label": "sunpy.org" }]
+            },
+            {
+              "cite": "Astropy",
+              "venue": { "es": "librería base de astronomía", "en": "core astronomy library" },
+              "what": { "es": "FITS, unidades físicas, tiempos y transformaciones de coordenadas.", "en": "FITS, physical units, times and coordinate transformations." },
+              "use": { "es": "El cimiento sobre el que descansa todo el material práctico, SunPy incluido.", "en": "The foundation all the hands-on material rests on, SunPy included." },
+              "links": [{ "href": "https://www.astropy.org/", "label": "astropy.org" }]
+            },
+            {
+              "cite": "pyflowmaps",
+              "venue": { "es": "LCT, ILCT y DAVE4VM en Python", "en": "LCT, ILCT and DAVE4VM in Python" },
+              "what": { "es": "Infiere velocidades horizontales y campos de divergencia a partir de filtrogramas de intensidad y de magnetogramas, con tres algoritmos.", "en": "Infers horizontal velocities and divergence fields from intensity filtergrams and magnetograms, with three algorithms." },
+              "use": { "es": "Es la herramienta de la sesión de flujos y movimientos superficiales; viene incluida junto a los notebooks y los datos HMI de práctica.", "en": "The tool for the session on flows and surface motions; it ships alongside the notebooks and the HMI practice data." },
+              "links": [{ "href": "https://github.com/Hypnus1803/pyflowmaps", "label": "GitHub" }]
+            },
+            {
+              "cite": "November & Simon (1988); Welsch et al. (2004); Schuck (2008)",
+              "venue": { "es": "los métodos detrás de pyflowmaps", "en": "the methods behind pyflowmaps" },
+              "what": { "es": "LCT (November & Simon), ILCT combinando LCT con la ecuación de inducción (Welsch et al.) y DAVE4VM (Schuck): tres formas de sacar un campo de velocidades de imágenes consecutivas.", "en": "LCT (November & Simon), ILCT combining LCT with the induction equation (Welsch et al.) and DAVE4VM (Schuck): three ways to extract a velocity field from consecutive images." },
+              "use": { "es": "Son las referencias que hay que citar si un estudiante usa esos mapas de flujo en su propio trabajo, y la lectura recomendada de esa sesión.", "en": "These are the references to cite if a student uses those flow maps in their own work, and the recommended reading for that session." },
+              "links": [
+                { "href": "https://ui.adsabs.harvard.edu/abs/1988ApJ...333..427N/abstract", "label": "November & Simon 1988" },
+                { "href": "https://ui.adsabs.harvard.edu/abs/2004ApJ...610.1148W/abstract", "label": "Welsch et al. 2004" },
+                { "href": "https://ui.adsabs.harvard.edu/abs/2008ApJ...683.1134S/abstract", "label": "Schuck 2008" }
+              ]
+            },
+            {
+              "cite": "SAOImageDS9",
+              "venue": { "es": "visor de imágenes FITS", "en": "FITS image viewer" },
+              "what": { "es": "Visor interactivo de imágenes astronómicas, con escalas, regiones y superposiciones.", "en": "An interactive viewer for astronomical images, with scales, regions and overlays." },
+              "use": { "es": "Se usa para inspeccionar los datos antes de analizarlos; está en la guía de instalación de la escuela.", "en": "Used to inspect the data before analysing it; it is in the school's installation guide." },
+              "links": [{ "href": "https://ds9.si.edu/", "label": "ds9.si.edu" }]
+            },
+            {
+              "cite": { "es": "Repositorio de la escuela y página oficial", "en": "School repository and official page" },
+              "venue": "Group-of-Solar-Astrophysics · GOSA",
+              "what": { "es": "Todo el material, y la página pública con el programa, las inscripciones y las grabaciones.", "en": "All the material, and the public page with the programme, registration and recordings." },
+              "use": { "es": "El repositorio es el archivo; la página del GOSA es la cara pública y se actualiza tras cada sesión.", "en": "The repository is the archive; the GOSA page is the public face and is updated after each session." },
+              "links": [
+                { "href": "https://github.com/Group-of-Solar-Astrophysics/Escuela-Astrofisica-Solar-2026", "label": "GitHub" },
+                { "href": "https://astronomiaoan.co/gosa/escuela.html", "label": "astronomiaoan.co" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

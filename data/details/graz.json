@@ -1,0 +1,547 @@
+{
+  "id": "graz",
+  "lede": {
+    "es": "Casi todos los modelos de fulguraciones solares calientan cada hebra de plasma una sola vez, partiendo de una atmósfera en reposo. Cuando una fulguración dispara varios pulsos de electrones sobre el mismo bucle, ese supuesto deja de ser evidente: el segundo pulso llega a una atmósfera que el primero ya cambió. Este proyecto no pregunta si existe esa memoria — se sabe que existe — sino **cuánto error se comete al ignorarla**, medido contra una incertidumbre fijada antes de mirar el resultado.",
+    "en": "Almost every solar-flare model heats each plasma strand once, starting from an atmosphere at rest. When a flare fires several electron pulses at the same loop, that assumption stops being obvious: the second pulse arrives at an atmosphere the first one already changed. This project does not ask whether that memory exists — it does — but **how large an error is made by ignoring it**, measured against an uncertainty fixed before looking at the result."
+  },
+  "sections": [
+    {
+      "id": "pregunta",
+      "title": { "es": "1 · La pregunta, exactamente como está escrita", "en": "1 · The question, exactly as written" },
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "note",
+          "title": { "es": "Pregunta de investigación", "en": "Research question" },
+          "text": [
+            {
+              "es": "**¿Cuándo tratar cada pulso de electrones como si golpeara la atmósfera inicial relajada tergiversa la respuesta a un pulso posterior por más de las incertidumbres del haz, numéricas y observacionales de un diagnóstico elegido?**",
+              "en": "**When does treating each electron pulse as if it struck the initial, relaxed atmosphere misrepresent the response to a later pulse by more than the beam, numerical and observational uncertainties of a chosen diagnostic?**"
+            }
+          ]
+        },
+        {
+          "type": "prose",
+          "text": [
+            {
+              "es": "Cada palabra de esa frase hace trabajo. «Tergiversa» exige una medida del error, no una impresión. «Más de las incertidumbres» exige escribir esas incertidumbres antes de medir. «De un diagnóstico elegido» admite que la respuesta depende de qué se observe: la memoria puede ser enorme en la densidad del ápice y despreciable en una línea cromosférica, y ambas cosas serían ciertas a la vez.",
+              "en": "Every word in that sentence does work. “Misrepresent” demands a measure of the error, not an impression. “More than the uncertainties” demands writing those uncertainties down before measuring. “Of a chosen diagnostic” concedes that the answer depends on what is observed: the memory can be large in apex density and negligible in a chromospheric line, and both would be true at once."
+            },
+            {
+              "es": "El resultado buscado es un número con nombre: τ*, el tiempo de espera entre pulsos por debajo del cual la aproximación de pulsos independientes falla, y su dependencia del flujo del haz.",
+              "en": "The result sought is a number with a name: τ*, the waiting time between pulses below which the independent-pulse approximation fails, and how it depends on beam flux."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "por-que",
+      "title": { "es": "2 · Por qué esto no es obvio", "en": "2 · Why this is not obvious" },
+      "blurb": {
+        "es": "El supuesto que se pone a prueba es tan común que casi nunca se enuncia.",
+        "en": "The assumption under test is so common that it is almost never stated."
+      },
+      "blocks": [
+        {
+          "type": "prose",
+          "text": [
+            {
+              "es": "Los modelos multihebra reproducen una fulguración sumando muchos bucles finos, cada uno calentado una vez. Rubio da Costa et al. (2016) lo dice literalmente: cada ráfaga es una hebra nueva y «cada simulación nueva empieza desde la atmósfera inicial». La independencia entre ráfagas es un **punto de partida, no un resultado medido**.",
+              "en": "Multithread models reproduce a flare by adding many thin loops, each heated once. Rubio da Costa et al. (2016) say it literally: each burst is a new thread and “each new simulation starts from the initial atmosphere”. Independence between bursts is a **starting point, not a measured result**."
+            },
+            {
+              "es": "Que la atmósfera recuerda ya está publicado. Kennedy et al. (2015) muestran que la altura de frenado de un electrón de 50 keV pasa de ≈1.1 Mm a ≈0.75 Mm y luego a ≈5 Mm a lo largo de una misma fulguración: dos efectos que compiten — la cromosfera se comprime y la corona se densifica — y el signo depende del momento. Bakke et al. (2022) y Polito et al. (2018) muestran el mismo mecanismo como **condición inicial**: un bucle más denso frena más haz en la corona.",
+              "en": "That the atmosphere remembers is already published. Kennedy et al. (2015) show the stopping height of a 50 keV electron going from ≈1.1 Mm to ≈0.75 Mm and then to ≈5 Mm within one flare: two competing effects — the chromosphere compresses, the corona densifies — with the sign depending on when. Bakke et al. (2022) and Polito et al. (2018) show the same mechanism as an **initial condition**: a denser loop stops more of the beam in the corona."
+            },
+            {
+              "es": "Lo que no existe es la medida del error. Nadie ha puesto un control pareado al lado: el mismo pulso de prueba sobre la atmósfera relajada y sobre la atmósfera golpeada, con la diferencia juzgada contra una incertidumbre escrita de antemano. Ese hueco es el proyecto.",
+              "en": "What does not exist is the measurement of the error. Nobody has set a paired control beside it: the same test pulse on the relaxed atmosphere and on the struck atmosphere, with the difference judged against an uncertainty written in advance. That gap is the project."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "experimento",
+      "title": { "es": "3 · El experimento central: cuatro ramas pareadas", "en": "3 · The core experiment: four paired branches" },
+      "blurb": {
+        "es": "Todas las ramas arrancan de la misma atmósfera, y el pulso 1 y el pulso de prueba son idénticos entre ramas. Lo único que cambia es la historia.",
+        "en": "All branches start from the same atmosphere, and pulse 1 and the test pulse are identical across branches. The only thing that changes is the history."
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            { "es": "Rama", "en": "Branch" },
+            { "es": "Qué se simula", "en": "What is simulated" },
+            { "es": "Para qué sirve", "en": "What it is for" }
+          ],
+          "rows": [
+            [
+              "A0",
+              { "es": "Sin haz. El bucle solo evoluciona.", "en": "No beam. The loop just evolves." },
+              { "es": "Línea base: separa la deriva numérica y la evolución propia del bucle de cualquier efecto del haz.", "en": "Baseline: separates numerical drift and the loop's own evolution from any beam effect." }
+            ],
+            [
+              "A1",
+              { "es": "Solo el pulso 1.", "en": "Pulse 1 only." },
+              { "es": "Dice en qué estado deja el pulso 1 la atmósfera, y contra A0 dice si ya relajó.", "en": "Says what state pulse 1 leaves the atmosphere in, and against A0 whether it has relaxed." }
+            ],
+            [
+              "B0",
+              { "es": "Solo el pulso de prueba *b*, sobre la atmósfera relajada.", "en": "Only the test pulse *b*, on the relaxed atmosphere." },
+              { "es": "Es exactamente lo que supone un modelo de pulsos independientes.", "en": "This is exactly what an independent-pulse model assumes." }
+            ],
+            [
+              "B1",
+              { "es": "Pulso 1, espera τ, y luego el pulso de prueba *b*.", "en": "Pulse 1, waiting time τ, then the test pulse *b*." },
+              { "es": "Es lo que de verdad pasa en un bucle golpeado dos veces.", "en": "This is what actually happens in a loop struck twice." }
+            ]
+          ]
+        },
+        {
+          "type": "code",
+          "text": "M_D(τ, t′) = [ D(B1) − D(A1) ] − [ D(B0) − D(A0) ]      a igual tiempo t′ tras el inicio de b",
+          "note": {
+            "es": "M_D es el error de la aproximación de pulsos independientes para el diagnóstico D. Las dos restas quitan, respectivamente, el estado que dejó el pulso 1 y la evolución del bucle sin haz, así que lo que queda es solo el efecto de la historia sobre la respuesta al pulso nuevo.",
+            "en": "M_D is the error of the independent-pulse approximation for diagnostic D. The two subtractions remove, respectively, the state left by pulse 1 and the beamless evolution of the loop, so what remains is only the effect of history on the response to the new pulse."
+          }
+        },
+        {
+          "type": "defs",
+          "items": [
+            {
+              "term": { "es": "Regla de decisión", "en": "Decision rule" },
+              "def": {
+                "es": "La aproximación falla donde **|M_D| > k·σ_tot**. σ_tot combina la incertidumbre numérica, la del haz y la observacional, y se fija **antes** de calcular ningún contraste. Sin ese orden el umbral se puede elegir para que el resultado salga.",
+                "en": "The approximation fails where **|M_D| > k·σ_tot**. σ_tot combines the numerical, beam and observational uncertainty, and is fixed **before** any contrast is computed. Without that order the threshold can be chosen so the result comes out."
+              }
+            },
+            {
+              "term": { "es": "Criterio de relajación", "en": "Relaxation criterion" },
+              "def": {
+                "es": "Si el pulso 1 ya relajó se juzga comparando **A1 contra A0**, no exigiendo que M_D tienda a cero. Pedir M_D → 0 sería circular: usaría el resultado para validar su propia premisa.",
+                "en": "Whether pulse 1 has relaxed is judged by comparing **A1 against A0**, not by requiring M_D to tend to zero. Requiring M_D → 0 would be circular: it would use the result to validate its own premise."
+              }
+            },
+            {
+              "term": { "es": "Reinicio en vez de dos corridas", "en": "Restart instead of two runs" },
+              "def": {
+                "es": "B1 no se corre desde cero: se reinicia del perfil de A1 justo antes de t_k. Así B1 y A1 comparten una trayectoria en vez de ser dos corridas que *deberían* coincidir. El reinicio cuesta un 2% del |M| pico en la medida de emisión y un 13% de su contraste en la columna coronal, y ese costo entra en el presupuesto de error.",
+                "en": "B1 is not run from scratch: it restarts from the A1 profile just before t_k. B1 and A1 then share one trajectory instead of being two runs that *ought* to agree. The restart costs 2% of the peak |M| for the emission measure and 13% of its contrast for the coronal column, and that cost enters the error budget."
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "parametros",
+      "title": { "es": "4 · Parámetros del piloto, con números", "en": "4 · Pilot parameters, with numbers" },
+      "blocks": [
+        {
+          "type": "kv",
+          "items": [
+            { "k": { "es": "Solver de la atmósfera", "en": "Atmosphere solver" }, "v": { "es": "HYDRAD, incluido en `vendor/` bajo licencia MIT, compilado con calentamiento por haz", "en": "HYDRAD, vendored under its MIT licence, built with beam heating" } },
+            { "k": { "es": "Flujo del haz", "en": "Beam flux" }, "v": "F ≈ 1.3×10¹⁰ erg cm⁻² s⁻¹" },
+            { "k": { "es": "Duración del pulso", "en": "Pulse duration" }, "v": { "es": "30 s, con tablas de pulso rampado", "en": "30 s, with ramped pulse tables" } },
+            { "k": { "es": "Longitud del bucle", "en": "Loop length" }, "v": { "es": "26 Mm y 60 Mm (dos dominios)", "en": "26 Mm and 60 Mm (two domains)" } },
+            { "k": { "es": "Tiempos de espera τ", "en": "Waiting times τ" }, "v": { "es": "10, 30 y 60 s corren limpios; 120 s no", "en": "10, 30 and 60 s run cleanly; 120 s does not" } },
+            { "k": { "es": "Factor de seguridad de conducción", "en": "Conduction safety factor" }, "v": { "es": "0.2 en vez del valor por defecto: es lo que cura la inestabilidad numérica", "en": "0.2 instead of the default: this is what cures the numerical instability" } },
+            { "k": { "es": "Cromosfera", "en": "Chromosphere" }, "v": { "es": "8 Mm en vez de los 5 Mm que trae HYDRAD, para ampliar la ventana de conservación de masa", "en": "8 Mm instead of the 5 Mm HYDRAD ships, to widen the mass-conservation window" } },
+            { "k": { "es": "Ventana de análisis", "en": "Analysis window" }, "v": { "es": "89 s completos; con la cromosfera delgada la masa solo se conserva ~50 s tras un pulso de 30 s", "en": "the full 89 s; with the thin chromosphere mass is conserved only ~50 s after a 30 s pulse" } },
+            { "k": { "es": "Costo de cómputo", "en": "Compute cost" }, "v": { "es": "≈2 h en 6 núcleos por juego de ramas", "en": "≈2 h on 6 cores per branch set" } },
+            { "k": { "es": "Diagnósticos usados", "en": "Diagnostics used" }, "v": { "es": "proxies coronales: temperatura pesada por medida de emisión, medida de emisión caliente, temperatura y densidad del ápice, columna coronal", "en": "coronal proxies: EM-weighted temperature, hot emission measure, apex temperature and density, coronal column" } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "como-corre",
+      "title": { "es": "5 · Cómo se ejecuta, pieza por pieza", "en": "5 · How it runs, piece by piece" },
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            { "es": "Componente", "en": "Component" },
+            { "es": "Qué hace", "en": "What it does" }
+          ],
+          "rows": [
+            ["`src/experiments.py`", { "es": "Escribe las tablas de haz de las cuatro ramas (y conserva la matriz E1–E5 de las extensiones).", "en": "Writes the beam tables of the four branches (and keeps the E1–E5 matrix for the extensions)." }],
+            ["`src/memory_contrast.py`", { "es": "Calcula M_D, σ_tot, la regla kσ, τ* y la comprobación de relajación.", "en": "Computes M_D, σ_tot, the kσ rule, τ* and the relaxation check." }],
+            ["`scripts/build_hydrad_scratch.sh`", { "es": "Copia `vendor/HYDRAD` a un directorio de trabajo y lo compila con los ajustes numéricos del caso.", "en": "Copies `vendor/HYDRAD` to a scratch directory and builds it with the case's numerical settings." }],
+            ["`scripts/hydrad_paired_branches.py`", { "es": "Corre A0, B0 y A1, y reinicia B1 desde A1 para cada tiempo de espera, en paralelo. Escribe relajación en t_k, error de reinicio, ventana de conservación de masa y M_D.", "en": "Runs A0, B0 and A1, then restarts B1 from A1 for every waiting time, in parallel. Writes relaxation at t_k, restart error, mass-conservation window and M_D." }],
+            ["`scripts/hydrad_numerical_error.py`, `hydrad_beam_error.py`, `pilot_uncertainty.py`", { "es": "Las tres patas del presupuesto de error: variación numérica, variación del haz y el mapa de incertidumbre resultante.", "en": "The three legs of the error budget: numerical variation, beam variation and the resulting uncertainty map." }],
+            ["`src/beam_tables.py`, `src/radyn_ftab.py`", { "es": "Codifican el haz para HYDRAD y para RADYN, con comprobaciones de energía.", "en": "Encode the beam for HYDRAD and for RADYN, with energy checks." }],
+            ["`src/fp_atmosphere.py`", { "es": "Lector y escritor de archivos de atmósfera del solver Fokker–Planck, validado contra los ejemplos del propio solver.", "en": "Reader/writer for the Fokker–Planck solver's atmosphere files, validated against the solver's own examples." }]
+          ],
+          "note": {
+            "es": "Los tests de Python cubren las tablas, las ramas y el código de decisión. **No** validan un solver de producción, ni un benchmark publicado, ni una firma de memoria detectada.",
+            "en": "The Python tests cover the tables, the branches and the decision code. They do **not** validate a production solver, a published benchmark, or a detected memory signature."
+          }
+        },
+        {
+          "type": "code",
+          "text": "scripts/build_hydrad_scratch.sh ../hydrad-scratch --set SAFETY_CONDUCTION=0.2\n.venv/bin/python scripts/hydrad_paired_branches.py ../hydrad-scratch --length-cm 6.0e9 --taus 10 30 --label L60",
+          "note": {
+            "es": "`--analyze-only` recalcula el análisis sin volver a correr; `--sigma sigma.json`, escrito antes de la corrida, aplica la regla de decisión.",
+            "en": "`--analyze-only` recomputes the analysis without rerunning; `--sigma sigma.json`, written before the run, applies the decision rule."
+          }
+        }
+      ]
+    },
+    {
+      "id": "resultados",
+      "title": { "es": "6 · Qué contestó el piloto (revisión R1, 12 de octubre)", "en": "6 · What the pilot answered (R1 review, 12 October)" },
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            { "es": "Pregunta de la revisión", "en": "Review question" },
+            { "es": "Respuesta del piloto", "en": "What the pilot answered" }
+          ],
+          "rows": [
+            [
+              { "es": "¿Corren limpias las cuatro ramas?", "en": "Do the four branches run cleanly?" },
+              { "es": "Sí para τ = 10, 30 y 60 s sobre la ventana completa de 89 s. τ = 120 s no: su rama B1 desarrolla una oscilación de escala de malla en cuanto arranca el pulso de prueba.", "en": "Yes for τ = 10, 30 and 60 s over the full 89 s window. τ = 120 s does not: its B1 branch develops a grid-scale oscillation as soon as the test pulse starts." }
+            ],
+            [
+              { "es": "¿Son idénticos los estados previos al pulso de prueba?", "en": "Are the pre-test states identical?" },
+              { "es": "Por construcción, porque B1 se reinicia desde A1. El costo del reinicio es 2% del |M| pico en la medida de emisión y 13% de su contraste en la columna coronal.", "en": "By construction, because B1 restarts from A1. The restart costs 2% of the peak |M| for the emission measure and 13% of its contrast for the coronal column." }
+            ],
+            [
+              { "es": "¿Hay contraste por encima de σ_num?", "en": "Is there contrast above σ_num?" },
+              { "es": "Sí, en cuatro proxies: 21 σ_num en la temperatura pesada por medida de emisión, y 9 σ_num en la medida de emisión caliente, en la temperatura del ápice y en su densidad.", "en": "Yes, in four proxies: 21 σ_num for the EM-weighted temperature, and 9 σ_num for the hot emission measure, the apex temperature and its density." }
+            ],
+            [
+              { "es": "¿Se puede acotar τ* con el piloto?", "en": "Can the pilot bound τ*?" },
+              { "es": "No por arriba. El criterio del 5% falla en todos los τ muestreados, así que τ* > 120 s para este bucle y este haz; el piloto no lo acota.", "en": "Not from above. The 5% criterion fails at every sampled τ, so τ* > 120 s for this loop and this beam; the pilot does not bound it." }
+            ],
+            [
+              { "es": "¿Qué ruta se sigue?", "en": "Which route is taken?" },
+              { "es": "Continuar el mapa central con HYDRAD y proxies coronales, y dejar la compuerta de RADYN como tarea paralela en vez de prerrequisito.", "en": "Continue the core map with HYDRAD and coronal proxies, keeping the RADYN gate as a parallel task rather than a prerequisite." }
+            ]
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "ok",
+          "title": { "es": "Lo que esto sí permite decir", "en": "What this does allow saying" },
+          "text": [
+            {
+              "es": "Que el contraste existe, es grande comparado con la variación numérica medida, y tiene un mecanismo físico identificable. Eso es lo que justifica gastar tiempo de cómputo en el mapa τ × F.",
+              "en": "That the contrast exists, is large compared with the measured numerical variation, and has an identifiable physical mechanism. That is what justifies spending compute on the τ × F map."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "limites",
+      "title": { "es": "7 · Los límites, dichos sin suavizar", "en": "7 · The limits, stated plainly" },
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "warn",
+          "title": { "es": "El presupuesto de error está incompleto, y eso bloquea el resultado", "en": "The error budget is incomplete, and that blocks the result" },
+          "items": [
+            {
+              "es": "Solo se varió el paso de conducción, **no la resolución espacial**: cada margen en σ es por tanto una cota superior, no una medida.",
+              "en": "Only the conduction time step was varied, **not the spatial resolution**: every σ margin is therefore an upper bound, not a measurement."
+            },
+            {
+              "es": "Los σ se midieron **después** de calcular los contrastes, lo que invierte el orden que el propio plan exige. Mientras eso siga así, ningún contraste cuenta como resultado pre-registrado: son exploratorios.",
+              "en": "The σ values were measured **after** computing the contrasts, inverting the order the plan itself requires. Until that is fixed, no contrast counts as a pre-registered result: they are exploratory."
+            },
+            {
+              "es": "τ* no está acotado por arriba. Para acotarlo hay que extender la malla más allá de 120 s o bajar a un pulso 1 más débil que relaje dentro de la ventana.",
+              "en": "τ* is not bounded from above. Bounding it requires extending the grid past 120 s or moving to a weaker pulse 1 that relaxes within the window."
+            }
+          ]
+        },
+        {
+          "type": "prose",
+          "text": [
+            {
+              "es": "**Lo que esta ruta no puede entregar.** Con HYDRAD y proxies coronales no hay líneas cromosféricas, que es donde están las observaciones más directas (Hα, Mg II k). Para eso hace falta RADYN con transporte Fokker–Planck, y esa compuerta tiene seis puntos y ninguno está hecho: falta compilador Fortran, falta la librería CDF de la NASA, no se ha reproducido un modelo F-CHROMA y la licencia está sin confirmar. La distribución se ha leído, no ejecutado.",
+              "en": "**What this route cannot deliver.** With HYDRAD and coronal proxies there are no chromospheric lines, which is where the most direct observations live (Hα, Mg II k). That needs RADYN with Fokker–Planck transport, and that gate has six items, none of them done: no Fortran compiler, no NASA CDF library, no F-CHROMA model reproduced and the licence unconfirmed. The distribution has been read, not run."
+            },
+            {
+              "es": "**Un resultado nulo no es gratis.** Si no aparece contraste, eso solo acota la aproximación como adecuada si las incertidumbres estaban escritas antes. Un fallo del solver, o «no se ve nada» sin σ declarada, no establece nada.",
+              "en": "**A null result is not free.** If no contrast appears, that bounds the approximation as adequate only if the uncertainties were written down first. A solver failure, or “nothing visible” without a stated σ, establishes nothing."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "historia",
+      "title": { "es": "8 · Cómo la pregunta llegó a ser esta", "en": "8 · How the question became this one" },
+      "blurb": {
+        "es": "En tres semanas la pregunta se redefinió cinco veces, cada vez por un motivo concreto. Hay una página aparte con el árbol completo.",
+        "en": "In three weeks the question was redefined five times, each time for a concrete reason. There is a separate page with the full tree."
+      },
+      "blocks": [
+        {
+          "type": "timeline",
+          "items": [
+            {
+              "state": "dropped", "tag": "v1", "when": "2026-09-18 → 10-01",
+              "title": { "es": "¿Qué tan grande es la memoria cromosférica tras un segundo pulso?", "en": "How large is the chromospheric memory after a second pulse?" },
+              "body": { "es": "Descartada: la respuesta se conocía de antemano y ya estaba publicada (Kennedy et al. 2015).", "en": "Dropped: the answer was known in advance and already published (Kennedy et al. 2015)." }
+            },
+            {
+              "state": "dropped", "tag": "v2", "when": "2026-10-02",
+              "title": { "es": "¿Cuánto sesga esa memoria los parámetros de electrones inferidos con STIX?", "en": "How much does that memory bias the electron parameters inferred with STIX?" },
+              "body": { "es": "Se probó con un modelo de juguete inyectar–reinferir y un test de columna. Efecto real pero pequeño y condicionado a fulguraciones brillantes: como artículo propio sería una nota metodológica.", "en": "Tested with a toy inject–reinfer model and a column test. Real but small and conditional on bright flares: as a paper of its own it would be a methods note." }
+            },
+            {
+              "state": "dropped", "tag": "v3", "when": "2026-10-03",
+              "title": { "es": "¿Se pueden separar memoria, corriente de retorno y aceleración por la evolución temporal del espectro?", "en": "Can memory, return current and acceleration be separated by the spectrum's time evolution?" },
+              "body": { "es": "Sin control espacial, el tiempo y la energía ya depositada son colineales: no se pueden separar.", "en": "Without spatial control, time and already-deposited energy are collinear: they cannot be separated." }
+            },
+            {
+              "state": "dropped", "tag": "v4", "when": "2026-10-04 → 10-05",
+              "title": { "es": "¿Los pulsos posteriores reutilizan los bucles ya llenos?", "en": "Do later pulses re-use the already filled loops?" },
+              "body": { "es": "Cayó en un punto técnico: la medida de emisión por sí sola no acota por abajo la columna a lo largo de los caminos de los electrones cuando la fuente no está resuelta y no es uniforme.", "en": "Fell on a technical point: emission measure alone does not bound the column from below along the electron paths when the source is unresolved and nonuniform." }
+            },
+            {
+              "state": "kept", "tag": "v5 → v5.1", "when": "2026-10-05",
+              "title": { "es": "¿Cuándo falla la aproximación de pulsos independientes?", "en": "When does the independent-pulse approximation fail?" },
+              "body": { "es": "La versión que quedó, estrechada a su núcleo tras una revisión crítica interna: cuatro ramas pareadas, el contraste M_D y dos candados — la regla kσ y la relajación juzgada por A1 contra A0.", "en": "The version that stayed, narrowed to its core after an internal critical review: four paired branches, the contrast M_D and two locks — the kσ rule and relaxation judged by A1 against A0." }
+            },
+            {
+              "state": "current", "tag": { "es": "piloto", "en": "pilot" }, "when": "2026-10-05 → 10-13",
+              "title": { "es": "Piloto en HYDRAD, revisión R1 y lectura de los textos completos más cercanos", "en": "HYDRAD pilot, R1 review and reading of the closest full texts" },
+              "body": { "es": "Dos ajustes numéricos lo hicieron viable, el contraste superó σ_num en cuatro proxies, y el 13 de octubre se cerró la compuerta 0 leyendo los textos completos de Cho et al. 2023 y Kerr et al. 2024.", "en": "Two numerical adjustments made it viable, the contrast exceeded σ_num in four proxies, and on 13 October gate 0 was closed by reading the full texts of Cho et al. 2023 and Kerr et al. 2024." }
+            }
+          ]
+        },
+        {
+          "type": "prose",
+          "text": [
+            {
+              "es": "El detalle de cada descarte, las rutas de solver y la tabla completa de la revisión R1 están en el [árbol de decisiones](graz-decisiones.html).",
+              "en": "The detail of each drop, the solver routes and the full R1 review table are in the [decision tree](graz-decisiones.html)."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "posicion",
+      "title": { "es": "9 · Qué se puede reclamar como aporte", "en": "9 · What can be claimed as the contribution" },
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "note",
+          "title": { "es": "Frase de posicionamiento, escrita el 13 de octubre de 2026", "en": "Positioning sentence, written 13 October 2026" },
+          "text": [
+            {
+              "es": "Ya se han simulado dos episodios de calentamiento separados, a flujos de nanofulguración y sin control de atmósfera fresca (Cho et al. 2023); se sabe que un precalentamiento débil cambia una respuesta fuerte posterior, sin tiempo de espera ni control pareado (Kerr et al. 2024); y se sabe que una hebra más densa, ya calentada, frena más haz en la corona, como condición inicial (Polito et al. 2018; Bakke et al. 2022). Lo que este trabajo añade es **la medida del error mismo**: un contraste de ramas pareadas, a flujos de fulguración, entre la respuesta de un bucle golpeado de nuevo y la de uno relajado, en función del tiempo de espera y del flujo del haz, juzgado contra incertidumbres fijadas antes de calcular el contraste.",
+              "en": "Two separated heating episodes have been simulated before, at nanoflare fluxes and without a fresh-atmosphere control (Cho et al. 2023); weak preheating is known to change a later strong response, without a waiting time or a paired control (Kerr et al. 2024); and a denser, previously heated strand is known to stop more of a beam in the corona, as an initial condition (Polito et al. 2018; Bakke et al. 2022). What this work adds is **the measurement of the error itself**: a paired-branch contrast, at flare fluxes, between the response of a re-struck loop and the response of a relaxed one, as a function of waiting time and beam flux, judged against uncertainties fixed before the contrast is computed."
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "items": [
+            { "es": "**No es novedoso por sí solo:** simular dos episodios de calentamiento; mostrar que el precalentamiento cambia la deposición o una línea; usar tablas STIX → RHD; usar Fokker–Planck; publicar un pipeline.", "en": "**Not novel by itself:** simulating two heating episodes; showing that preheating changes deposition or a line; STIX → RHD input tables; using Fokker–Planck; releasing a pipeline." },
+            { "es": "**Aporte incremental:** el mapa de ramas pareadas del error de la aproximación, contra τ y contra el flujo, con su origen físico y juzgado contra incertidumbres fijadas de antemano.", "en": "**Incremental contribution:** the paired-branch map of the approximation's error, against τ and flux, with its physical origin, judged against uncertainties fixed in advance." },
+            { "es": "**Resultado más fuerte (extensiones):** pulsos observados que golpean de nuevo dentro de los τ donde la aproximación falla, o un diagnóstico que separe historias con los mismos datos de STIX.", "en": "**Stronger result (extensions):** observed pulses struck again within the waiting times where the approximation fails, or a diagnostic that separates histories given the same STIX data." },
+            { "es": "**Prohibido decir:** «el primer estudio de este tipo». El barrido exhaustivo en ADS está pendiente y Litwicka et al. 2025 sigue sin leerse (HTTP 403 en IOP el 2 y el 13 de octubre; no hay preprint en arXiv).", "en": "**Not to be said:** “the first study of its kind”. The exhaustive ADS sweep is outstanding and Litwicka et al. 2025 remains unread (HTTP 403 at IOP on 2 and 13 October; no arXiv preprint)." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "glosario",
+      "title": { "es": "10 · Glosario: qué significa cada término", "en": "10 · Glossary: what each term means" },
+      "blocks": [
+        {
+          "type": "defs",
+          "items": [
+            { "term": { "es": "Aproximación de pulsos independientes", "en": "Independent-pulse approximation" }, "def": { "es": "Tratar cada pulso de electrones como si golpeara la atmósfera inicial en reposo, ignorando lo que dejaron los pulsos anteriores. Es el supuesto bajo prueba.", "en": "Treating each electron pulse as if it struck the initial atmosphere at rest, ignoring what earlier pulses left behind. It is the assumption under test." } },
+            { "term": { "es": "Memoria atmosférica", "en": "Atmospheric memory" }, "def": { "es": "El estado — densidad, temperatura, ionización — que un pulso deja y que condiciona la respuesta al siguiente.", "en": "The state — density, temperature, ionization — a pulse leaves behind, which conditions the response to the next one." } },
+            { "term": "M_D(τ, t′)", "def": { "es": "El contraste entre las cuatro ramas para un diagnóstico D: el error que se comete al suponer independencia.", "en": "The contrast between the four branches for a diagnostic D: the error made by assuming independence." } },
+            { "term": "σ_tot, k·σ_tot", "def": { "es": "La incertidumbre total (numérica + haz + observacional) y el umbral de decisión construido con ella. Se escriben antes de medir.", "en": "The total uncertainty (numerical + beam + observational) and the decision threshold built from it. Both are written before measuring." } },
+            { "term": "τ*", "def": { "es": "El tiempo de espera entre pulsos por debajo del cual la aproximación falla. Es el resultado buscado.", "en": "The waiting time between pulses below which the approximation fails. It is the result sought." } },
+            { "term": "HYDRAD", "def": { "es": "Código hidrodinámico 1D de bucles coronales, con calentamiento por haz. Es el solver del piloto: rápido, pero sin líneas cromosféricas.", "en": "1D hydrodynamic code for coronal loops, with beam heating. The pilot's solver: fast, but without chromospheric lines." } },
+            { "term": "RADYN", "def": { "es": "Código radiativo-hidrodinámico con transferencia detallada: da líneas cromosféricas, al costo de instalarlo y verificarlo.", "en": "Radiative-hydrodynamic code with detailed transfer: it gives chromospheric lines, at the cost of installing and verifying it." } },
+            { "term": { "es": "Transporte Fokker–Planck", "en": "Fokker–Planck transport" }, "def": { "es": "Descripción del frenado y la dispersión del haz de electrones en el plasma, más fiel que la aproximación de frenado puro.", "en": "Description of the electron beam's collisional slowing and scattering in the plasma, more faithful than pure thick-target stopping." } },
+            { "term": "STIX", "def": { "es": "El instrumento de rayos X duros de Solar Orbiter. De su espectro se infieren los parámetros del haz (Ṅ, E_c, δ) que alimentan las simulaciones.", "en": "Solar Orbiter's hard X-ray instrument. Its spectrum yields the beam parameters (Ṅ, E_c, δ) that feed the simulations." } },
+            { "term": { "es": "Columna de frenado", "en": "Stopping column" }, "def": { "es": "La cantidad de material que un electrón de una energía dada atraviesa antes de entregar su energía. Si la corona se densifica, el electrón se frena más arriba.", "en": "How much material an electron of a given energy crosses before giving up its energy. If the corona densifies, the electron stops higher up." } },
+            { "term": { "es": "Medida de emisión (EM)", "en": "Emission measure (EM)" }, "def": { "es": "Integral de la densidad al cuadrado a lo largo de la línea de visión: el proxy observable de cuánto plasma caliente hay.", "en": "Integral of density squared along the line of sight: the observable proxy for how much hot plasma there is." } },
+            { "term": { "es": "Modelo multihebra", "en": "Multithread model" }, "def": { "es": "Reproducir una fulguración como la suma de muchos bucles finos calentados una vez cada uno. Es donde vive el supuesto que se mide.", "en": "Reproducing a flare as the sum of many thin loops, each heated once. It is where the assumption being measured lives." } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "referencias",
+      "title": { "es": "11 · Referencias, y qué hace cada una aquí", "en": "11 · References, and what each one does here" },
+      "blurb": {
+        "es": "Tomadas de la revisión de trabajo previo del propio repositorio (docs/03), con la fecha de búsqueda y los límites de acceso que allí se registran. No es un barrido exhaustivo de ADS: ese sigue pendiente.",
+        "en": "Taken from the repository's own prior-work review (docs/03), with the search date and access limits recorded there. It is not an exhaustive ADS sweep: that is still outstanding."
+      },
+      "blocks": [
+        {
+          "type": "refs",
+          "items": [
+            {
+              "cite": "Kennedy, Milligan, Allred, Mathioudakis & Keenan (2015)",
+              "venue": { "es": "RADYN dirigido por ajustes de RHESSI", "en": "RADYN driven by RHESSI fits" },
+              "what": { "es": "Ajustes de RHESSI cada 12 s alimentan RADYN durante toda la fase impulsiva de una fulguración X1.5. Calculan la altura de frenado de electrones de 5–200 keV durante la simulación: para 50 keV va de ≈1.1 Mm a ≈0.75 Mm y luego a ≈5 Mm.", "en": "RHESSI fits every 12 s drive RADYN through the whole impulsive phase of an X1.5 flare. They compute the stopping height of 5–200 keV electrons during the simulation: for 50 keV it goes from ≈1.1 Mm to ≈0.75 Mm and then to ≈5 Mm." },
+              "use": { "es": "Es la razón de que v1 se descartara y de que la hipótesis H1 se reformulara sin signo: hay dos efectos que compiten. La historia está retenida de forma implícita; aquí se aísla con ramas pareadas.", "en": "It is why v1 was dropped and why hypothesis H1 was reformulated without a sign: two effects compete. History is retained implicitly there; here it is isolated with paired branches." },
+              "links": [{ "href": "https://arxiv.org/abs/1504.07541", "label": "arXiv:1504.07541" }]
+            },
+            {
+              "cite": "Rubio da Costa, Kleint, Petrosian, Liu & Allred (2016)",
+              "venue": { "es": "Modelo de 16 hebras con RADYN y RHESSI", "en": "16-thread model with RADYN and RHESSI" },
+              "what": { "es": "Cada ráfaga es una hebra nueva y «cada simulación nueva empieza desde la atmósfera inicial». Las hebras se definen desde los picos de la derivada de GOES.", "en": "Each burst is a new thread and “each new simulation starts from the initial atmosphere”. Threads are defined from the peaks of the GOES derivative." },
+              "use": { "es": "La cita textual del supuesto que este proyecto mide. La independencia entre ráfagas es ahí un punto de partida, no un resultado.", "en": "The literal statement of the assumption this project measures. Independence between bursts is a starting point there, not a result." },
+              "links": [{ "href": "https://arxiv.org/abs/1603.04951", "label": "arXiv:1603.04951" }]
+            },
+            {
+              "cite": "Cho, Testa, De Pontieu & Polito (2023)",
+              "venue": { "es": "Rejilla de modelos RADYN comparada con IRIS", "en": "Grid of RADYN models compared with IRIS" },
+              "what": { "es": "Leído en texto completo el 13 de octubre de 2026. Su modelo E6 es la única corrida de dos episodios: 20 s de calentamiento, 60 s de pausa y 20 s más, F = 6×10⁸ erg cm⁻² s⁻¹, E_c = 10 keV, δ = 7, bucle de 15 Mm, uno de 13 modelos. No hay control con solo el segundo pulso, ni afirmación sobre qué cambió el primer episodio, ni mención de precalentamiento, memoria o tiempos de espera.", "en": "Read in full text on 13 October 2026. Its model E6 is the only two-episode run: 20 s heating, 60 s pause, 20 s again, F = 6×10⁸ erg cm⁻² s⁻¹, E_c = 10 keV, δ = 7, 15 Mm loop, one of 13 models. There is no control with only the second pulse, no statement about what the first episode changed, and no mention of preheating, memory or waiting times." },
+              "use": { "es": "El precedente más cercano en diseño. Su lectura **confirma** la distinción que antes solo se suponía: simular dos episodios no es nuevo; medir el error contra un control fresco, sí.", "en": "The closest precedent in design. Reading it **confirms** the distinction previously only assumed: simulating two episodes is not new; measuring the error against a fresh control is." },
+              "links": [{ "href": "https://arxiv.org/abs/2211.06832", "label": "arXiv:2211.06832" }]
+            },
+            {
+              "cite": "Kerr, Polito, Xu & Allred (2024)",
+              "venue": { "es": "Precalentamiento débil antes de flujos de fulguración", "en": "Weak preheating before flare fluxes" },
+              "what": { "es": "Leído en texto completo el 13 de octubre de 2026. 100 s de calentamiento débil a 5×10⁸ seguidos directamente de una rampa ad-hoc a 1×10¹¹ sobre 100 s, en un semibucle de 11 Mm. Sin pausa entre fases, sin control de solo-fuerte sobre la atmósfera relajada, sin barrido de tiempos de espera. El propio artículo califica sus experimentos de «excesivamente simplificados».", "en": "Read in full text on 13 October 2026. 100 s of weak heating at 5×10⁸ followed directly by an ad-hoc ramp to 1×10¹¹ over 100 s, on an 11 Mm half-loop. No pause between phases, no strong-only control on the relaxed atmosphere, no waiting-time scan. The paper itself calls its experiments “overly simplified”." },
+              "use": { "es": "Establece que el precalentamiento débil cambia la respuesta fuerte posterior, con un observable. La distinción aquí es pulsos fuerte → fuerte separados por τ, con controles pareados y regla de decisión.", "en": "Establishes that weak preheating changes the later strong response, with an observable. The distinction here is strong → strong pulses separated by τ, with paired controls and a decision rule." },
+              "links": [{ "href": "https://arxiv.org/abs/2405.02799", "label": "arXiv:2405.02799" }]
+            },
+            {
+              "cite": "Bakke, Carlsson, Rouppe van der Voort, Hansteen, Ortiz & Battaglia (2022)",
+              "venue": { "es": "A&A 659, A186 — nanofulguraciones en RADYN", "en": "A&A 659, A186 — nanoflares in RADYN" },
+              "what": { "es": "Seis corridas de RADYN con un haz de 10 s en un semibucle de 15 Mm, ápices a 1 y 3 MK. El artículo llama al bucle de 3 MK «precalentado» y dice que «representa una hebra ya calentada»: por su densidad inicial mayor, los electrones depositan más energía en la corona.", "en": "Six RADYN runs with one 10 s beam on a 15 Mm half-loop, apexes at 1 and 3 MK. The paper calls the 3 MK loop “pre-heated” and says it “represents a previously heated strand”: because of its higher initial density, the electrons deposit more of their energy in the corona." },
+              "use": { "es": "Precedente encontrado el 13 de octubre de 2026 que **cambió el alcance de la reclamación**: el mecanismo físico del núcleo ya está publicado como efecto de condición inicial. Explicar el mecanismo sigue siendo necesario como evidencia de causalidad, pero ya no es el elemento novedoso.", "en": "A precedent found on 13 October 2026 that **changed the scope of the claim**: the core's physical mechanism is already published as an initial-condition effect. Explaining the mechanism remains necessary as evidence of causality, but it is no longer the novel element." },
+              "links": [{ "href": "https://arxiv.org/abs/2201.11961", "label": "arXiv:2201.11961" }]
+            },
+            {
+              "cite": "Polito, Testa, Allred, De Pontieu, Carlsson, Pereira, Gošić & Reale (2018)",
+              "venue": { "es": "RADYN con calentamiento de nanofulguración", "en": "RADYN with nanoflare heating" },
+              "what": { "es": "La temperatura inicial del ápice (1 o 3 MK) y E_c cambian dónde se frena el haz, así que ya se sabe que la densidad previa del bucle importa.", "en": "The initial apex temperature (1 or 3 MK) and E_c change where the beam stops, so it is already known that the loop's prior density matters." },
+              "use": { "es": "Precalentamiento como condición inicial, no como historia de un pulso. Delimita qué parte del mecanismo no se puede reclamar.", "en": "Preheating as an initial condition, not as the history of a pulse. It bounds which part of the mechanism cannot be claimed." },
+              "links": [{ "href": "https://arxiv.org/abs/1804.05970", "label": "arXiv:1804.05970" }]
+            },
+            {
+              "cite": "Litwicka, Heinzel & Kašparová (2025)",
+              "venue": { "es": "ApJ 983, 155 — FLARIX, calentamiento filamentario", "en": "ApJ 983, 155 — FLARIX, filamentary heating" },
+              "what": { "es": "Calentamiento continuo frente a cuatro pulsos consecutivos en filamentos, sobre VAL-C y VAL-C precalentada: Hα −36–46%, Mg II k −51–53%. **Inaccesible:** HTTP 403 en IOP el 2 y el 13 de octubre de 2026, sin preprint en arXiv. Lo que se sabe viene de un artículo que lo cita, y eso no sirve como veredicto.", "en": "Continuous heating versus four consecutive pulses in filaments, on VAL-C and preheated VAL-C: Hα −36–46%, Mg II k −51–53%. **Inaccessible:** HTTP 403 at IOP on 2 and 13 October 2026, no arXiv preprint. What is known comes from a paper citing it, which is not usable as a verdict." },
+              "use": { "es": "El riesgo de solape más serio y el motivo por el que no se puede decir «primer estudio». La distinción a establecer: separar la memoria temporal de la misma hebra de la mezcla espacial, el área y las diferencias de flujo.", "en": "The most serious overlap risk and the reason “first study” cannot be said. The distinction to establish: separate same-strand temporal memory from spatial mixing, area and flux differences." },
+              "links": [{ "href": "https://doi.org/10.3847/1538-4357/adc393", "label": "DOI 10.3847/1538-4357/adc393" }]
+            },
+            {
+              "cite": "Reep, Warren, Crump & Simões (2016)",
+              "venue": { "es": "Hidrodinámica radiativa multihebra", "en": "Multithread radiative hydrodynamics" },
+              "what": { "es": "Una sucesión de hebras independientes, con intervalos menores a 10 s, reproduce los corrimientos al rojo largos; un bucle único no.", "en": "A succession of independent strands, with intervals below 10 s, reproduces long redshifts; a single loop does not." },
+              "use": { "es": "Muestra que la aproximación que se mide aquí es la que sostiene los modelos que sí ajustan observaciones: por eso importa saber cuándo falla.", "en": "Shows that the approximation measured here is the one holding up the models that do fit observations: hence why knowing when it fails matters." },
+              "links": [{ "href": "https://arxiv.org/abs/1607.06684", "label": "arXiv:1607.06684" }]
+            },
+            {
+              "cite": "Collier, Hayes, Fletcher, Battaglia, Krucker & Hudson (2024)",
+              "venue": { "es": "A&A — STIX → RADYN", "en": "A&A — STIX → RADYN" },
+              "what": { "es": "Ajuste OSPEX (4–36 keV) de la **primera** ráfaga de una fulguración de STIX: Ṅ = (0.34 ± 0.04)×10³⁵ s⁻¹, δ = 4.97 ± 0.09, E_c = 13.37 ± 0.57 keV, área ≈10¹⁷ cm², haz triangular de 45 s en RADYN sobre VAL3C. La segunda ráfaga no se simula.", "en": "OSPEX fit (4–36 keV) of the **first** burst of a STIX flare: Ṅ = (0.34 ± 0.04)×10³⁵ s⁻¹, δ = 4.97 ± 0.09, E_c = 13.37 ± 0.57 keV, area ≈10¹⁷ cm², 45 s triangular beam in RADYN on VAL3C. The second burst is not simulated." },
+              "use": { "es": "Prueba que el pipeline STIX → RHD ya existe (así que no es el aporte) y da el benchmark observacional opcional de las extensiones. Sus valores coinciden en orden de magnitud con el caso sintético de este proyecto.", "en": "Proves the STIX → RHD pipeline already exists (so it is not the contribution) and provides the optional observational benchmark of the extensions. Its values match this project's synthetic case to an order of magnitude." },
+              "links": [{ "href": "https://arxiv.org/abs/2411.09319", "label": "arXiv:2411.09319" }]
+            },
+            {
+              "cite": "Radziszewski, Heinzel, Kašparová & Litwicka (2024)",
+              "venue": { "es": "ApJ — FLARIX con parámetros de RHESSI", "en": "ApJ — FLARIX with RHESSI parameters" },
+              "what": { "es": "Parámetros de RHESSI cada 4 s modulados a 0.25 s para una fulguración C1.6 con cuatro pulsos (H1–H4); modelan **solo** el pulso H3 y no tratan la historia entre pulsos.", "en": "RHESSI parameters every 4 s modulated at 0.25 s for a C1.6 flare with four pulses (H1–H4); they model **only** pulse H3 and do not treat the history between pulses." },
+              "use": { "es": "Otro caso donde la historia entre pulsos se deja fuera por diseño.", "en": "Another case where the history between pulses is left out by design." },
+              "links": [{ "href": "https://iopscience.iop.org/article/10.3847/1538-4357/ad8ba9", "label": "IOPscience" }]
+            },
+            {
+              "cite": "Kašparová, Varady, Heinzel, Karlický & Moravec (2009)",
+              "venue": { "es": "Pulsos de haz sub-segundo", "en": "Sub-second beam pulses" },
+              "what": { "es": "Trenes de pulsos de electrones de escala sub-segundo y líneas de hidrógeno dependientes del tiempo.", "en": "Sub-second electron-beam pulse trains and time-dependent hydrogen lines." },
+              "use": { "es": "Delimita el régimen: allí los pulsos son sub-segundo; aquí los tiempos de espera son de decenas de segundos, donde la atmósfera tiene tiempo de responder y de relajar.", "en": "Bounds the regime: there the pulses are sub-second; here the waiting times are tens of seconds, where the atmosphere has time to respond and to relax." },
+              "links": [{ "href": "https://arxiv.org/abs/0904.2084", "label": "arXiv:0904.2084" }]
+            },
+            {
+              "cite": "Allred, Kerr & Gordon Emslie (2020); Carlsson, Fletcher, Allred et al. (2023)",
+              "venue": { "es": "Transporte Fokker–Planck y la rejilla pública F-CHROMA", "en": "Fokker–Planck transport and the public F-CHROMA grid" },
+              "what": { "es": "Modelado del transporte y de la deposición radiativa, y la rejilla pública F-CHROMA (haz triangular de 20 s más 30 s, fronteras cerradas, bucle de 10 Mm).", "en": "Transport and radiative-deposition modelling, and the public F-CHROMA grid (20 s triangular beam plus 30 s, closed boundaries, 10 Mm loop)." },
+              "use": { "es": "Herramientas y datos que este proyecto usa y debe verificar. La rejilla por sí sola solo cubre τ ≤ 30 s, que es parte de por qué hace falta correr ramas propias.", "en": "Tools and data this project uses and must verify. The grid alone covers only τ ≤ 30 s, part of why running its own branches is necessary." },
+              "links": [
+                { "href": "https://arxiv.org/abs/2008.10671", "label": "arXiv:2008.10671" },
+                { "href": "https://arxiv.org/abs/2304.02618", "label": "arXiv:2304.02618" }
+              ]
+            },
+            {
+              "cite": "Druett, Ruan & Keppens (2023)",
+              "venue": { "es": "Evaporación dirigida por haz en MHD multidimensional", "en": "Beam-driven evaporation in multidimensional MHD" },
+              "what": { "es": "Modelado de la evaporación cromosférica en MHD multidimensional.", "en": "Modelling of chromospheric evaporation in multidimensional MHD." },
+              "use": { "es": "Recuerda que añadir MHD no es automáticamente novedoso: el núcleo se queda dentro de una geometría prescrita a propósito.", "en": "A reminder that adding MHD is not automatically novel: the core deliberately stays within a prescribed geometry." },
+              "links": [{ "href": "https://arxiv.org/abs/2310.11226", "label": "arXiv:2310.11226" }]
+            },
+            {
+              "cite": "Liu, Petrosian, Dennis & Jiang (2006)",
+              "venue": { "es": "Perfil de densidad desde el brillo del bucle", "en": "Density profile from loop brightness" },
+              "what": { "es": "Infieren un perfil de densidad en evolución a partir del brillo del bucle, además de describir la evolución de la fuente.", "en": "They infer an evolving density profile from loop brightness, as well as describing source evolution." },
+              "use": { "es": "Corrige una lectura previa de este proyecto: describir ese precedente como solo cualitativo subestimaba su alcance. Es parte de por qué el trazador de v4 quedó archivado.", "en": "Corrects an earlier reading in this project: calling that precedent merely qualitative understated its scope. Part of why the v4 tracer was archived." },
+              "links": [{ "href": "https://arxiv.org/abs/astro-ph/0603510", "label": "arXiv:astro-ph/0603510" }]
+            },
+            {
+              "cite": "Mrozek, Falewicz, Kołomański & Litwicka (2021); Awasthi, Krucker, Battaglia et al. (2024)",
+              "venue": { "es": "Hidrodinámica + Fokker–Planck; STIX en ≈200 fulguraciones débiles", "en": "Hydrodynamics + Fokker–Planck; STIX on ≈200 weak flares" },
+              "what": { "es": "Mrozek et al. estudian una ráfaga no térmica y la altitud de las fuentes de rayos X duros frente a la energía. Awasthi et al. reparten energía térmica y no térmica en ≈200 fulguraciones débiles con un código 1D.", "en": "Mrozek et al. study a non-thermal burst and the height of hard X-ray sources versus energy. Awasthi et al. partition thermal and non-thermal energy in ≈200 weak flares with a 1D code." },
+              "use": { "es": "Contexto del estado del arte en modelado dirigido por observaciones; ninguno trata la memoria entre pulsos.", "en": "Context on the state of the art in observation-driven modelling; neither treats memory between pulses." },
+              "links": [
+                { "href": "https://arxiv.org/abs/2112.11392", "label": "arXiv:2112.11392" },
+                { "href": "https://arxiv.org/abs/2402.01936", "label": "arXiv:2402.01936" }
+              ]
+            },
+            {
+              "cite": "Qiu (2021); Reep & Airapetian (2023); Dennis & Zarro (1993)",
+              "venue": { "es": "Indicios observacionales de calentamiento en bucles ya afectados", "en": "Observational hints of heating in already affected loops" },
+              "what": { "es": "Qiu muestra que muchos eventos impulsivos reproducen mal los rayos X blandos y que un modelo de dos fases lo hace mejor; Reep & Airapetian tratan la duración por longitud de onda y la evaporación; Dennis & Zarro reportan 20 de 66 eventos donde la derivada de los rayos X blandos sigue alta cuando los duros caen, interpretado como energía liberada en un bucle ya afectado.", "en": "Qiu shows many impulsive events reproduce soft X-rays poorly and that a two-phase model does better; Reep & Airapetian treat duration by wavelength and evaporation; Dennis & Zarro report 20 of 66 events where the soft X-ray derivative stays high as the hard X-rays fall, read as energy released in an already affected loop." },
+              "use": { "es": "La motivación observacional de que esto pasa en el Sol real, no solo en simulaciones. El dato de Dennis & Zarro está anotado como pendiente de verificar en la fuente.", "en": "The observational motivation that this happens on the real Sun, not only in simulations. The Dennis & Zarro figure is flagged as pending verification at the source." },
+              "links": [
+                { "href": "https://arxiv.org/abs/2101.11069", "label": "arXiv:2101.11069" },
+                { "href": "https://arxiv.org/abs/2306.03765", "label": "arXiv:2306.03765" },
+                { "href": "https://link.springer.com/doi/10.1007/BF00662178", "label": "Springer" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warn",
+          "title": { "es": "Límites de la búsqueda, registrados", "en": "Search limits, on the record" },
+          "items": [
+            { "es": "Las búsquedas automáticas se equivocan: una atribuyó RADYN+FP a Litwicka 2025, cuando eso es FLARIX. Cada dato se comprobó en la fuente.", "en": "Automatic search summaries get things wrong: one attributed RADYN+FP to Litwicka 2025, which is FLARIX. Every fact was checked at the source." },
+            { "es": "El índice de arXiv es incompleto: `all:RADYN` devuelve 53 resultados y `all:FLARIX` solo 3. Un resultado de cero **no** prueba ausencia.", "en": "The arXiv index is incomplete: `all:RADYN` returns 53 results and `all:FLARIX` only 3. A zero result does **not** prove absence." },
+            { "es": "Semantic Scholar devolvió HTTP 429 en consultas posteriores: la cobertura de citas hacia adelante es parcial.", "en": "Semantic Scholar returned HTTP 429 on later queries: forward-citation coverage is partial." },
+            { "es": "Pendiente: el barrido exhaustivo en ADS con las consultas ya escritas en `docs/03`, sección 11.4.", "en": "Outstanding: the exhaustive ADS sweep with the queries already written in `docs/03`, section 11.4." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repositorio",
+      "title": { "es": "12 · Dónde leer el original", "en": "12 · Where to read the original" },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            { "es": "[Objetivos y metodología](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/00_objectives_and_methodology.md) — el plan v5.1 autoritativo: experimento central, regla de decisión, plan de trabajo y extensiones.", "en": "[Objectives and methodology](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/00_objectives_and_methodology.md) — the authoritative v5.1 plan: core experiment, decision rule, work plan and extensions." },
+            { "es": "[Trabajo previo y novedad](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/03_novelty_and_prior_work.md) — la fuente de la sección de referencias; la evaluación vigente está en su sección 11.", "en": "[Prior work and novelty](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/03_novelty_and_prior_work.md) — the source of the references section; the current assessment is in its section 11." },
+            { "es": "[Piloto central con HYDRAD](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/07_core_pilot_hydrad.md) — estabilidad numérica, límites de validez y primeros contrastes.", "en": "[Core pilot with HYDRAD](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/07_core_pilot_hydrad.md) — numerical stability, validity limits and first contrasts." },
+            { "es": "[Acceso a RADYN](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/04_radyn_access.md) y [verificación del solver FP](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/05_fp_solver_verification.md) — los seis puntos de la compuerta y qué se ha comprobado.", "en": "[RADYN access](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/04_radyn_access.md) and [FP solver verification](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/05_fp_solver_verification.md) — the six gate items and what has been checked." },
+            { "es": "`docs/guia_conceptos_es.md` y `docs/plan_trabajo_es.md` — los acompañantes en español, que introducen la física, el experimento central y el plan desde cero, con esquemas. Todavía sin commitear: existen solo en la copia local.", "en": "`docs/guia_conceptos_es.md` and `docs/plan_trabajo_es.md` — the Spanish companions, introducing the physics, the core experiment and the plan from scratch, with schematics. Not committed yet: they exist only in the local copy." },
+            { "es": "Diseños archivados: [v4 reutilización de bucles](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/archive/00_objectives_v4_loop_reuse.md), [v3 memoria espectral](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/archive/00_objectives_v3_spectral_memory.md), [v2 sesgo de inferencia](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/archive/00_objectives_v2_inference_bias.md).", "en": "Archived designs: [v4 loop re-use](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/archive/00_objectives_v4_loop_reuse.md), [v3 spectral memory](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/archive/00_objectives_v3_spectral_memory.md), [v2 inference bias](https://github.com/carlmarx17/GrazTrabajo/blob/main/docs/archive/00_objectives_v2_inference_bias.md)." }
+          ]
+        }
+      ]
+    }
+  ]
+}

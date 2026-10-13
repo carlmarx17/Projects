@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desglose del proyecto</title>
+<meta name="description" content="Desglose detallado de un proyecto: pregunta, método, parámetros, resultados, límites, glosario y referencias. · Detailed breakdown of a project: question, method, parameters, results, limits, glossary and references.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%98%89%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="detail-page">
+
+<header class="site-head">
+  <div class="wrap">
+    <div class="head-row">
+      <div>
+        <a class="back" href="index.html" id="back">← Tablero de proyectos</a>
+        <p class="eyebrow" id="area"></p>
+        <h1 id="title">—</h1>
+        <p class="sub" id="short"></p>
+      </div>
+      <div class="head-actions">
+        <button id="lang" class="pill-btn" type="button"><span id="lang-label">EN</span></button>
+        <button id="theme" class="pill-btn icon" type="button">◐</button>
+      </div>
+    </div>
+
+    <p class="lede" id="lede"></p>
+
+    <div class="hero-meta">
+      <div class="hero-prog">
+        <div class="prog-head"><span id="prog-label">—</span><b id="prog-value">—</b></div>
+        <div class="track" id="track" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+          <div class="fill" id="fill" style="width:0"></div>
+        </div>
+      </div>
+      <div class="chips" id="hero-chips"></div>
+    </div>
+
+    <div class="tags" id="tags"></div>
+  </div>
+</header>
+
+<div class="wrap detail-body">
+  <nav class="toc" id="toc" aria-labelledby="toc-title">
+    <p class="toc-title" id="toc-title">—</p>
+    <ol id="toc-list"></ol>
+  </nav>
+
+  <main id="sections"></main>
+</div>
+
+<footer class="site-foot wrap">
+  <p id="foot"></p>
+</footer>
+
+<script src="proyecto.js"></script>
+</body>
+</html>

@@ -1,0 +1,237 @@
+{
+  "id": "gosa",
+  "lede": {
+    "es": "El sitio del Grupo de Observación Solar y Astrofísica del Observatorio Astronómico Nacional. El objetivo real no es la página: es que **el grupo pueda mantenerla sin tocar HTML**. En octubre de 2026 se pasó de editar páginas a mano a generarlas desde plantillas y archivos de datos, con una validación que falla el despliegue antes de publicar algo roto. HTML, CSS y JavaScript sin dependencias pesadas, y Python de librería estándar para construir.",
+    "en": "The website of the Solar Observation and Astrophysics Group at the National Astronomical Observatory. The real goal is not the page: it is that **the group can maintain it without touching HTML**. In October 2026 it moved from editing pages by hand to generating them from templates and data files, with a validation step that fails the deployment before anything broken is published. HTML, CSS and JavaScript with no heavy dependencies, and standard-library Python to build."
+  },
+  "sections": [
+    {
+      "id": "problema",
+      "title": { "es": "1 · El problema que resuelve", "en": "1 · The problem it solves" },
+      "blocks": [
+        {
+          "type": "prose",
+          "text": [
+            {
+              "es": "Un sitio de grupo de investigación muere de la misma forma: la persona que sabe editar el HTML se va, y la página se queda congelada con miembros que ya no están y publicaciones de hace tres años. Añadir un integrante no debería requerir saber dónde cerrar un `<div>`.",
+              "en": "A research-group site dies the same way every time: the person who knows how to edit the HTML leaves, and the page freezes with members who are gone and publications from three years ago. Adding a member should not require knowing where to close a `<div>`."
+            },
+            {
+              "es": "La respuesta aquí es separar **datos** de **presentación**: los miembros, las noticias y las publicaciones viven en archivos JSON y CSV editables; las páginas son plantillas con huecos. Añadir una persona es añadir un registro. Y como el sitio se compila, hay un momento donde se puede comprobar todo antes de publicarlo.",
+              "en": "The answer here is separating **data** from **presentation**: members, news and publications live in editable JSON and CSV files; the pages are templates with slots. Adding a person means adding a record. And because the site is compiled, there is a moment where everything can be checked before it is published."
+            },
+            {
+              "es": "El cambio se cerró quitando los HTML de la raíz. Mientras existían, había dos fuentes de verdad — la plantilla y la página suelta — y tarde o temprano se contradicen.",
+              "en": "The change was closed by removing the HTML files from the root. While they existed there were two sources of truth — the template and the loose page — and sooner or later they contradict each other."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "construccion",
+      "title": { "es": "2 · Cómo se construye el sitio", "en": "2 · How the site is built" },
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            { "es": "Pieza", "en": "Piece" },
+            { "es": "Qué hace", "en": "What it does" }
+          ],
+          "rows": [
+            ["`templates/pages/`", { "es": "Una plantilla por página: `index`, `produccion`, `dynasun`, `escuela` y las cuatro líneas de investigación.", "en": "One template per page: `index`, `produccion`, `dynasun`, `escuela` and the four research lines." }],
+            ["`templates/partials/`", { "es": "Los trozos que se repiten: cabecera, pie, y las plantillas de un miembro, una noticia y una publicación.", "en": "The repeated pieces: header, footer, and the templates for a member, a news item and a publication." }],
+            ["`data/`", { "es": "El contenido editable: `members.json`, `news.json`, `publications.json` y los CSV de producción científica.", "en": "The editable content: `members.json`, `news.json`, `publications.json` and the scientific-output CSVs." }],
+            ["`scripts/content.py`", { "es": "Rellena las plantillas. Escapa **todo** valor por defecto y solo trata como HTML los campos que terminan en `_html`, que son los redactados en el propio repositorio. Si falta un valor, el build falla en vez de dejar un hueco.", "en": "Fills the templates. It escapes **every** value by default and treats as HTML only the fields ending in `_html`, which are the ones authored in the repository itself. If a value is missing, the build fails instead of leaving a gap." }],
+            ["`scripts/build_site.py`", { "es": "Genera `_site/`: cada página solo en español en `/gosa/…` y solo en inglés en `/gosa/en/…`, con `lang`, `canonical`, `hreflang` y `sitemap.xml` coherentes.", "en": "Generates `_site/`: each page in Spanish only at `/gosa/…` and in English only at `/gosa/en/…`, with consistent `lang`, `canonical`, `hreflang` and `sitemap.xml`." }],
+            ["`scripts/validate_site.py`", { "es": "Falla el build si hay enlaces internos rotos, recursos que no existen, IDs duplicados, plantillas sin resolver (`{{…}}` suelto) o metadatos de idioma inconsistentes.", "en": "Fails the build on broken internal links, missing assets, duplicate IDs, unresolved templates (a stray `{{…}}`) or inconsistent language metadata." }],
+            ["`tests/test_site.py`", { "es": "Prueba las propias salvaguardas: comprueba que la validación detecta lo que debe detectar.", "en": "Tests the safeguards themselves: checks that the validation catches what it is supposed to catch." }],
+            ["`.github/workflows/static.yml`", { "es": "En cada push a `main`: corre los tests, comprueba la sintaxis de `script.js` y `produccion.js` con `node --check`, construye y valida los dos idiomas, y solo entonces despliega `_site/` a GitHub Pages.", "en": "On every push to `main`: runs the tests, checks `script.js` and `produccion.js` with `node --check`, builds and validates both languages, and only then deploys `_site/` to GitHub Pages." }]
+          ]
+        },
+        {
+          "type": "code",
+          "text": "python3 scripts/build_site.py\npython3 -m http.server 8123 -d _site     # vista previa local del sitio tal como se publica"
+        },
+        {
+          "type": "callout",
+          "variant": "ok",
+          "title": { "es": "Por qué importa el orden", "en": "Why the order matters" },
+          "text": [
+            {
+              "es": "El despliegue depende de la validación: si los tests o el build fallan, el artefacto no se sube y el sitio público se queda como estaba. Es lo que permite que alguien que no programa edite `members.json` sin miedo a tumbar la página.",
+              "en": "The deployment depends on the validation: if the tests or the build fail, the artifact is not uploaded and the public site stays as it was. That is what lets someone who does not code edit `members.json` without fear of taking the page down."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "datos",
+      "title": { "es": "3 · Qué hay en los datos hoy", "en": "3 · What is in the data today" },
+      "blocks": [
+        {
+          "type": "kv",
+          "items": [
+            { "k": "`data/members.json`", "v": { "es": "53 registros. Cada uno con nombre, categoría (para los filtros), foto, rol, institución y enlaces.", "en": "53 records. Each with name, category (for the filters), photo, role, institution and links." } },
+            { "k": "`data/publications.json`", "v": { "es": "161 registros, con año, título, autores y acción (enlace al artículo).", "en": "161 records, with year, title, authors and action (link to the paper)." } },
+            { "k": "`data/news.json`", "v": { "es": "Noticias por página: hoy `index.html` y `escuela.html`.", "en": "News per page: today `index.html` and `escuela.html`." } },
+            { "k": { "es": "CSV de producción", "en": "Output CSVs" }, "v": { "es": "`publicaciones_organizadas.csv`, `publicaciones_gosa.csv` y un volcado de **OpenAlex** (`publicaciones_openalex.csv`), más el listado de tesis.", "en": "`publicaciones_organizadas.csv`, `publicaciones_gosa.csv` and an **OpenAlex** dump (`publicaciones_openalex.csv`), plus the thesis listing." } },
+            { "k": "`scripts/scrape_publicaciones.py`", "v": { "es": "El puente entre el volcado bibliográfico y el JSON que consume la página.", "en": "The bridge between the bibliographic dump and the JSON the page consumes." } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "paginas",
+      "title": { "es": "4 · Las páginas y lo que hacen", "en": "4 · The pages and what they do" },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            { "es": "**Inicio** — presentación del grupo, líneas de investigación, equipo con filtros por categoría, y contacto. El fondo estrellado se genera con posiciones aleatorias y `box-shadow`, que es mucho más barato que pintar elementos.", "en": "**Home** — group presentation, research lines, team with category filters, and contact. The starfield background is generated with random positions and `box-shadow`, far cheaper than painting elements." },
+            { "es": "**Producción científica** — publicaciones y tesis de pregrado, maestría y doctorado, con filtro por año y, en las tesis, filtro combinado por año y director.", "en": "**Scientific output** — publications and bachelor's, master's and doctoral theses, with a year filter and, for theses, a combined year-and-supervisor filter." },
+            { "es": "**Cuatro páginas de línea de investigación** — óptica de alta resolución, radio y rayos X, clima espacial, y simulaciones y aprendizaje automático. Cada una con su propio H1, título y descripción.", "en": "**Four research-line pages** — high-resolution optics, radio and X-rays, space weather, and simulations and machine learning. Each with its own H1, title and description." },
+            { "es": "**Dynasun** — página del proyecto, con las animaciones del sol.", "en": "**Dynasun** — the project's page, with the sun animations." },
+            { "es": "**Escuela** — material y grabaciones de la Escuela de Herramientas Computacionales 2026, que es lo que marca el ritmo de actualización del sitio cada jueves de octubre.", "en": "**School** — material and recordings of the 2026 Computational Tools School, which is what sets the site's update rhythm every Thursday in October." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "idiomas",
+      "title": { "es": "5 · Bilingüe, con una URL por idioma", "en": "5 · Bilingual, with one URL per language" },
+      "blocks": [
+        {
+          "type": "prose",
+          "text": [
+            {
+              "es": "En el repositorio las páginas siguen siendo bilingües: los textos van marcados con las clases `es` y `en`, y el selector de idioma solo cambia una clase en el `<body>`; CSS decide qué se ve. La preferencia se guarda en `localStorage`, así que sobrevive a navegar entre páginas.",
+              "en": "In the repository the pages remain bilingual: texts are marked with the `es` and `en` classes, and the language switch only changes a class on `<body>`; CSS decides what is visible. The preference is stored in `localStorage`, so it survives navigating between pages."
+            },
+            {
+              "es": "Pero un buscador que ve los dos idiomas en una sola URL no indexa bien ninguno. Por eso el build **separa**: genera una versión solo en español y otra solo en inglés, cada una con su `lang`, su `canonical` y su `hreflang` apuntando a la otra. El título y la descripción en inglés se declaran junto a los de español, en `data-en` y `data-en-content`, para que no haya que mantener dos árboles de páginas a mano.",
+              "en": "But a search engine seeing both languages at one URL indexes neither well. So the build **separates** them: it generates a Spanish-only and an English-only version, each with its own `lang`, `canonical` and `hreflang` pointing at the other. The English title and description are declared next to the Spanish ones, in `data-en` and `data-en-content`, so two page trees need not be maintained by hand."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "seo",
+      "title": { "es": "6 · SEO, seguridad y rendimiento", "en": "6 · SEO, security and performance" },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            { "es": "`sitemap.xml` generado por el build, más una copia estática en la raíz como respaldo del despliegue desde la rama.", "en": "`sitemap.xml` generated by the build, plus a static copy at the root as a fallback for branch-based deployment." },
+            { "es": "`canonical` y `hreflang` por página e idioma; H1 propio, título y descripción propios en cada subpágina.", "en": "`canonical` and `hreflang` per page and language; its own H1, title and description on every subpage." },
+            { "es": "Open Graph para las previsualizaciones al compartir, y datos estructurados JSON-LD con `sameAs` y la dirección del Observatorio.", "en": "Open Graph for link previews, and JSON-LD structured data with `sameAs` and the Observatory's address." },
+            { "es": "Política de seguridad de contenido (CSP) declarada, y verificación de Google Search Console incluida en el repositorio.", "en": "A declared Content Security Policy (CSP), and the Google Search Console verification file included in the repository." },
+            { "es": "Los GIF pesados se reemplazaron por vídeo MP4 y se comprimió la foto de grupo: es la optimización que más pesa en un sitio así.", "en": "Heavy GIFs were replaced by MP4 video and the group photo was compressed: on a site like this, that is the optimization that matters most." },
+            { "es": "Animaciones al hacer scroll con `IntersectionObserver` en vez de escuchar el evento de scroll, y navegación activa que resalta la sección en la que está el lector.", "en": "Scroll animations with `IntersectionObserver` instead of listening to the scroll event, and active navigation that highlights the section the reader is in." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pendiente",
+      "title": { "es": "7 · Lo que falta", "en": "7 · What is left" },
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            {
+              "done": true,
+              "label": { "es": "Sitio generado desde plantillas y datos, con validación previa", "en": "Site generated from templates and data, with pre-publish validation" },
+              "detail": { "es": "El cambio estructural de octubre de 2026, cerrado al quitar los HTML de la raíz.", "en": "The structural change of October 2026, closed by removing the HTML files from the root." }
+            },
+            {
+              "done": true,
+              "label": { "es": "Una URL por idioma, con hreflang y sitemap coherentes", "en": "One URL per language, with consistent hreflang and sitemap" },
+              "detail": { "es": "Publicado en astronomiaoan.co/gosa, con despliegue automático desde `main`.", "en": "Published at astronomiaoan.co/gosa, deployed automatically from `main`." }
+            },
+            {
+              "done": true,
+              "label": { "es": "Material y grabaciones de la sesión 1 de la Escuela", "en": "Material and recordings of the School's session 1" },
+              "detail": { "es": "Incluye el enlace al grupo de los asistentes.", "en": "Includes the link to the attendees' group." }
+            },
+            {
+              "done": false,
+              "label": { "es": "Material y grabaciones de las sesiones 2 a 5", "en": "Material and recordings of sessions 2 to 5" },
+              "detail": { "es": "Entra por tandas, después de cada jueves de octubre. Es lo único que separa al sitio de estar al día.", "en": "Comes in batches after each Thursday in October. It is the only thing keeping the site from being up to date." }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "glosario",
+      "title": { "es": "8 · Glosario", "en": "8 · Glossary" },
+      "blocks": [
+        {
+          "type": "defs",
+          "items": [
+            { "term": { "es": "Sitio estático generado", "en": "Generated static site" }, "def": { "es": "No hay servidor que arme las páginas al visitarlas: un script las produce una vez, y lo que se publica son archivos. Más rápido, más barato y mucho más difícil de romper.", "en": "No server assembles pages on each visit: a script produces them once and what is published are files. Faster, cheaper and much harder to break." } },
+            { "term": "`canonical`", "def": { "es": "La etiqueta que le dice al buscador cuál es la dirección oficial de un contenido, para que versiones duplicadas no compitan entre sí.", "en": "The tag telling a search engine which address is a content's official one, so duplicate versions do not compete with each other." } },
+            { "term": "`hreflang`", "def": { "es": "La etiqueta que declara «esta misma página existe en este otro idioma, aquí». Es lo que convierte dos URL en dos idiomas de una cosa, en vez de dos páginas que se canibalizan.", "en": "The tag declaring “this same page exists in another language, here”. It is what turns two URLs into two languages of one thing, rather than two pages cannibalizing each other." } },
+            { "term": "JSON-LD", "def": { "es": "Datos estructurados que describen la entidad — aquí el grupo y el Observatorio — en un formato que los buscadores leen para mostrar fichas enriquecidas.", "en": "Structured data describing the entity — here the group and the Observatory — in a format search engines read to show rich results." } },
+            { "term": "CSP", "def": { "es": "Content Security Policy: declara de qué orígenes puede cargar el sitio scripts, estilos e imágenes. Reduce el daño de una inyección de código.", "en": "Content Security Policy: declares which origins the site may load scripts, styles and images from. It limits the damage of a code injection." } },
+            { "term": "OpenAlex", "def": { "es": "Base de datos bibliográfica abierta. Se usa para volcar la producción del grupo sin teclearla a mano.", "en": "An open bibliographic database. Used to dump the group's output without typing it by hand." } },
+            { "term": "`IntersectionObserver`", "def": { "es": "API del navegador que avisa cuando un elemento entra en pantalla. Sustituye a escuchar el evento de scroll, que obliga al navegador a recalcular en cada píxel.", "en": "A browser API that reports when an element enters the viewport. It replaces listening to the scroll event, which forces the browser to recompute on every pixel." } },
+            { "term": { "es": "Artefacto de Pages", "en": "Pages artifact" }, "def": { "es": "El paquete con el sitio construido que el workflow sube; el despliegue publica ese paquete. Si el build falla, no hay artefacto y no hay despliegue.", "en": "The package of built site the workflow uploads; the deployment publishes that package. If the build fails there is no artifact and no deployment." } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "referencias",
+      "title": { "es": "9 · Referencias y recursos", "en": "9 · References and resources" },
+      "blocks": [
+        {
+          "type": "refs",
+          "items": [
+            {
+              "cite": { "es": "Sitio publicado del GOSA", "en": "GOSA published site" },
+              "venue": "astronomiaoan.co/gosa",
+              "what": { "es": "El resultado en vivo: lo que ve el público, en español y en inglés.", "en": "The live result: what the public sees, in Spanish and in English." },
+              "use": { "es": "Es el destino de todo el pipeline descrito arriba.", "en": "It is the destination of the whole pipeline described above." },
+              "links": [
+                { "href": "https://astronomiaoan.co/gosa/", "label": "español" },
+                { "href": "https://astronomiaoan.co/gosa/en/", "label": "English" }
+              ]
+            },
+            {
+              "cite": { "es": "Repositorio del sitio", "en": "Site repository" },
+              "venue": "AstronomiaOAN/gosa",
+              "what": { "es": "Plantillas, datos, scripts de construcción y validación, y el workflow de despliegue.", "en": "Templates, data, build and validation scripts, and the deployment workflow." },
+              "use": { "es": "Donde se edita todo. Para añadir un miembro o una publicación basta tocar un archivo de `data/`.", "en": "Where everything is edited. Adding a member or a publication only needs a file in `data/`." },
+              "links": [{ "href": "https://github.com/AstronomiaOAN/gosa", "label": "GitHub" }]
+            },
+            {
+              "cite": "OpenAlex",
+              "venue": { "es": "fuente bibliográfica abierta", "en": "open bibliographic source" },
+              "what": { "es": "Catálogo abierto de publicaciones, autores e instituciones.", "en": "An open catalogue of publications, authors and institutions." },
+              "use": { "es": "De ahí sale el volcado `publicaciones_openalex.csv` que alimenta la página de producción científica.", "en": "Source of the `publicaciones_openalex.csv` dump that feeds the scientific-output page." },
+              "links": [{ "href": "https://openalex.org/", "label": "openalex.org" }]
+            },
+            {
+              "cite": { "es": "GitHub Pages y GitHub Actions", "en": "GitHub Pages and GitHub Actions" },
+              "venue": { "es": "alojamiento y despliegue", "en": "hosting and deployment" },
+              "what": { "es": "Alojamiento estático y la automatización que valida y publica en cada push a `main`.", "en": "Static hosting and the automation that validates and publishes on every push to `main`." },
+              "use": { "es": "El workflow `static.yml` encadena tests, `node --check`, build, validación y despliegue, en ese orden.", "en": "The `static.yml` workflow chains tests, `node --check`, build, validation and deployment, in that order." },
+              "links": [{ "href": "https://docs.github.com/en/pages", "label": "docs" }]
+            },
+            {
+              "cite": { "es": "Protocolo de sitemaps", "en": "Sitemaps protocol" },
+              "venue": "sitemaps.org",
+              "what": { "es": "El formato estándar con el que un sitio le dice a un buscador qué URL tiene y cuándo cambiaron.", "en": "The standard format with which a site tells a search engine which URLs it has and when they changed." },
+              "use": { "es": "Es lo que genera `build_site.py` y lo que `validate_site.py` comprueba contra las páginas realmente producidas.", "en": "It is what `build_site.py` generates and what `validate_site.py` checks against the pages actually produced." },
+              "links": [{ "href": "https://www.sitemaps.org/protocol.html", "label": "sitemaps.org" }]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

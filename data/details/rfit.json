@@ -1,0 +1,352 @@
+{
+  "id": "rfit",
+  "lede": {
+    "es": "El canal de 304 Å de SDO/AIA ve a la vez plasma frío (lluvia coronal, filamentos, a 0.05–0.5 MK) y plasma caliente (coronal, 1–2 MK). RFit intenta separar cuánto de la señal viene de cada uno. Este proyecto reimplementó el método de forma reproducible y, al hacerlo, encontró que **la fracción caliente que entrega no está determinada por los datos sino por la elección de ajuste**: oscila más de un orden de magnitud entre métodos igualmente defendibles. Está pausado en una pregunta que no es numérica.",
+    "en": "SDO/AIA's 304 Å channel sees cool plasma (coronal rain, filaments, at 0.05–0.5 MK) and hot plasma (coronal, 1–2 MK) at the same time. RFit tries to separate how much of the signal comes from each. This project reimplemented the method reproducibly and, in doing so, found that **the hot fraction it returns is not determined by the data but by the choice of fit**: it swings by more than an order of magnitude between equally defensible methods. It is paused on a question that is not numerical."
+  },
+  "sections": [
+    {
+      "id": "metodo",
+      "title": { "es": "1 · El método, en cuatro pasos", "en": "1 · The method, in four steps" },
+      "blocks": [
+        {
+          "type": "steps",
+          "items": [
+            {
+              "done": true,
+              "label": { "es": "Tomar la función de respuesta en temperatura del canal objetivo", "en": "Take the target channel's temperature response function" },
+              "detail": { "es": "Cada canal de AIA responde a un rango de temperaturas. Las respuestas vienen de las tablas GOFNT v11, con abundancia coronal o fotosférica.", "en": "Each AIA channel responds over a range of temperatures. The responses come from the GOFNT v11 tables, with coronal or photospheric abundance." }
+            },
+            {
+              "done": true,
+              "label": { "es": "Apodizar esa respuesta para aislar su parte caliente o fría", "en": "Apodize that response to isolate its hot or cool part" },
+              "detail": { "es": "Se multiplica la respuesta por una ventana que deja pasar solo el rango de temperatura de interés. Ese producto es el objetivo a reproducir.", "en": "The response is multiplied by a window that passes only the temperature range of interest. That product is the target to reproduce." }
+            },
+            {
+              "done": true,
+              "label": { "es": "Ajustar la respuesta apodizada como combinación lineal de los otros seis canales", "en": "Fit the apodized response as a linear combination of the other six channels" },
+              "detail": { "es": "Se buscan seis coeficientes tales que la suma pesada de las respuestas de 94, 131, 171, 193, 211 y 335 reproduzca la curva objetivo. Aquí es donde entra la elección de método, y donde está el problema.", "en": "Six coefficients are sought so the weighted sum of the 94, 131, 171, 193, 211 and 335 responses reproduces the target curve. This is where the choice of method enters, and where the problem lies." }
+            },
+            {
+              "done": true,
+              "label": { "es": "Aplicar esos coeficientes píxel a píxel sobre los cubos reales", "en": "Apply those coefficients pixel-by-pixel to the real cubes" },
+              "detail": { "es": "Los mismos coeficientes convierten las seis imágenes en un mapa de componente caliente y otro de componente fría, más una fracción global por frame.", "en": "The same coefficients turn the six images into a hot-component map and a cool-component map, plus a global fraction per frame." }
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "note",
+          "title": { "es": "La idea de fondo", "en": "The underlying idea" },
+          "text": [
+            {
+              "es": "Si la respuesta del canal 304 restringida a temperaturas calientes se puede escribir con los otros canales, entonces esos canales — aplicados a la imagen real — reconstruyen la parte caliente de 304. Es un cambio de base en espacio de temperatura, usado como separador en espacio de píxeles. Que ajuste bien en lo primero no garantiza lo segundo, y ese es exactamente el hallazgo.",
+              "en": "If the 304 channel's response restricted to hot temperatures can be written with the other channels, then those channels — applied to the real image — reconstruct the hot part of 304. It is a change of basis in temperature space, used as a separator in pixel space. Fitting well in the former does not guarantee the latter, and that is exactly the finding."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "problema",
+      "title": { "es": "2 · El problema central, con números", "en": "2 · The core problem, with numbers" },
+      "blurb": {
+        "es": "Caso estudiado: `304_hot`, abundancia fotosférica, fecha de referencia 2014-04-24. El área recuperada es qué fracción de la curva objetivo reproduce el modelo; `max|coef|` mide cuánto puede amplificar el ruido.",
+        "en": "Case studied: `304_hot`, photospheric abundance, reference date 2014-04-24. Recovered area is the fraction of the target curve the model reproduces; `max|coeff|` measures how much it can amplify noise."
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            { "es": "Método de ajuste", "en": "Fitting method" },
+            { "es": "Área recuperada", "en": "Area recovered" },
+            { "es": "Fracción caliente global", "en": "Global hot fraction" },
+            "max|coef|"
+          ],
+          "rows": [
+            [{ "es": "log + factores manuales (**el 1.7% que se venía reportando**)", "en": "log + manual factors (**the 1.7% previously reported**)" }, "0.05", "**0.017**", "0.01"],
+            [{ "es": "lineal + factores manuales", "en": "linear + manual factors" }, "0.59", "0.480", "0.20"],
+            [{ "es": "lineal, sin factores manuales", "en": "linear, no manual factors" }, "1.08", "0.606", "**0.98**"],
+            [{ "es": "ridge, α = 0.001·escala", "en": "ridge, α = 0.001·scale" }, "1.02", "0.674", "0.31"],
+            [{ "es": "ridge, α = 0.03·escala", "en": "ridge, α = 0.03·scale" }, "0.86", "0.602", "0.02"],
+            [{ "es": "ridge, α = 0.3·escala", "en": "ridge, α = 0.3·scale" }, "0.72", "0.465", "0.01"],
+            [{ "es": "ridge, α = 1·escala", "en": "ridge, α = 1·scale" }, "0.58", "0.337", "0.01"]
+          ],
+          "note": {
+            "es": "`escala = traza(AᵀA)/6` con la matriz de diseño A pesada por la ventana. La fracción caliente va de 1.7% a 67% según la elección de ajuste: eso es el problema completo en una fila.",
+            "en": "`scale = trace(AᵀA)/6` with the window-weighted design matrix A. The hot fraction goes from 1.7% to 67% depending on the fit choice: that is the whole problem in one row."
+          }
+        },
+        {
+          "type": "list",
+          "items": [
+            { "es": "**El ajuste logarítmico recupera muy mal la respuesta.** Reproduce solo ~5% del área apodizada del objetivo, así que el 1.7% reportado es casi con seguridad una subestimación grande y **no debe citarse tal cual**.", "en": "**The log fit badly under-recovers the response.** It reproduces only ~5% of the target's apodized area, so the reported 1.7% is almost certainly a large underestimate and **must not be quoted as is**." },
+            { "es": "**Los canales predictores son fuertemente colineales.** Sin factores manuales, los mínimos cuadrados ajustan bien la *curva* (108% del área) pero dan un coeficiente cancelante en 94 (−0.98) que **amplifica el ruido píxel a píxel**: el mapa sale con sal y pimienta, y un filamento frío brillante aparece como ~100% caliente.", "en": "**The predictor channels are strongly collinear.** Without manual factors, least squares fits the *curve* well (108% of the area) but produces a cancelling coefficient on 94 (−0.98) that **amplifies pixel-to-pixel noise**: the map comes out salt-and-pepper, and a bright cool filament shows as ~100% hot." },
+            { "es": "**La regularización ridge arregla la estabilidad, no la normalización.** En α ≈ 0.03·escala todos los coeficientes son pequeños y el mapa es espacialmente suave, recuperando aún el 86% del área. Pero al subir la regularización bajan **a la vez** el área recuperada y la fracción caliente: una compensación suave, sin punto preferido.", "en": "**Ridge regularization fixes stability, not normalization.** At α ≈ 0.03·scale all coefficients are small and the map is spatially smooth, still recovering 86% of the area. But raising the regularization lowers **both** the recovered area and the hot fraction: a smooth trade-off with no preferred point." }
+          ]
+        },
+        {
+          "type": "table",
+          "head": [
+            { "es": "Confirmado sobre el cubo completo (1410 frames)", "en": "Confirmed over the full cube (1410 frames)" },
+            { "es": "Fracción caliente media", "en": "Mean hot fraction" },
+            { "es": "Mínimo–máximo", "en": "Min–max" }
+          ],
+          "rows": [
+            [{ "es": "coronal · log + manual", "en": "coronal · log + manual" }, "0.0097", "0.0089–0.0107"],
+            [{ "es": "fotosférica · log + manual", "en": "photospheric · log + manual" }, "0.0164", "0.0153–0.0176"],
+            [{ "es": "coronal · lineal + manual", "en": "coronal · linear + manual" }, "0.4599", "0.4266–0.4874"],
+            [{ "es": "fotosférica · lineal + manual", "en": "photospheric · linear + manual" }, "0.4588", "0.4245–0.4952"]
+          ],
+          "note": {
+            "es": "Dentro de cada método la fracción es extremadamente estable en el tiempo — el pipeline es reproducible — pero la brecha de 28–47× entre log y lineal persiste en todos los frames. La abundancia casi no mueve el resultado lineal y desplaza el logarítmico ~1.7×: otra señal de que el ajuste logarítmico es frágil.",
+            "en": "Within each method the fraction is extremely stable in time — the pipeline is reproducible — but the 28–47× gap between log and linear persists across all frames. Abundance barely moves the linear result and shifts the log one by ~1.7×: another sign the log fit is fragile."
+          }
+        }
+      ]
+    },
+    {
+      "id": "estudio",
+      "title": { "es": "3 · Las ocho familias de ajuste que se probaron", "en": "3 · The eight fitting families that were tested" },
+      "blurb": {
+        "es": "Cada experimento es un script independiente que contesta una pregunta concreta, juzgado primero contra DEMs sintéticas de verdad conocida, con y sin ruido de fotones.",
+        "en": "Each experiment is a standalone script answering one concrete question, judged first against synthetic DEMs with known ground truth, with and without photon noise."
+      },
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            { "es": "Experimento", "en": "Experiment" },
+            { "es": "Pregunta que contesta", "en": "Question it answers" },
+            { "es": "Qué salió", "en": "What came out" }
+          ],
+          "rows": [
+            [
+              "`ridge_experiment.py`",
+              { "es": "¿La regularización L2 arregla la inestabilidad por colinealidad?", "en": "Does L2 regularization fix the collinearity instability?" },
+              { "es": "Sí para la estabilidad; no para la normalización. Es la tabla de la sección anterior.", "en": "Yes for stability; no for normalization. It is the table in the previous section." }
+            ],
+            [
+              "`nnls_experiment.py`",
+              { "es": "¿La no-negatividad lo arregla sin factores manuales?", "en": "Does non-negativity fix it without manual factors?" },
+              { "es": "Quita la cancelación por construcción (el coeficiente de 94 va a exactamente 0 en vez de −0.98), pero **no da un mapa físico**: carga el peso en el canal 131, que tiene su propia contribución fría correlacionada con las estructuras frías brillantes de 304, así que el filamento sigue saliendo ~45% caliente.", "en": "It removes the cancellation by construction (the 94 coefficient goes to exactly 0 instead of −0.98), but **does not give a physical map**: it dumps the weight on channel 131, whose own cool contribution correlates with the bright cool 304 structures, so the filament still shows ~45% hot." }
+            ],
+            [
+              "`anchor_experiments.py`",
+              { "es": "¿Se puede anclar el ajuste imponiendo que el área del modelo iguale la del objetivo?", "en": "Can the fit be anchored by forcing the model area to equal the target's?" },
+              { "es": "La restricción dura (resuelta por KKT) elimina la degeneración área/fracción por construcción y vuelve la fracción caliente mucho menos sensible a la regularización.", "en": "The hard constraint (solved via KKT) removes the area/fraction degeneracy by construction and makes the hot fraction far less sensitive to regularization." }
+            ],
+            [
+              "`more_methods_experiment.py`",
+              { "es": "¿Y la red elástica, el TSVD y NNLS+área, bajo ruido de fotones?", "en": "What about elastic net, TSVD and NNLS+area, under photon noise?" },
+              { "es": "Todas entran al registro comparativo; ninguna ancla la normalización por sí sola.", "en": "All enter the comparison registry; none anchors the normalization on its own." }
+            ],
+            [
+              "`real_dem_validation.py`, `real_dem_sweep.py`",
+              { "es": "¿Y si el juez es una inversión DEM de los datos reales en vez de una DEM sintética?", "en": "What if the judge is a DEM inversion of the real data instead of a synthetic DEM?" },
+              { "es": "Es lo que cambió las conclusiones. Ver la sección siguiente.", "en": "This is what changed the conclusions. See the next section." }
+            ],
+            [
+              "`compare_methods_real.py`",
+              { "es": "¿Qué da cada método candidato sobre el cubo real de 304?", "en": "What does each candidate method give on the real 304 cube?" },
+              { "es": "Reporta la fracción caliente y la métrica de cordura del mapa `hf_bright`: las estructuras brillantes de 304 son He II frío, así que una descomposición física debe darla **baja**.", "en": "It reports the hot fraction plus the map-sanity metric `hf_bright`: the bright 304 structures are cool He II, so a physical decomposition must keep it **low**." }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "id": "validacion",
+      "title": { "es": "4 · La validación contra DEMs reales dio la vuelta al resultado", "en": "4 · Validation against real DEMs reversed the result" },
+      "blocks": [
+        {
+          "type": "prose",
+          "text": [
+            {
+              "es": "La prueba con DEMs sintéticas gaussianas decía que `lineal + manual` **sobre**estimaba 1.59× para DEMs tipo lluvia coronal, y de ahí salió una corrección a la baja hacia una «fracción de lluvia verdadera ~30%». Contra DEMs invertidas de los datos reales, `lineal + manual` queda en 0.72–1.27: esencialmente sin sesgo y, si algo, bajo. **Esa corrección de 1.6× hay que retirarla** — y es exactamente el motivo por el que valía la pena repetir la validación con DEMs reales en vez de gaussianas ad hoc.",
+              "en": "The synthetic Gaussian-DEM test said `linear + manual` **over**estimated by 1.59× for rain-like DEMs, and that is where a downward correction toward a “true rain fraction ~30%” came from. Against DEMs inverted from the real data, `linear + manual` lands at 0.72–1.27: essentially unbiased and, if anything, low. **That 1.6× downward correction must be dropped** — and it is exactly why redoing the validation with real DEMs rather than ad-hoc Gaussians was worth it."
+            },
+            {
+              "es": "Con ese juez externo, **la elección de método deja de ser la incertidumbre dominante**: todos los métodos no logarítmicos caen dentro de ~±30% de la verdad, y `ridge` resulta el más estable frente a los sistemáticos (0.88–1.17, un factor 1.33 de dispersión) por delante de `lineal + manual` (0.72–1.27, factor 1.76). Lo que domina ahora es la **suposición de abundancia**: pasar de fotosférica a coronal mueve la verdad de referencia un 35% (0.33 → 0.24), más que la diferencia entre dos métodos cualesquiera de los que sobreviven.",
+              "en": "With that external judge, **the choice of method stops being the dominant uncertainty**: every non-log method lands within ~±30% of the truth, and `ridge` turns out the most stable against systematics (0.88–1.17, a factor 1.33 spread) ahead of `linear + manual` (0.72–1.27, factor 1.76). What dominates now is the **abundance assumption**: switching from photospheric to coronal moves the ground truth by 35% (0.33 → 0.24), more than the gap between any two surviving methods."
+            }
+          ]
+        },
+        {
+          "type": "callout",
+          "variant": "warn",
+          "title": { "es": "Lo que sigue siendo cierto y limitado", "en": "What remains true and limited" },
+          "items": [
+            { "es": "Una sola fecha (2014-04-24) y una sola configuración objetivo (`304_hot`).", "en": "A single date (2014-04-24) and a single target config (`304_hot`)." },
+            { "es": "La inversión DEM usada es un NNLS regularizado estándar, **no** el esquema DEM/BSS de Antolin et al. 2024: que ambos coincidan está sin probar.", "en": "The DEM inversion used is a standard regularized NNLS, **not** the DEM/BSS scheme of Antolin et al. 2024: agreement between the two is untested." },
+            { "es": "Las configuraciones frías no se revalidaron así, porque su ajuste de respuesta falla aguas arriba: no hay nada que validar todavía.", "en": "The cool configs were not re-validated this way, because their response fit fails upstream: there is nothing to validate yet." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "configs",
+      "title": { "es": "5 · De seis configuraciones, solo una da números con sentido", "en": "5 · Of six configurations, only one gives sensible numbers" },
+      "blocks": [
+        {
+          "type": "table",
+          "head": [
+            { "es": "Configuración", "en": "Config" },
+            { "es": "Componente", "en": "Component" },
+            { "es": "Fracción, ajuste lineal", "en": "Fraction, linear fit" },
+            { "es": "Fracción, ajuste log", "en": "Fraction, log fit" }
+          ],
+          "rows": [
+            ["`304_hot`", { "es": "caliente", "en": "hot" }, "0.459", "0.016"],
+            ["`94_cool`", { "es": "fría", "en": "cool" }, "0.23", "**51.5**"],
+            ["`131_cool`", { "es": "fría", "en": "cool" }, "**4.5**", "**101.5**"],
+            ["`193_cool`", { "es": "fría", "en": "cool" }, "1.02", "**0.000**"],
+            ["`193_superhot`", { "es": "fría", "en": "cool" }, "**2.0**", "0.13"],
+            ["`211_cool`", { "es": "fría", "en": "cool" }, "0.65", "**3.5**"]
+          ],
+          "note": {
+            "es": "Media sobre 1410 frames, abundancia fotosférica. Una fracción > 1 significa que la componente ajustada **excede la señal total**: es imposible físicamente. El diagnóstico aguas arriba lo confirma: el residuo `rel_l1` del ajuste de respuesta es ~12–9700 para las configuraciones frías contra ~0.34–0.95 para `304_hot`. Los factores manuales del método original parecen haberse afinado para el caso de 304 y no generalizan.",
+            "en": "Mean over 1410 frames, photospheric abundance. A fraction > 1 means the fitted component **exceeds the total signal**: physically impossible. The upstream diagnostic confirms it: the response fit's `rel_l1` residual is ~12–9700 for the cool configs versus ~0.34–0.95 for `304_hot`. The original method's manual factors appear tuned for the 304 case and do not generalize."
+          }
+        }
+      ]
+    },
+    {
+      "id": "abierto",
+      "title": { "es": "6 · Las tres preguntas abiertas, y por qué está pausado", "en": "6 · The three open questions, and why it is paused" },
+      "blocks": [
+        {
+          "type": "callout",
+          "variant": "warn",
+          "title": { "es": "El bloqueo no es de cómputo", "en": "The blocker is not computational" },
+          "text": [
+            {
+              "es": "Mientras no se justifique **físicamente** la normalización absoluta de la componente caliente, cualquier porcentaje que publique el pipeline depende del método elegido, y eso lo invalida como número citable. Ninguna cantidad de cómputo resuelve eso: hace falta un criterio, y ese criterio depende de una decisión compartida con Patrick.",
+              "en": "Until the absolute normalization of the hot component is justified **physically**, any percentage the pipeline publishes depends on the chosen method, and that invalidates it as a quotable number. No amount of compute resolves that: a criterion is needed, and that criterion depends on a decision shared with Patrick."
+            }
+          ]
+        },
+        {
+          "type": "list",
+          "ordered": true,
+          "items": [
+            { "es": "**¿Qué abundancia supone el resultado del artículo?** Mueve la verdad de referencia un 35% (0.33 fotosférica contra 0.24 coronal) y es hoy el sistemático dominante.", "en": "**Which abundance does the paper's result assume?** It moves the ground truth by 35% (0.33 photospheric versus 0.24 coronal) and is now the dominant systematic." },
+            { "es": "**¿Hasta dónde debe extenderse el borde frío de la malla DEM?** Es decir, cuánto plasma genuinamente frío se le permite absorber señal. Ese es el intervalo 0.33–0.44.", "en": "**How far should the cool edge of the DEM grid extend?** That is, how much genuinely cool plasma is allowed to absorb signal. That is the 0.33–0.44 bracket." },
+            { "es": "**¿Da el esquema DEM/BSS de Antolin et al. 2024 la misma verdad de referencia** que la inversión NNLS regularizada usada aquí?", "en": "**Does the DEM/BSS scheme of Antolin et al. 2024 give the same ground truth** as the regularized NNLS inversion used here?" }
+          ]
+        },
+        {
+          "type": "prose",
+          "text": [
+            {
+              "es": "Y detrás de las tres, la pregunta original: ¿eran los `manual_factors` del método original un paso de regularización afinado a mano, y existe un criterio con principio — una fracción caliente de referencia conocida, un contraste EM/DEM, un α específico, restricciones de no-negatividad — que debería fijarlo? La validación contra DEMs reales ya contestó una parte: el contraste DEM **es** uno de esos criterios, y pone a todos los métodos no logarítmicos dentro de ~±30%. Lo que queda abierto son las tres de arriba.",
+              "en": "And behind all three, the original question: were the original method's `manual_factors` a hand-tuned regularization step, and is there a principled criterion — a known reference hot fraction, an EM/DEM cross-check, a specific α, non-negativity constraints — that should set it? The real-DEM validation already answered part of it: the DEM cross-check **is** one such criterion, and it puts every non-log method within ~±30%. What remains open are the three above."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "reproducibilidad",
+      "title": { "es": "7 · Datos y reproducibilidad", "en": "7 · Data and reproducibility" },
+      "blocks": [
+        {
+          "type": "kv",
+          "items": [
+            { "k": { "es": "Entradas grandes, fuera del repositorio", "en": "Large inputs, outside the repository" }, "v": { "es": "cubos de imágenes `AIA/aia_l2_*_<canal>.fits` y respuestas `AIA/GOFNT/v11/*.fits`; los scripts apuntan a copias locales con `--aia-dir` y `--gofnt-dir`", "en": "image cubes `AIA/aia_l2_*_<channel>.fits` and responses `AIA/GOFNT/v11/*.fits`; the scripts point at local copies with `--aia-dir` and `--gofnt-dir`" } },
+            { "k": { "es": "Fecha de referencia", "en": "Reference date" }, "v": "2014-04-24" },
+            { "k": { "es": "Coeficientes mensuales con degradación", "en": "Monthly coefficients with degradation" }, "v": { "es": "desde 2010-05 hasta 2026-07, con la corrección de degradación del instrumento vía `aiapy`", "en": "from 2010-05 to 2026-07, with the instrument-degradation correction via `aiapy`" } },
+            { "k": { "es": "Cubo analizado", "en": "Cube analysed" }, "v": { "es": "1410 frames; la fracción es estable en el tiempo dentro de cada método", "en": "1410 frames; the fraction is stable in time within each method" } },
+            { "k": { "es": "Librería y tres CLIs", "en": "Library and three CLIs" }, "v": { "es": "`rfit.py` (carga de respuestas, apodización, ajuste lineal o logarítmico, abundancias, escalado por degradación), `run_rfit.py` (`coefficients` y `summarize`), `plot_rfit.py` (figuras de diagnóstico)", "en": "`rfit.py` (response loading, apodization, linear or log fitting, abundances, degradation scaling), `run_rfit.py` (`coefficients` and `summarize`), `plot_rfit.py` (diagnostic figures)" } },
+            { "k": { "es": "Dependencias", "en": "Dependencies" }, "v": "`numpy`, `scipy`, `astropy`; `aiapy` para la degradación; `scikit-learn` para la red elástica; `pytest` para los tests" },
+            { "k": { "es": "Tests", "en": "Tests" }, "v": { "es": "`tests/test_rfit.py` cubre las funciones del núcleo", "en": "`tests/test_rfit.py` covers the core functions" } }
+          ]
+        },
+        {
+          "type": "code",
+          "text": "# 1 · Coeficientes para la fecha de referencia (ambas abundancias, ajuste lineal y log)\npython run_rfit.py coefficients --dates 2014-04-24 --output outputs/rfit_coefficients_20140424.csv\n\n# 2 · Fracción caliente/fría por frame para AIA 304 sobre el cubo completo\npython run_rfit.py summarize --coefficients outputs/rfit_coefficients_20140424.csv \\\n  --date 2014-04-24 --config 304_hot --abundance photospheric --fit-space linear \\\n  --output outputs/rfit_304_frame_summary.csv\n\n# 3 · Comparar todos los métodos sobre el cubo real\npython compare_methods_real.py --frames 15 --output outputs/real_method_comparison.csv"
+        }
+      ]
+    },
+    {
+      "id": "glosario",
+      "title": { "es": "8 · Glosario", "en": "8 · Glossary" },
+      "blocks": [
+        {
+          "type": "defs",
+          "items": [
+            { "term": "SDO/AIA", "def": { "es": "El Atmospheric Imaging Assembly del Solar Dynamics Observatory: siete canales en EUV que fotografían el Sol completo cada 12 s. Sus filtros son anchos en temperatura, y de ahí nace el problema de separar componentes.", "en": "The Solar Dynamics Observatory's Atmospheric Imaging Assembly: seven EUV channels imaging the full Sun every 12 s. Its filters are broad in temperature, which is where the problem of separating components comes from." } },
+            { "term": { "es": "Canal 304 Å", "en": "304 Å channel" }, "def": { "es": "Dominado por He II, que emite a ~0.05 MK: es el canal «frío» de AIA. Pero su respuesta tiene también una cola caliente, y cuantificarla es el objetivo.", "en": "Dominated by He II, emitting at ~0.05 MK: AIA's “cool” channel. But its response also has a hot tail, and quantifying it is the goal." } },
+            { "term": { "es": "Función de respuesta en temperatura", "en": "Temperature response function" }, "def": { "es": "Cuánta señal produce un canal por unidad de medida de emisión a cada temperatura. Las tablas GOFNT las dan para una abundancia supuesta.", "en": "How much signal a channel produces per unit emission measure at each temperature. The GOFNT tables give them for an assumed abundance." } },
+            { "term": { "es": "Apodización", "en": "Apodization" }, "def": { "es": "Multiplicar la respuesta por una ventana suave para quedarse solo con el rango de temperatura de interés. El resultado es la curva objetivo del ajuste.", "en": "Multiplying the response by a smooth window to keep only the temperature range of interest. The result is the fit's target curve." } },
+            { "term": { "es": "DEM (medida de emisión diferencial)", "en": "DEM (differential emission measure)" }, "def": { "es": "Cuánto plasma hay a cada temperatura a lo largo de la línea de visión. Invertirla desde los canales de AIA da un juez externo: con la DEM se puede calcular la fracción caliente verdadera y comparar.", "en": "How much plasma there is at each temperature along the line of sight. Inverting it from the AIA channels gives an external judge: with the DEM the true hot fraction can be computed and compared." } },
+            { "term": "DEM/BSS", "def": { "es": "El esquema de inversión usado por Antolin et al. (2024). Aquí se usó un NNLS regularizado estándar en su lugar, y que ambos coincidan está sin probar.", "en": "The inversion scheme used by Antolin et al. (2024). A standard regularized NNLS was used here instead, and agreement between the two is untested." } },
+            { "term": { "es": "Colinealidad", "en": "Collinearity" }, "def": { "es": "Que los predictores se parecen tanto entre sí que muchas combinaciones distintas ajustan igual de bien. El síntoma: coeficientes grandes y de signo opuesto que se cancelan, y que al aplicarse a datos con ruido lo amplifican.", "en": "When the predictors are so similar that many different combinations fit equally well. The symptom: large opposite-sign coefficients that cancel, and that amplify noise when applied to real data." } },
+            { "term": { "es": "Ridge (L2)", "en": "Ridge (L2)" }, "def": { "es": "Penalizar el tamaño de los coeficientes para evitar esas cancelaciones. El parámetro α dice cuánto se penaliza.", "en": "Penalizing the size of the coefficients to prevent those cancellations. The parameter α says how much." } },
+            { "term": "NNLS", "def": { "es": "Mínimos cuadrados con coeficientes no negativos. Elimina las cancelaciones por construcción, pero no impide que el peso se concentre en un canal con contaminación fría.", "en": "Least squares with non-negative coefficients. It removes cancellations by construction, but does not stop the weight concentrating on a channel with cool contamination." } },
+            { "term": { "es": "TSVD y red elástica", "en": "TSVD and elastic net" }, "def": { "es": "Otras dos formas de domar un problema mal condicionado: truncar los valores singulares pequeños, o combinar penalizaciones L1 y L2.", "en": "Two more ways to tame an ill-conditioned problem: truncating the small singular values, or combining L1 and L2 penalties." } },
+            { "term": { "es": "Abundancia coronal / fotosférica", "en": "Coronal / photospheric abundance" }, "def": { "es": "Dos supuestos distintos sobre la composición del plasma. Cambian las respuestas de los canales y, con ellas, la verdad de referencia: 0.24 contra 0.33.", "en": "Two different assumptions about the plasma's composition. They change the channel responses and, with them, the ground truth: 0.24 versus 0.33." } },
+            { "term": "`hf_bright`", "def": { "es": "Fracción caliente mediana del 5% de píxeles más brillantes. Como las estructuras brillantes de 304 son He II frío, un valor alto delata una descomposición no física.", "en": "Median hot fraction of the brightest 5% of pixels. Since the bright 304 structures are cool He II, a high value gives away an unphysical decomposition." } },
+            { "term": "`rel_l1`", "def": { "es": "Residuo relativo del ajuste de la curva de respuesta. ~0.34–0.95 en `304_hot`; entre 12 y 9700 en las configuraciones frías, que es cómo se sabe que fallan antes de mirar los mapas.", "en": "Relative residual of the response-curve fit. ~0.34–0.95 for `304_hot`; between 12 and 9700 for the cool configs, which is how one knows they fail before looking at the maps." } },
+            { "term": { "es": "Lluvia coronal", "en": "Coronal rain" }, "def": { "es": "Plasma que se enfría y cae por los bucles coronales en hilos densos. Es la componente fría que este método intenta aislar, y el motivo físico de todo el ejercicio.", "en": "Plasma that cools and falls along coronal loops in dense threads. It is the cool component this method tries to isolate, and the physical reason for the whole exercise." } }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "referencias",
+      "title": { "es": "9 · Referencias y herramientas", "en": "9 · References and tools" },
+      "blocks": [
+        {
+          "type": "refs",
+          "items": [
+            {
+              "cite": "Antolin et al. (2024)",
+              "venue": { "es": "el trabajo que este proyecto continúa", "en": "the work this project continues" },
+              "what": { "es": "El análisis original de la descomposición caliente/frío de la emisión de AIA, con el esquema de inversión DEM/BSS.", "en": "The original analysis of the hot/cool decomposition of AIA emission, with the DEM/BSS inversion scheme." },
+              "use": { "es": "Es la referencia que se continúa y contra la que hay que contrastar: su fracción reportada, su abundancia supuesta y su esquema DEM son las tres cosas que decidirían las preguntas abiertas de la sección 6. Sin texto completo a mano en el repositorio: hay que resolverlo con Patrick.", "en": "The reference being continued and the one to check against: its reported fraction, its assumed abundance and its DEM scheme are the three things that would settle the open questions in section 6. No full text at hand in the repository: to be resolved with Patrick." }
+            },
+            {
+              "cite": "aiapy",
+              "venue": { "es": "corrección de degradación del instrumento", "en": "instrument degradation correction" },
+              "what": { "es": "Librería de la comunidad SunPy para preparar y calibrar datos de AIA, incluida la degradación de los canales con el tiempo.", "en": "SunPy-community library for preparing and calibrating AIA data, including the channels' degradation over time." },
+              "use": { "es": "Es lo que permite extender el método a fechas recientes: sin esa corrección, los coeficientes de 2014 no sirven para 2026.", "en": "It is what allows extending the method to recent dates: without that correction, the 2014 coefficients do not apply in 2026." },
+              "links": [{ "href": "https://aiapy.readthedocs.io/", "label": "aiapy docs" }]
+            },
+            {
+              "cite": "Astropy, SciPy, NumPy",
+              "venue": { "es": "núcleo numérico", "en": "numerical core" },
+              "what": { "es": "FITS, unidades y coordenadas (Astropy); optimización, NNLS y álgebra lineal (SciPy); los arreglos (NumPy).", "en": "FITS, units and coordinates (Astropy); optimization, NNLS and linear algebra (SciPy); the arrays (NumPy)." },
+              "use": { "es": "El cubo de AIA se transmite por frames con estas tres librerías; los ajustes anclados por área se resuelven con la rutina KKT de SciPy.", "en": "The AIA cube is streamed frame by frame with these three; the area-anchored fits are solved with SciPy's KKT routine." },
+              "links": [
+                { "href": "https://www.astropy.org/", "label": "astropy.org" },
+                { "href": "https://scipy.org/", "label": "scipy.org" }
+              ]
+            },
+            {
+              "cite": "scikit-learn",
+              "venue": { "es": "red elástica", "en": "elastic net" },
+              "what": { "es": "Implementación de la red elástica usada en el estudio metodológico.", "en": "Elastic-net implementation used in the methodology study." },
+              "use": { "es": "Una de las ocho familias de ajuste comparadas contra DEMs sintéticas con ruido de fotones.", "en": "One of the eight fitting families compared against synthetic DEMs with photon noise." },
+              "links": [{ "href": "https://scikit-learn.org/stable/", "label": "scikit-learn" }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "repositorio",
+      "title": { "es": "10 · Dónde leer el original", "en": "10 · Where to read the original" },
+      "blocks": [
+        {
+          "type": "list",
+          "items": [
+            { "es": "[`outputs/methodology_experiment/FINDINGS.md`](https://github.com/carlmarx17/patrickwork/blob/main/outputs/methodology_experiment/FINDINGS.md) — **empezar aquí**: el resumen escrito de todos los resultados, con las tablas completas, las actualizaciones fechadas y las preguntas abiertas. Es la fuente de casi todo este desglose.", "en": "[`outputs/methodology_experiment/FINDINGS.md`](https://github.com/carlmarx17/patrickwork/blob/main/outputs/methodology_experiment/FINDINGS.md) — **start here**: the written summary of every result, with the full tables, the dated updates and the open questions. It is the source of almost all of this breakdown." },
+            { "es": "[`README.md`](https://github.com/carlmarx17/patrickwork/blob/main/README.md) — el método, el flujo de trabajo típico y qué hace cada script.", "en": "[`README.md`](https://github.com/carlmarx17/patrickwork/blob/main/README.md) — the method, the typical workflow and what each script does." },
+            { "es": "Figuras que cuentan la historia en una imagen: `ridge_map_frame0.png` (el ajuste bien regularizado, suave y estable), `FAILED_linear_nomanual_map_frame0.png` (el ajuste sin restricciones, con ruido amplificado) y `ORIGINAL_log_manual_map_frame0.png` (el resultado del 1.7%, con caliente ≈ 0 en todas partes).", "en": "Figures that tell the story in one image: `ridge_map_frame0.png` (the well-regularized fit, smooth and stable), `FAILED_linear_nomanual_map_frame0.png` (the unconstrained fit, with amplified noise) and `ORIGINAL_log_manual_map_frame0.png` (the 1.7% result, with hot ≈ 0 everywhere)." }
+          ]
+        }
+      ]
+    }
+  ]
+}
