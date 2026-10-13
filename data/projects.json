@@ -159,8 +159,8 @@
       "progress": 50,
       "repo": "https://github.com/carlmarx17/GrazTrabajo",
       "path": "../GrazTrabajo",
-      "lastCommit": "2026-10-12",
-      "commits": 18,
+      "lastCommit": "2026-10-13",
+      "commits": 20,
       "activity30d": 18,
       "tags": [
         "HYDRAD",
@@ -187,15 +187,15 @@
         "en": "Multithread and observation-driven flare models usually heat each strand once, from a relaxed atmosphere. This project measures, in simulations, when that independent-pulse approximation stops describing a coronal loop struck a second time, and why."
       },
       "objective": {
-        "es": "Responder cuándo tratar cada pulso de electrones como si golpeara la atmósfera inicial relajada tergiversa la respuesta a un pulso posterior por más de las incertidumbres del haz, numéricas y observacionales de un diagnóstico dado. La medida es el contraste M_D(τ, t') entre cuatro ramas pareadas (A0 sin haz, A1 solo pulso 1, B0 pulso de prueba sobre la atmósfera relajada, B1 pulso 1 + espera τ + pulso de prueba); la aproximación falla donde |M_D| supera k·σ_tot, con σ_tot fijado antes de calcular ningún contraste.",
-        "en": "Answer when treating each electron pulse as if it struck the initial, relaxed atmosphere misrepresents the response to a later pulse by more than the beam, numerical and observational uncertainties of a chosen diagnostic. The measure is the contrast M_D(τ, t') between four paired branches (A0 no beam, A1 pulse 1 only, B0 test pulse on the relaxed atmosphere, B1 pulse 1 + waiting time τ + test pulse); the approximation fails where |M_D| exceeds k·σ_tot, with σ_tot fixed before any contrast is computed."
+        "es": "Responder cuándo tratar cada pulso de electrones como si golpeara la atmósfera inicial relajada tergiversa la respuesta a un pulso posterior por más de las incertidumbres del haz, numéricas y observacionales de un diagnóstico elegido. Desde el 13 de octubre de 2026 los objetivos están reordenados: lo primario es **O3, el rango de τ donde la aproximación es adecuada y donde falla**, porque el efecto, su mecanismo y la dependencia del tiempo de espera ya están publicados; medir el contraste M_D entre las cuatro ramas pareadas es el medio, y explicarlo por el estado que dejó el primer pulso es la evidencia de que es causal.",
+        "en": "Answer when treating each electron pulse as if it struck the initial, relaxed atmosphere misrepresents the response to a later pulse by more than the beam, numerical and observational uncertainties of a chosen diagnostic. Since 13 October 2026 the objectives are reordered: primary is **O3, the range of τ where the approximation is adequate and where it fails**, because the effect, its mechanism and the waiting-time dependence are all published; measuring the contrast M_D between the four paired branches is the means, and explaining it through the state left by the first pulse is the evidence that it is causal."
       },
       "timeline": {
         "start": "2026-09-18",
         "target": null,
         "note": {
-          "es": "Plan v5.1 cerrado el 5 de octubre de 2026 tras cuatro redefiniciones del alcance. El 12 de octubre se respondió la revisión R1 y se fijó la ruta. Fase muy activa.",
-          "en": "Plan v5.1 closed on 5 October 2026 after four scope redefinitions. On 12 October the R1 review was answered and the route was fixed. Highly active phase."
+          "es": "Plan v5.1 cerrado el 5 de octubre de 2026 tras cuatro redefiniciones del alcance. El 12 de octubre se respondió la revisión R1; el 13 se reordenó el objetivo central tras cuatro pasadas verificadas de literatura. Fase muy activa.",
+          "en": "Plan v5.1 closed on 5 October 2026 after four scope redefinitions. On 12 October the R1 review was answered; on 13 October the core objective was reordered after four verified literature passes. Highly active phase."
         }
       },
       "resources": [
@@ -273,14 +273,25 @@
           }
         },
         {
-          "done": false,
+          "done": true,
           "label": {
-            "es": "Cerrar el presupuesto de error y acotar τ*",
-            "en": "Close the error budget and bound τ*"
+            "es": "Decisión final: la frontera de validez pasa a ser el objetivo primario",
+            "en": "Final decision: the validity boundary becomes the primary objective"
           },
           "detail": {
-            "es": "El criterio del 5% falla en todos los τ muestreados, así que τ* > 120 s para este bucle y este haz: el piloto no lo acota por arriba. Hace falta variar también los umbrales de refinamiento espacial, escribir σ_obs antes de las corridas, y o extender la malla más allá de 120 s o pasar a un pulso 1 más débil que relaje dentro de la ventana.",
-            "en": "The 5% criterion fails at every sampled τ, so τ* > 120 s for this loop and beam: the pilot cannot bound it from above. The spatial refinement thresholds must also be varied, σ_obs written before the runs, and either the grid extended past 120 s or the domain moved to a weaker pulse 1 that relaxes within the window."
+            "es": "Cuatro pasadas verificadas de literatura el 13 de octubre establecieron que el efecto, el mecanismo y la dependencia del tiempo de espera ya están publicados — Reep et al. 2016 §3.1 y Figura 2 ya pusieron siete ráfagas en un bucle al lado de siete hebras frescas, y Emslie, Li & Mariska fecharon el precalentado contra relajado en 1992. Queda la medida del error con controles pareados y umbral declarado. Consecuencias: Si IV 1402.77 Å como diagnóstico primario con IRIS como σ_obs, una sexta compuerta para reproducir el benchmark de Reep et al. 2016, el trabajo de STIX ordenado, y un tamiz de 195 citas sin colisión.",
+            "en": "Four verified literature passes on 13 October established that the effect, the mechanism and the waiting-time dependence are all published — Reep et al. 2016 §3.1 and Figure 2 already placed seven bursts on one loop beside seven fresh strands, and Emslie, Li & Mariska dated preheated-versus-relaxed to 1992. What remains is the measurement of the error with matched controls and a declared threshold. Consequences: Si IV 1402.77 Å as the primary diagnostic with IRIS as σ_obs, a sixth gate to reproduce the Reep et al. 2016 benchmark, the STIX work sequenced, and a 195-citation screen with no collision."
+          }
+        },
+        {
+          "done": false,
+          "label": {
+            "es": "Cerrar las seis compuertas de la Fase 1a",
+            "en": "Close the six Phase 1a gates"
+          },
+          "detail": {
+            "es": "σ_num espacial — hasta ahora solo se varió el paso de conducción, así que cada margen es una cota superior; σ_obs de IRIS escrita antes de las corridas; una malla de τ que alcance la relajación, porque el criterio del 5% falla en todos los τ muestreados y τ* > 120 s para este bucle; la síntesis de Si IV; el benchmark de Reep et al. 2016; y el límite de degeneración del haz. Seis semanas indicativas, y solo después el mapa τ × F.",
+            "en": "Spatial σ_num — only the conduction step has been varied so far, so every margin is an upper bound; IRIS σ_obs written before the runs; a τ grid that reaches relaxation, because the 5% criterion fails at every sampled τ and τ* > 120 s for this loop; the Si IV synthesis; the Reep et al. 2016 benchmark; and the beam-degeneracy limit. Six indicative weeks, and only then the τ × F map."
           }
         },
         {
@@ -290,8 +301,8 @@
             "en": "Chromospheric route with RADYN + Fokker–Planck"
           },
           "detail": {
-            "es": "Necesaria para diagnósticos en líneas cromosféricas en vez de proxies coronales. El solver y el lector/escritor de atmósferas FP existen; falta instalarlos y verificarlos.",
-            "en": "Needed for chromospheric-line diagnostics instead of coronal proxies. The solver and the FP atmosphere reader/writer exist; installing and verifying them is pending."
+            "es": "Necesaria para líneas cromosféricas (Mg II k, Hα) en vez de la región de transición, y es la ruta que pide la apertura de Lörinčík et al. 2025. Bloqueada hoy por la red: COSMA es inalcanzable desde la universidad.",
+            "en": "Needed for chromospheric lines (Mg II k, Hα) rather than the transition region, and it is the route the Lörinčík et al. 2025 opening calls for. Blocked today by the network: COSMA is unreachable from the university."
           }
         },
         {
@@ -307,18 +318,18 @@
         }
       ],
       "expected": {
-        "es": "El tiempo de espera τ* por debajo del cual la aproximación de pulsos independientes falla, cómo depende del flujo del haz, y el mecanismo físico que lo explica — con la incertidumbre fijada de antemano para que el resultado sea una medida y no una impresión. Destino: artículo.",
-        "en": "The waiting time τ* below which the independent-pulse approximation fails, how it depends on beam flux, and the physical mechanism behind it — with the uncertainty fixed in advance so the result is a measurement rather than an impression. Destination: a paper."
+        "es": "τ*(F): el tiempo de espera por debajo del cual la aproximación de pulsos independientes falla y el rango en que es adecuada, reportado en segundos y en unidades del tiempo de enfriamiento para que sea legible por la comunidad de nanofulguraciones, con el mecanismo que lo explica y la incertidumbre fijada de antemano. Es el entregable sobre el que un modelador multihebra puede actuar, y la única parte que ningún estudio previo proporciona. Destino: artículo.",
+        "en": "τ*(F): the waiting time below which the independent-pulse approximation fails and the range where it is adequate, reported in seconds and in units of the cooling time so it is legible to the nanoflare community, with the mechanism behind it and the uncertainty fixed in advance. It is the deliverable a multithread modeller can act on, and the only part no prior study provides. Destination: a paper."
       },
       "next": {
-        "es": "Medir la σ_num espacial y pre-registrar σ_obs: hasta entonces los contrastes son exploratorios y no se puede correr el mapa τ × F.",
-        "en": "Measure the spatial σ_num and pre-register σ_obs: until then the contrasts are exploratory and the τ × F map cannot be run."
+        "es": "Cerrar las seis compuertas de la Fase 1a: σ_num espacial, σ_obs de IRIS pre-registrada, una malla de τ que alcance la relajación, la síntesis de Si IV 1402.77 Å, el benchmark de Reep et al. 2016 y el límite de degeneración del haz.",
+        "en": "Close the six Phase 1a gates: spatial σ_num, pre-registered IRIS σ_obs, a τ grid that reaches relaxation, the Si IV 1402.77 Å synthesis, the Reep et al. 2016 benchmark and the beam-degeneracy limit."
       },
       "blockers": {
-        "es": "El presupuesto de error está incompleto. Solo se ha variado el paso de conducción, no la resolución espacial, así que cada margen en σ es una cota superior; y los σ se midieron después de calcular los contrastes, lo que invierte el orden que el propio plan exige. Mientras eso siga así, ningún contraste es un resultado pre-registrado.",
-        "en": "The error budget is incomplete. Only the conduction time step has been varied, not the spatial resolution, so every σ margin is an upper bound; and the σ values were measured after computing the contrasts, which inverts the order the plan itself requires. Until that is fixed, no contrast counts as a pre-registered result."
+        "es": "Tres, y ninguno es de física. El presupuesto de error sigue incompleto: solo se varió el paso de conducción, no la resolución espacial, y los σ se midieron después de calcular los contrastes, lo que invierte el orden que el plan exige. El clúster COSMA es inalcanzable desde la red de la universidad — la cuenta está viva, pero el SSH saliente está bloqueado; ticket IT-143898 abierto desde el 8 de septiembre de 2026, sin respuesta. Y el barrido exhaustivo en ADS nunca se ha corrido: cuatro pasadas, cuatro fallos en alcanzarlo.",
+        "en": "Three, and none of them is about physics. The error budget is still incomplete: only the conduction time step was varied, not the spatial resolution, and the σ values were measured after computing the contrasts, inverting the order the plan requires. The COSMA cluster is unreachable from the university network — the account is live, but outbound SSH is blocked; ticket IT-143898 open since 8 September 2026, no reply. And the exhaustive ADS sweep has never been run: four passes, four failures to reach it."
       },
-      "lastCommitMsg": "Record the R1 decision: continue the core map with HYDRAD",
+      "lastCommitMsg": "Add the anatomy figure kit",
       "extraLink": {
         "href": "graz-decisiones.html",
         "label": {
